@@ -16,4 +16,5 @@ public class EventComment extends Comment {
     private Event event;
     private EventComment replyToComment;
     private Set<Attachment> attachments;
+
 }

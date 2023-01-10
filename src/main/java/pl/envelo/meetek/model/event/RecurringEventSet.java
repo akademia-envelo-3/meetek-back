@@ -17,5 +17,4 @@ public class RecurringEventSet {
     private int eventFrequency;
     private int recursiveCount;
 
-
 }

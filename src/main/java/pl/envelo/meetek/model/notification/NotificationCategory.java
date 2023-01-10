@@ -6,4 +6,5 @@ public enum NotificationCategory {
     SECTION,
     REQUEST,
     COMMENT;
+
 }

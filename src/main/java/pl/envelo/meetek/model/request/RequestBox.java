@@ -14,5 +14,4 @@ public class RequestBox {
     private Long requestBoxId;
     private Set<Request> requests;
 
-
 }

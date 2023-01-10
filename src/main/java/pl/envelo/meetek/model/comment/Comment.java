@@ -16,4 +16,5 @@ public abstract class Comment {
     private AppUser commentOwner;
     private LocalDateTime addingDateTime;
     private String comment;
+
 }

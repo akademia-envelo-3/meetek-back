@@ -20,4 +20,5 @@ public abstract class Notification {
     private Set<NotificationType> type;
     private AppUser recipient;
     private LocalDateTime addingDateTime;
+
 }
