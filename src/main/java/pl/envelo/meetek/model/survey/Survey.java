@@ -7,6 +7,9 @@ import pl.envelo.meetek.model.event.Event;
 
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Survey {
 
     private Long surveyId;

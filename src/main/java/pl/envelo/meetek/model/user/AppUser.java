@@ -1,11 +1,15 @@
 package pl.envelo.meetek.model.user;
 
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Entity
 public abstract class AppUser extends Participant {
 
     private String password;

@@ -1,5 +1,8 @@
 package pl.envelo.meetek.model.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.EventResponse;
 import pl.envelo.meetek.model.group.Group;
@@ -10,6 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class StandardUser extends AppUser {
 
     private Set<Event> ownedEvents;

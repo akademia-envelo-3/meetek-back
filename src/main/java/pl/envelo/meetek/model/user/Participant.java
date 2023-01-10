@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
