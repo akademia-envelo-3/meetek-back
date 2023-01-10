@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.group.Group;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class GroupNotification extends Notification {
 
-    private Group group;
+    //private Group group;
 
 }

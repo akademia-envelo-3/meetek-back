@@ -14,6 +14,6 @@ public class SurveyResponse {
 
     private Long responseId;
     private Set<SurveyChoice> answers;
-    private AppUser user;
+    //private AppUser user;
 
 }

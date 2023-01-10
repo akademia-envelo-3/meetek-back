@@ -18,7 +18,7 @@ public abstract class Notification {
     private boolean isImportant;
     private NotificationCategory category;
     private Set<NotificationType> type;
-    private AppUser recipient;
+    //private AppUser recipient;
     private LocalDateTime addingDateTime;
 
 }

@@ -1,5 +1,6 @@
 package pl.envelo.meetek.model.event;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Event {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventId;
+    @ManyToMany
     private Set<Hashtag> hashtags;
+    @ManyToOne
     private AppUser owner;
     private String name;
     private String link;

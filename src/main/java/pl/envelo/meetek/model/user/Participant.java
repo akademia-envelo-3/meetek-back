@@ -1,7 +1,6 @@
 package pl.envelo.meetek.model.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@MappedSuperclass
 public abstract class Participant {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long participantId;
     private String firstname;
     private String lastname;
