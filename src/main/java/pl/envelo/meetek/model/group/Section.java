@@ -11,7 +11,7 @@ public class Section extends Group {
 
     private Set<AppUser> joinedUsers;
     private Set<Event> events;
-    private Set<RecurringEventSet> reccuringEvents;
+    private Set<RecurringEventSet> recurringEvents;
     private AppUser sectionOwner;
 
 

@@ -9,4 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Guest extends Participant {
 
+    @Override
+    public String toString() {
+        return super.toString() + "Guest{}";
+    }
+
 }

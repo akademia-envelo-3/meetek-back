@@ -7,7 +7,7 @@ import java.util.Set;
 
 public abstract class Notification {
 
-    private Long id;
+    private Long notificationId;
     private boolean isDisplayed;
     private boolean isImportant;
     private NotificationCategory category;
