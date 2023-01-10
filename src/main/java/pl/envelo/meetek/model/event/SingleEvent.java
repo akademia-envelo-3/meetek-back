@@ -1,5 +1,8 @@
 package pl.envelo.meetek.model.event;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.Attachment;
 import pl.envelo.meetek.model.Category;
 import pl.envelo.meetek.model.Coordinates;
@@ -12,6 +15,9 @@ import pl.envelo.meetek.model.user.StandardUser;
 import java.util.Map;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class SingleEvent extends Event {
 
     private Group group;
