@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Entity
 public abstract class Comment {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long commentId;
     @ManyToOne
     private AppUser commentOwner;
