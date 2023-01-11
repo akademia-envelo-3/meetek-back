@@ -13,7 +13,7 @@ public class NotificationDto {
     private boolean isDisplayed;
     private boolean isImportant;
     private NotificationCategory category;
-    private Set<NotificationType> type;
+    private Set<NotificationType> notificationTypes;
     private StandardUserShortDto recipient;
     private LocalDateTime addingDateTime;
     private long resourceId;

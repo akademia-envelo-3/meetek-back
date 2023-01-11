@@ -16,7 +16,9 @@ public abstract class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestId;
-    //private AppUser requester;
-    //private RequestStatus status;
+    @ManyToOne
+    private AppUser requester;
+    @ManyToOne
+    private RequestStatus status;
 
 }

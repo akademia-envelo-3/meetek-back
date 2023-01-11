@@ -1,9 +1,6 @@
 package pl.envelo.meetek.model.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,12 +29,12 @@ public class SingleEvent extends Event {
     private Group group;
     @ManyToOne
     private Category category;
-    //@ManyToMany
-    //private Set<StandardUser> invitedUsers;
+    @ManyToMany
+    private Set<StandardUser> invitedUsers;
 
     //private Map<StandardUser, EventResponse> participants;
-   // @OneToMany
-    //private Set<Guest> joinedGuests;
+    @OneToMany
+    private Set<Guest> joinedGuests;
     @OneToMany
     private Set<EventComment> comments;
     private String locationName;
@@ -50,8 +47,8 @@ public class SingleEvent extends Event {
     private int participantsLimit;
     @OneToMany
     private Set<Attachment> attachments;
-    //@OneToMany
-    //private Set<Survey> surveys;
+    @OneToMany
+    private Set<Survey> surveys;
 
 
     public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, Set<Attachment> attachments) {

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Coordinates {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long coordinatesId;
     private float latitude;
     private float longitude;

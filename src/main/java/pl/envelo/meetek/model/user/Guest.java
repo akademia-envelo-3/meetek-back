@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
+@Entity
 public class Guest extends Participant {
 
     @Override

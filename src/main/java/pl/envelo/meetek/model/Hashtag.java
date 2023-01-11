@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Hashtag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long hashtagId;
     private String name;
     private boolean isActive;

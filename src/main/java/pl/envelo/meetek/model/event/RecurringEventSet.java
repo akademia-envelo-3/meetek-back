@@ -14,7 +14,7 @@ import java.util.Set;
 public class RecurringEventSet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventSetId;
     @OneToMany
     private Set<Event> events;

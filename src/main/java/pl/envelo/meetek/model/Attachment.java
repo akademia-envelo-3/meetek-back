@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Attachment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long attachmentId;
     private String link;
 

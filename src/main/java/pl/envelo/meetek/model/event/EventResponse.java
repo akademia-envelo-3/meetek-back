@@ -1,7 +1,22 @@
 package pl.envelo.meetek.model.event;
 
-public enum EventResponse {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-    ACCEPTED, DECLINED, UNDECIDED;
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Entity
+public class EventResponse {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long eventResponseId;
+    private String response;
 
 }
