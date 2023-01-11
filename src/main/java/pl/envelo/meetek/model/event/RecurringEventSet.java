@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -21,4 +22,26 @@ public class RecurringEventSet {
     private int eventFrequency;
     private int recursiveCount;
 
+    @Override
+    public String toString() {
+        return "RecurringEventSet{" +
+                "eventSetId=" + eventSetId +
+                ", events=" + events +
+                ", eventFrequency=" + eventFrequency +
+                ", recursiveCount=" + recursiveCount +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecurringEventSet that = (RecurringEventSet) o;
+        return eventFrequency == that.eventFrequency && recursiveCount == that.recursiveCount && Objects.equals(eventSetId, that.eventSetId) && Objects.equals(events, that.events);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventSetId, events, eventFrequency, recursiveCount);
+    }
 }

@@ -8,6 +8,7 @@ import pl.envelo.meetek.model.Hashtag;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor

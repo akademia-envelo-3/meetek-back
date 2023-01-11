@@ -17,5 +17,4 @@ public class Admin extends AppUser {
     public String toString() {
         return super.toString() + "Admin{}";
     }
-
 }

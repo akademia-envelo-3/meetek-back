@@ -10,6 +10,7 @@ import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.RecurringEventSet;
 import pl.envelo.meetek.model.user.AppUser;
 
+import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -32,5 +33,29 @@ public class Section extends Group {
         this.events = events;
         this.recurringEvents = recurringEvents;
         this.sectionOwner = sectionOwner;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " Section{" +
+                "joinedUsers=" + joinedUsers +
+                ", events=" + events +
+                ", recurringEvents=" + recurringEvents +
+                ", sectionOwner=" + sectionOwner +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Section section = (Section) o;
+        return Objects.equals(joinedUsers, section.joinedUsers) && Objects.equals(events, section.events) && Objects.equals(recurringEvents, section.recurringEvents) && Objects.equals(sectionOwner, section.sectionOwner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), joinedUsers, events, recurringEvents, sectionOwner);
     }
 }

@@ -41,28 +41,27 @@ public class StandardUser extends AppUser {
         this.notifications = notifications;
     }
 
-//    @Override
-//    public String toString() {
-//        return super.toString() + "StandardUser{" +
-//                "ownedEvents=" + ownedEvents +
-//                ", eventsWithResponse=" + eventsWithResponse +
-//                ", ownedGroups=" + ownedGroups +
-//                ", joinedGroups=" + joinedGroups +
-//                ", notifications=" + notifications +
-//                '}';
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        StandardUser that = (StandardUser) o;
-//        return Objects.equals(ownedEvents, that.ownedEvents) && Objects.equals(eventsWithResponse, that.eventsWithResponse) && Objects.equals(ownedGroups, that.ownedGroups) && Objects.equals(joinedGroups, that.joinedGroups) && Objects.equals(notifications, that.notifications);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(ownedEvents, eventsWithResponse, ownedGroups, joinedGroups, notifications);
-//    }
+    @Override
+    public String toString() {
+        return super.toString() + "StandardUser{" +
+                "ownedEvents=" + ownedEvents +
+                ", eventsWithResponse=" + eventsWithResponse +
+                ", ownedGroups=" + ownedGroups +
+                ", joinedGroups=" + joinedGroups +
+                ", notifications=" + notifications +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandardUser that = (StandardUser) o;
+        return Objects.equals(ownedEvents, that.ownedEvents) && Objects.equals(eventsWithResponse, that.eventsWithResponse) && Objects.equals(ownedGroups, that.ownedGroups) && Objects.equals(joinedGroups, that.joinedGroups) && Objects.equals(notifications, that.notifications);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ownedEvents, eventsWithResponse, ownedGroups, joinedGroups, notifications);
+    }
 }

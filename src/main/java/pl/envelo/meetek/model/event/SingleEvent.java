@@ -17,6 +17,7 @@ import pl.envelo.meetek.model.user.StandardUser;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor

@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,4 +21,24 @@ public class SurveyChoice {
     private Long choiceId;
     private String description;
 
+    @Override
+    public String toString() {
+        return "SurveyChoice{" +
+                "choiceId=" + choiceId +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SurveyChoice that = (SurveyChoice) o;
+        return Objects.equals(choiceId, that.choiceId) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(choiceId, description);
+    }
 }

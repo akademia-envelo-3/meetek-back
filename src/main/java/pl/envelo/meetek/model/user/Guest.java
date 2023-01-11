@@ -14,5 +14,4 @@ public class Guest extends Participant {
     public String toString() {
         return super.toString() + "Guest{}";
     }
-
 }

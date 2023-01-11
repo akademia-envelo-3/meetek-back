@@ -9,4 +9,9 @@ import lombok.Getter;
 @Entity
 public class GeneralNotification extends Notification {
 
+    @Override
+    public String toString() {
+        return super.toString() + " GeneralNotification{}";
+    }
+
 }
