@@ -9,3 +9,14 @@ spring:
     username: sa
     password:
     url: jdbc:h2:mem:test
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    doc-expansion: none
+    display-request-duration: true
+    groups-order: ASC
+  show-actuator: true
+  group-configs:            # add your groups here
+    - group: all
+      packagesToScan:
+        - pl.envelo.meetek
