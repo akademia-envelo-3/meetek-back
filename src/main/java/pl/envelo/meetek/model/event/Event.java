@@ -31,4 +31,30 @@ public abstract class Event {
     private LocalDateTime dateTimeFrom;
     private LocalDateTime dateTimeTo;
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId=" + eventId +
+                ", hashtags=" + hashtags +
+                ", owner=" + owner +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", description='" + description + '\'' +
+                ", dateTimeFrom=" + dateTimeFrom +
+                ", dateTimeTo=" + dateTimeTo +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(eventId, event.eventId) && Objects.equals(hashtags, event.hashtags) && Objects.equals(owner, event.owner) && Objects.equals(name, event.name) && Objects.equals(link, event.link) && Objects.equals(description, event.description) && Objects.equals(dateTimeFrom, event.dateTimeFrom) && Objects.equals(dateTimeTo, event.dateTimeTo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
+    }
 }
