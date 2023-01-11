@@ -1,6 +1,5 @@
 package pl.envelo.meetek.model.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor

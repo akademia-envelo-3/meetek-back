@@ -35,7 +35,7 @@ public class StandardUser extends AppUser {
     public StandardUser(String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {
         super(password, Role.ROLE_USER);
         this.ownedEvents = ownedEvents;
-        //this.eventsWithResponse = eventsWithResponse;
+        this.eventsWithResponse = eventsWithResponse;
         this.ownedGroups = ownedGroups;
         this.joinedGroups = joinedGroups;
         this.notifications = notifications;
