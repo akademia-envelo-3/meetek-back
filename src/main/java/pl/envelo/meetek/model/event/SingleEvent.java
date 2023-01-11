@@ -51,7 +51,6 @@ public class SingleEvent extends Event {
     @OneToMany
     private Set<Survey> surveys;
 
-
     public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, Set<Attachment> attachments) {
         super(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
         this.group = group;
@@ -65,5 +64,40 @@ public class SingleEvent extends Event {
         this.eventResponseRequired = eventResponseRequired;
         this.participantsLimit = participantsLimit;
         this.attachments = attachments;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " SingleEvent{" +
+                "group=" + group +
+                ", category=" + category +
+                ", invitedUsers=" + invitedUsers +
+                ", participants=" + participants +
+                ", joinedGuests=" + joinedGuests +
+                ", comments=" + comments +
+                ", locationName='" + locationName + '\'' +
+                ", coordinates=" + coordinates +
+                ", isOnline=" + isOnline +
+                ", isExternal=" + isExternal +
+                ", isPrivate=" + isPrivate +
+                ", eventResponseRequired=" + eventResponseRequired +
+                ", participantsLimit=" + participantsLimit +
+                ", attachments=" + attachments +
+                ", surveys=" + surveys +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        SingleEvent that = (SingleEvent) o;
+        return isOnline == that.isOnline && isExternal == that.isExternal && isPrivate == that.isPrivate && eventResponseRequired == that.eventResponseRequired && participantsLimit == that.participantsLimit && Objects.equals(group, that.group) && Objects.equals(category, that.category) && Objects.equals(invitedUsers, that.invitedUsers) && Objects.equals(participants, that.participants) && Objects.equals(joinedGuests, that.joinedGuests) && Objects.equals(comments, that.comments) && Objects.equals(locationName, that.locationName) && Objects.equals(coordinates, that.coordinates) && Objects.equals(attachments, that.attachments) && Objects.equals(surveys, that.surveys);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), group, category, invitedUsers, participants, joinedGuests, comments, locationName, coordinates, isOnline, isExternal, isPrivate, eventResponseRequired, participantsLimit, attachments, surveys);
     }
 }

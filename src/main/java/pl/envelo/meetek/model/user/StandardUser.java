@@ -11,7 +11,6 @@ import pl.envelo.meetek.model.event.EventResponse;
 import pl.envelo.meetek.model.group.Group;
 import pl.envelo.meetek.model.notification.Notification;
 
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;

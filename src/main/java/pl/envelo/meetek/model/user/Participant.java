@@ -42,5 +42,4 @@ public abstract class Participant {
     public int hashCode() {
         return Objects.hash(participantId, firstname, lastname, mail);
     }
-
 }

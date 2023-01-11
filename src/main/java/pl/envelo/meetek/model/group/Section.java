@@ -3,7 +3,6 @@ package pl.envelo.meetek.model.group;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.event.Event;

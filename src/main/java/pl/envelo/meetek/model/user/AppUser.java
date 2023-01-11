@@ -47,5 +47,4 @@ public abstract class AppUser extends Participant {
     public int hashCode() {
         return Objects.hash(super.hashCode(), password, role);
     }
-
 }
