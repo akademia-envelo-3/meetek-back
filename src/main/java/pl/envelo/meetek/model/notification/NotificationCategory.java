@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class NotificationCategory {
 
-    EVENT,
-    SECTION,
-    REQUEST,
-    COMMENT;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long categoryId;
+    private String category;
 
 }

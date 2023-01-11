@@ -1,4 +1,4 @@
-package pl.envelo.meetek.dto;
+package pl.envelo.meetek.dto.notification;
 
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
 import pl.envelo.meetek.model.notification.NotificationCategory;

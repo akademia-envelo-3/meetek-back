@@ -2,7 +2,7 @@ package pl.envelo.meetek.dto.user;
 
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
-import pl.envelo.meetek.dto.NotificationDto;
+import pl.envelo.meetek.dto.notification.NotificationDto;
 import pl.envelo.meetek.model.event.EventResponse;
 import pl.envelo.meetek.model.user.Role;
 

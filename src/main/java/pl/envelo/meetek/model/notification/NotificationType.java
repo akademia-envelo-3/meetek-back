@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Entity
 public class NotificationType {
 
-    DELETE, EDIT, EDIT_DATE_TIME,
-    EDIT_LOCATION, CHANGE_OWNERSHIP, MENTIONED,
-    QUOTED, ACCEPTED_REQUEST, DECLINED_REQUEST,
-    RESPONSE_REQUIRED;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long notificationTypeId;
+    private String type;
 
 }
 
