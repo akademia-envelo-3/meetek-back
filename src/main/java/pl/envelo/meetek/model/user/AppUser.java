@@ -28,7 +28,7 @@ public abstract class AppUser extends Participant {
 
     @Override
     public String toString() {
-        return super.toString() + "AppUser{" +
+        return super.toString() + " AppUser{" +
                 "password='" + password + '\'' +
                 ", role=" + role +
                 '}';

@@ -3,7 +3,6 @@ package pl.envelo.meetek.model.user;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.event.Event;
@@ -15,7 +14,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
@@ -43,7 +41,7 @@ public class StandardUser extends AppUser {
 
     @Override
     public String toString() {
-        return super.toString() + "StandardUser{" +
+        return super.toString() + " StandardUser{" +
                 "ownedEvents=" + ownedEvents +
                 ", eventsWithResponse=" + eventsWithResponse +
                 ", ownedGroups=" + ownedGroups +

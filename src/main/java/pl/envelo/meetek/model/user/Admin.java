@@ -1,8 +1,9 @@
 package pl.envelo.meetek.model.user;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class Admin extends AppUser {
 
@@ -12,6 +13,6 @@ public class Admin extends AppUser {
 
     @Override
     public String toString() {
-        return super.toString() + "Admin{}";
+        return super.toString() + " Admin{}";
     }
 }
