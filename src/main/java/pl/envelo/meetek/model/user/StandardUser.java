@@ -24,7 +24,8 @@ public class StandardUser extends AppUser {
 
     @OneToMany
     private Set<Event> ownedEvents;
-    //private Map<Event, EventResponse> eventsWithResponse;
+    @ManyToMany
+    private Map<Event, EventResponse> eventsWithResponse;
     @OneToMany
     private Set<Group> ownedGroups;
     @ManyToMany

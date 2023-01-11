@@ -32,8 +32,8 @@ public class SingleEvent extends Event {
     private Category category;
     @ManyToMany
     private Set<StandardUser> invitedUsers;
-
-    //private Map<StandardUser, EventResponse> participants;
+    @ManyToMany
+    private Map<StandardUser, EventResponse> participants;
     @OneToMany
     private Set<Guest> joinedGuests;
     @OneToMany
