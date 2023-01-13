@@ -51,201 +51,201 @@ import pl.envelo.meetek.model.user.StandardUser;
 @AllArgsConstructor
 @Service
 public class DtoMapperService {
-    private final ModelMapper modelMapper = new ModelMapper();
+    public final ModelMapper modelMapper = new ModelMapper();
 
-    private HashtagDto mapToHashtagDto(Hashtag hashtag) {
+    public HashtagDto mapToHashtagDto(Hashtag hashtag) {
         return modelMapper.map(hashtag, HashtagDto.class);
     }
 
-    private Hashtag mapToHashtag(HashtagDto hashtagDto) {
+    public Hashtag mapToHashtag(HashtagDto hashtagDto) {
         return modelMapper.map(hashtagDto, Hashtag.class);
     }
 
-    private CoordinatesDto mapToCoordinatesDto(Coordinates coordinates) {
+    public CoordinatesDto mapToCoordinatesDto(Coordinates coordinates) {
         return modelMapper.map(coordinates, CoordinatesDto.class);
     }
 
-    private Coordinates mapToCoordinates(CoordinatesDto coordinatesDto) {
+    public Coordinates mapToCoordinates(CoordinatesDto coordinatesDto) {
         return modelMapper.map(coordinatesDto, Coordinates.class);
     }
 
-    private CategoryDto mapToCategoryDto(Category category) {
+    public CategoryDto mapToCategoryDto(Category category) {
         return modelMapper.map(category, CategoryDto.class);
     }
 
-    private Category mapToCategory(CategoryDto categoryDto) {
+    public Category mapToCategory(CategoryDto categoryDto) {
         return modelMapper.map(categoryDto, Category.class);
     }
 
-    private Attachment mapToAttachmentDto(Attachment attachment) {
+    public Attachment mapToAttachmentDto(Attachment attachment) {
         return modelMapper.map(attachment, Attachment.class);
     }
 
-    private AttachmentDto mapToAttachment(AttachmentDto attachmentDto) {
+    public AttachmentDto mapToAttachment(AttachmentDto attachmentDto) {
         return modelMapper.map(attachmentDto, AttachmentDto.class);
     }
 
-    private AdminDto mapToAdminDto(Admin admin) {
+    public AdminDto mapToAdminDto(Admin admin) {
         return modelMapper.map(admin, AdminDto.class);
     }
 
-    private GuestDto mapToGuestDto(Guest guest) {
+    public GuestDto mapToGuestDto(Guest guest) {
         return modelMapper.map(guest, GuestDto.class);
     }
 
-    private Guest mapToGuest(GuestDto guestDto) {
+    public Guest mapToGuest(GuestDto guestDto) {
         return modelMapper.map(guestDto, Guest.class);
     }
 
-    private StandardUserLongDto maptoStandardUserLongDto(StandardUser standardUser) {
+    public StandardUserLongDto maptoStandardUserLongDto(StandardUser standardUser) {
         return modelMapper.map(standardUser, StandardUserLongDto.class);
     }
 
-    private StandardUser mapToStandardUser(StandardUserLongDto standardUserLongDto) {
+    public StandardUser mapToStandardUser(StandardUserLongDto standardUserLongDto) {
         return modelMapper.map(standardUserLongDto, StandardUser.class);
     }
 
-    private StandardUserShortDto mapToStandardUserShortDto(StandardUser standardUser) {
+    public StandardUserShortDto mapToStandardUserShortDto(StandardUser standardUser) {
         return modelMapper.map(standardUser, StandardUserShortDto.class);
     }
 
-    private StandardUser mapToStandardUser(StandardUserShortDto standardUserShortDto) {
+    public StandardUser mapToStandardUser(StandardUserShortDto standardUserShortDto) {
         return modelMapper.map(standardUserShortDto, StandardUser.class);
     }
 
-    private Survey mapToSurvey(SurveyDto surveyDto) {
+    public Survey mapToSurvey(SurveyDto surveyDto) {
         return modelMapper.map(surveyDto, Survey.class);
     }
 
-    private SurveyDto mapToSurveyDto(Survey survey) {
+    public SurveyDto mapToSurveyDto(Survey survey) {
         return modelMapper.map(survey, SurveyDto.class);
     }
 
-    private SurveyChoice mapToSurveyChoice(SurveyChoiceDto surveyChoiceDto) {
+    public SurveyChoice mapToSurveyChoice(SurveyChoiceDto surveyChoiceDto) {
         return modelMapper.map(surveyChoiceDto, SurveyChoice.class);
     }
 
-    private SurveyChoiceDto mapToSurveyChoiceDto(SurveyChoice surveyChoice) {
+    public SurveyChoiceDto mapToSurveyChoiceDto(SurveyChoice surveyChoice) {
         return modelMapper.map(surveyChoice, SurveyChoiceDto.class);
     }
 
-    private SurveyResponse mapToSurveyResponse(SurveyResponseDto surveyResponseDto) {
+    public SurveyResponse mapToSurveyResponse(SurveyResponseDto surveyResponseDto) {
         return modelMapper.map(surveyResponseDto, SurveyResponse.class);
     }
 
-    private SurveyResponseDto mapToSurveyResponseDto(SurveyResponse surveyResponse) {
+    public SurveyResponseDto mapToSurveyResponseDto(SurveyResponse surveyResponse) {
         return modelMapper.map(surveyResponse, SurveyResponseDto.class);
     }
 
-    private CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
+    public CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
         return modelMapper.map(categoryRequestDto, CategoryRequest.class);
     }
 
-    private CategoryRequestDto mapToCategoryRequestDto(CategoryRequest categoryRequest) {
+    public CategoryRequestDto mapToCategoryRequestDto(CategoryRequest categoryRequest) {
         return modelMapper.map(categoryRequest, CategoryRequestDto.class);
     }
 
-    private RequestBox mapToRequestBox(RequestBoxDto requestBoxDto) {
+    public RequestBox mapToRequestBox(RequestBoxDto requestBoxDto) {
         return modelMapper.map(requestBoxDto, RequestBox.class);
     }
 
-    private RequestBoxDto mapToRequestBoxDto(RequestBox requestBox) {
+    public RequestBoxDto mapToRequestBoxDto(RequestBox requestBox) {
         return modelMapper.map(requestBox, RequestBoxDto.class);
     }
 
-    private RequestStatus mapToRequestStatus(RequestStatusDto requestStatusDto) {
+    public RequestStatus mapToRequestStatus(RequestStatusDto requestStatusDto) {
         return modelMapper.map(requestStatusDto, RequestStatus.class);
     }
 
-    private RequestStatusDto mapToRequestStatusDto(RequestStatus requestStatus) {
+    public RequestStatusDto mapToRequestStatusDto(RequestStatus requestStatus) {
         return modelMapper.map(requestStatus, RequestStatusDto.class);
     }
 
-    private Notification mapToNotification(NotificationDto notificationDto) {
+    public Notification mapToNotification(NotificationDto notificationDto) {
         return modelMapper.map(notificationDto, Notification.class);
     }
 
-    private NotificationDto mapToNotificationDto(Notification notification) {
+    public NotificationDto mapToNotificationDto(Notification notification) {
         return modelMapper.map(notification, NotificationDto.class);
     }
 
-    private NotificationType mapToNotificationType(NotificationTypeDto notificationTypeDto) {
+    public NotificationType mapToNotificationType(NotificationTypeDto notificationTypeDto) {
         return modelMapper.map(notificationTypeDto, NotificationType.class);
     }
 
-    private NotificationTypeDto mapToNotificationTypeDto(NotificationType notificationType) {
+    public NotificationTypeDto mapToNotificationTypeDto(NotificationType notificationType) {
         return modelMapper.map(notificationType, NotificationTypeDto.class);
     }
 
-    private NotificationCategory mapToNotificationCategory(NotificationCategoryDto notificationCategoryDto) {
+    public NotificationCategory mapToNotificationCategory(NotificationCategoryDto notificationCategoryDto) {
         return modelMapper.map(notificationCategoryDto, NotificationCategory.class);
     }
 
-    private NotificationCategoryDto mapToNotificationCategoryDto(NotificationCategory notificationCategory) {
+    public NotificationCategoryDto mapToNotificationCategoryDto(NotificationCategory notificationCategory) {
         return modelMapper.map(notificationCategory, NotificationCategoryDto.class);
     }
 
-    private Section mapToSection(SectionLongDto sectionLongDto) {
+    public Section mapToSection(SectionLongDto sectionLongDto) {
         return modelMapper.map(sectionLongDto, Section.class);
     }
 
-    private Section mapToSection(SectionShortDto sectionShortDto) {
+    public Section mapToSection(SectionShortDto sectionShortDto) {
         return modelMapper.map(sectionShortDto, Section.class);
     }
 
-    private SectionLongDto mapToSectionLongDto(Section section) {
+    public SectionLongDto mapToSectionLongDto(Section section) {
         return modelMapper.map(section, SectionLongDto.class);
     }
 
-    private SectionShortDto mapToSectionShortDto(Section section) {
+    public SectionShortDto mapToSectionShortDto(Section section) {
         return modelMapper.map(section, SectionShortDto.class);
     }
 
-    private EventResponse mapToEventResponse(EventResponseDto eventResponseDto) {
+    public EventResponse mapToEventResponse(EventResponseDto eventResponseDto) {
         return modelMapper.map(eventResponseDto, EventResponse.class);
     }
 
-    private EventResponseDto mapToEventResponseDto(EventResponse eventResponse) {
+    public EventResponseDto mapToEventResponseDto(EventResponse eventResponse) {
         return modelMapper.map(eventResponse, EventResponseDto.class);
     }
 
-    private RecurringEventSet mapToRecurringEventSet(RecurringEventSetDto recurringEventSetDto) {
+    public RecurringEventSet mapToRecurringEventSet(RecurringEventSetDto recurringEventSetDto) {
         return modelMapper.map(recurringEventSetDto, RecurringEventSet.class);
     }
 
-    private RecurringEventSetDto mapToRecurringEventSetDto(RecurringEventSet recurringEventSet) {
+    public RecurringEventSetDto mapToRecurringEventSetDto(RecurringEventSet recurringEventSet) {
         return modelMapper.map(recurringEventSet, RecurringEventSetDto.class);
     }
 
-    private SingleEvent mapToSingleEvent(SingleEventLongDto singleEventDto) {
+    public SingleEvent mapToSingleEvent(SingleEventLongDto singleEventDto) {
         return modelMapper.map(singleEventDto, SingleEvent.class);
     }
 
-    private SingleEvent mapToSingleEvent(SingleEventShortDto singleEventDto) {
+    public SingleEvent mapToSingleEvent(SingleEventShortDto singleEventDto) {
         return modelMapper.map(singleEventDto, SingleEvent.class);
     }
 
-    private SingleEventLongDto mapToSingleEventLongDto(SingleEvent singleEvent) {
+    public SingleEventLongDto mapToSingleEventLongDto(SingleEvent singleEvent) {
         return modelMapper.map(singleEvent, SingleEventLongDto.class);
     }
 
-    private SingleEventShortDto mapToSingleEventShortDto(SingleEvent singleEvent) {
+    public SingleEventShortDto mapToSingleEventShortDto(SingleEvent singleEvent) {
         return modelMapper.map(singleEvent, SingleEventShortDto.class);
     }
 
-    private SingleEventGuestDto mapToSingleEventGuestDto(SingleEvent singleEvent) {
+    public SingleEventGuestDto mapToSingleEventGuestDto(SingleEvent singleEvent) {
         return modelMapper.map(singleEvent, SingleEventGuestDto.class);
     }
 
-    private EventComment mapToEventComment(EventCommentDto eventCommentDto) {
+    public EventComment mapToEventComment(EventCommentDto eventCommentDto) {
         return modelMapper.map(eventCommentDto, EventComment.class);
     }
 
-    private EventCommentDto mapToEventCommentDto(EventComment eventComment) {
+    public EventCommentDto mapToEventCommentDto(EventComment eventComment) {
         return modelMapper.map(eventComment, EventCommentDto.class);
     }
 
-    private RequestComment mapToRequestComment(RequestCommentDto requestCommentDto) {
+    public RequestComment mapToRequestComment(RequestCommentDto requestCommentDto) {
         return modelMapper.map(requestCommentDto, RequestComment.class);
     }
 
