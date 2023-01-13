@@ -13,6 +13,7 @@ springdoc:
     doc-expansion: none
     display-request-duration: true
     groups-order: ASC
+    path: /api-docs
   show-actuator: true
   group-configs:            # add your groups here
     - group: all
