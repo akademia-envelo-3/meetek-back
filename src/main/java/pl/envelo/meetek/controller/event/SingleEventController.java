@@ -31,6 +31,7 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the event",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventLongDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
     @GetMapping("/{eventId}")
     ResponseEntity getEvent(@PathVariable long eventId, @Parameter(description = "for all information about event use: details, for basic info leave blank") @RequestParam Optional<String> fields) {
