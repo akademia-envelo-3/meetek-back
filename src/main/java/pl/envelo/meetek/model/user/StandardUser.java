@@ -30,8 +30,8 @@ public class StandardUser extends AppUser {
     @OneToMany
     private Set<Notification> notifications;
 
-    public StandardUser(String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {
-        super(password, Role.ROLE_USER);
+    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {
+        super(participantId, firstname, lastname, mail, password, Role.ROLE_USER);
         this.ownedEvents = ownedEvents;
         this.eventsWithResponse = eventsWithResponse;
         this.ownedGroups = ownedGroups;
