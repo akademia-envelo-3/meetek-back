@@ -16,4 +16,9 @@ public class SingleEventService {
      public Optional<SingleEvent> getSingleEventById(long id){
          return singleEventRepo.findById(id);
      }
+
+    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent){
+        return singleEventRepo.save(singleEvent);
+    }
+
 }
