@@ -27,7 +27,7 @@ public class SingleEventController {
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
 
-    @Operation(summary = "Get a event by its id")
+    @Operation(summary = "Get an event by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the event",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventLongDto.class))}),
