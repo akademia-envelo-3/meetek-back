@@ -72,12 +72,13 @@ public class SingleEventController {
 
         List<SingleEvent> events;
         List<SingleEventShortDto> eventShortDtos;
-        if (days < 1) {
-            days = 1;
-        }
+
         if (days == null) {
             events = singleEventService.getAllPublicFutureNotAcceptedEvents(userId);
         } else {
+            if (days < 1) {
+                days = 1;
+            }
             events = singleEventService.getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
         }
 
