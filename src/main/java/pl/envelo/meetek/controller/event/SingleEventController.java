@@ -56,20 +56,19 @@ public class SingleEventController {
         }
     }
 
+    @PostMapping
     @Operation(summary = "Create a new event")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Event created",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventLongDto.class))}),
+            @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    @PostMapping
-    ResponseEntity saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
+    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
         SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(entity.getEventId())
                 .toUri();
-        return ResponseEntity.created(location).body(entity);
+        return ResponseEntity.created(location).build();
     }
 
 }
