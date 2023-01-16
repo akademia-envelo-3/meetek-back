@@ -8,9 +8,13 @@ spring:
     password:
     url: jdbc:h2:mem:test
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        hbm2ddl:
+          import_files: db_init.sql
   jackson:
     serialization:
       fail-on-empty-beans: false
