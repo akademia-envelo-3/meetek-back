@@ -34,7 +34,7 @@ public class SingleEventController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
     @GetMapping("/{eventId}")
-    ResponseEntity getEvent(@PathVariable long eventId, @Parameter(description = "for all information about event use: details, for basic info leave blank") @RequestParam Optional<String> fields) {
+    public ResponseEntity getEvent(@PathVariable long eventId, @Parameter(description = "for all information about event use: details, for basic info leave blank") @RequestParam Optional<String> fields) {
         Optional<SingleEvent> eventOptional = singleEventService.getSingleEventById(eventId);
         if (eventOptional.isPresent()) {
             SingleEvent event = eventOptional.get();
