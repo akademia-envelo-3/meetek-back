@@ -27,7 +27,6 @@ public class SingleEventController {
 
 
     private SingleEventService singleEventService;
-    private final SingleEventRepo singleEventRepo;
     private DtoMapperService dtoMapperService;
 
     @GetMapping("/{eventId}")
@@ -56,17 +55,22 @@ public class SingleEventController {
         }
     }
 
-    public ResponseEntity<SingleEvent> deleteEvent(@PathVariable long eventId){
 
-        if(singleEventService.getOneEventById(eventId).isPresent()){
+    @DeleteMapping("/{eventId}")
+    @Operation(summary = "Delete event by Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Event removed successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
+    public ResponseEntity<SingleEvent> deleteEvent(@PathVariable long eventId) {
+
+        if (singleEventService.getSingleEventById(eventId).isPresent()) {
 
             singleEventService.deleteById(eventId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-    }
-
 }
