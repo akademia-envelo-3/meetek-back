@@ -51,7 +51,7 @@ import pl.envelo.meetek.model.user.StandardUser;
 @AllArgsConstructor
 @Service
 public class DtoMapperService {
-    public final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
     public HashtagDto mapToHashtagDto(Hashtag hashtag) {
         return modelMapper.map(hashtag, HashtagDto.class);

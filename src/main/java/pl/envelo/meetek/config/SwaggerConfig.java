@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Meetek API", version = "1.0", description = "Meetek swagger init"))
+@OpenAPIDefinition(info = @Info(title = "Meetek API", version = "${app.version}", description = "Meetek API documentation"))
 public class SwaggerConfig {
 
 }
