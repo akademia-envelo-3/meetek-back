@@ -61,7 +61,7 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Event removed successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
-    public ResponseEntity<SingleEvent> deleteEvent(@PathVariable long eventId) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable long eventId) {
 
         if (singleEventService.getSingleEventById(eventId).isPresent()) {
 
