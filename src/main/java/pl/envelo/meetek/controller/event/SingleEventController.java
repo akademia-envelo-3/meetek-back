@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.model.event.SingleEvent;
-import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
@@ -24,8 +23,6 @@ import java.util.Optional;
 @Tag(name = "Event")
 @RequestMapping("/${app.prefix}/${app.version}/events")
 public class SingleEventController {
-
-
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
 
@@ -55,7 +52,6 @@ public class SingleEventController {
         }
     }
 
-
     @DeleteMapping("/{eventId}")
     @Operation(summary = "Delete event by Id")
     @ApiResponses(value = {
@@ -68,9 +64,6 @@ public class SingleEventController {
             singleEventService.deleteById(eventId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
