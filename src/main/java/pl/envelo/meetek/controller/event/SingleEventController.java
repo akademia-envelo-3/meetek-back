@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.event.SingleEvent;
@@ -57,7 +56,6 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @DeleteMapping("/{eventId}")
     @Operation(summary = "Delete event by Id")

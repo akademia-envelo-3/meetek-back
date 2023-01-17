@@ -17,7 +17,6 @@ import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

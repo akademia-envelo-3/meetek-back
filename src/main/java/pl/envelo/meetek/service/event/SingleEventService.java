@@ -15,7 +15,6 @@ public class SingleEventService {
 
     private final SingleEventRepo singleEventRepo;
 
-
     public Optional<SingleEvent> getSingleEventById(long id) {
         return singleEventRepo.findById(id);
     }
@@ -32,7 +31,19 @@ public class SingleEventService {
                 userId);
     }
 
-    public void deleteById(long eventId){
+    public void deleteById(long eventId) {
         singleEventRepo.deleteById(eventId);
     }
+
+    public List<SingleEvent> getAllEventsBeforeToday() {
+
+        return singleEventRepo.findAllByDateTimeFromBeforeOrderByDateTimeFromDesc(LocalDateTime.now());
+    }
+
+    public List<SingleEvent> getAllEventsAfterToday() {
+
+        return singleEventRepo.findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime.now());
+    }
+
+
 }
