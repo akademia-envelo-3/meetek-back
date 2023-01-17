@@ -20,13 +20,11 @@ public class SingleEventService {
     }
 
     public List<SingleEvent> getAllPublicFutureNotAcceptedEvents(long userId) {
-
         return singleEventRepo.findAllPublicFutureNotAcceptedByUserAll(
-                LocalDateTime.now(),userId);
+                LocalDateTime.now(), userId);
     }
 
     public List<SingleEvent> getAllPublicFutureNotAcceptedEventsForFewNearestDays(long userId, int days) {
-
         return singleEventRepo.findAllPublicFutureNotAcceptedByUserForFewDays(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusDays(days),
