@@ -18,12 +18,12 @@ public class SingleEventService {
     public Optional<SingleEvent> getSingleEventById(long id) {
         return singleEventRepo.findById(id);
     }
-    
-    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent){
+
+    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent) {
         return singleEventRepo.save(singleEvent);
     }
 
-    public void deleteById(long eventId){
+    public void deleteById(long eventId) {
         singleEventRepo.deleteById(eventId);
     }
 
@@ -39,10 +39,6 @@ public class SingleEventService {
                 userId);
     }
 
-    public void deleteById(long eventId) {
-        singleEventRepo.deleteById(eventId);
-    }
-
     public List<SingleEvent> getAllEventsBeforeToday() {
 
         return singleEventRepo.findAllByDateTimeFromBeforeOrderByDateTimeFromDesc(LocalDateTime.now());
@@ -54,8 +50,8 @@ public class SingleEventService {
     }
 
 
-     public List<SingleEvent> getAllPublicPastNotAcceptedEvents(long userId){
-         return singleEventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
-     }
-     
+    public List<SingleEvent> getAllPublicPastNotAcceptedEvents(long userId) {
+        return singleEventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
+    }
+
 }
