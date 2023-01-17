@@ -58,4 +58,19 @@ public class SingleEventService {
         return singleEventRepo.findAllPastAcceptedByUser(LocalDateTime.now(), userId);
     }
 
+    public List<SingleEvent> getAllFutureAcceptedEvents(long userId) {
+        return singleEventRepo.findAllFutureAccepted(LocalDateTime.now(), userId);
+    }
+
+    public List<SingleEvent> getAllFutureAcceptedEventsForFewNearestDays(long userId, int days) {
+        return singleEventRepo.findAllFutureAcceptedForFewNearestDays(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusDays(days),
+                userId);
+    }
+
+    public List<SingleEvent> findAllPublicFutureOwnedByDateTimeFromAfterOrderByDateTimeFromAsc(long userId) {
+        return singleEventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
+    }
+    
 }

@@ -132,13 +132,48 @@ public class SingleEventController {
         }
 
         eventShortDtos = events.stream().
-                map(singleEvent -> dtoMapperService.
-                        mapToSingleEventShortDto(singleEvent)).
+                map(dtoMapperService::mapToSingleEventShortDto).
                 collect(Collectors.toList());
 
         if (!events.isEmpty()) {
             return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @GetMapping("/future/accepted")
+    @Operation(summary = "Get all future events accepted by user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Events not found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(
+            @RequestParam long userId,
+            @Parameter(description = "To get events for few days set number of days")
+            @RequestParam(required = false) Integer days) {
+
+        List<SingleEvent> events;
+        List<SingleEventShortDto> eventShortDtos;
+
+        if (days == null) {
+            events = singleEventService.getAllFutureAcceptedEvents(userId);
+        } else {
+            if (days < 1) {
+                days = 1;
+            }
+            events = singleEventService.getAllFutureAcceptedEventsForFewNearestDays(userId, days);
+        }
+
+        eventShortDtos = events.stream().
+                map(dtoMapperService::mapToSingleEventShortDto).
+                collect(Collectors.toList());
+
+        if (!events.isEmpty()) {
+            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -159,6 +194,35 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+
+    @GetMapping("/future/owned")
+    @Operation(summary = "Get all future events owned by user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Events not found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getFutureOwnedByUser(
+            @RequestParam long userId) {
+
+        List<SingleEvent> futureOwnedEvents;
+        List<SingleEventShortDto> futureOwnedEventShortDtos;
+
+        futureOwnedEvents = singleEventService.findAllPublicFutureOwnedByDateTimeFromAfterOrderByDateTimeFromAsc(userId);
+
+        futureOwnedEventShortDtos = futureOwnedEvents.stream().
+                map(singleEvent -> dtoMapperService.
+                        mapToSingleEventShortDto(singleEvent)).
+                collect(Collectors.toList());
+
+        if (!futureOwnedEvents.isEmpty()) {
+            return new ResponseEntity(futureOwnedEventShortDtos, HttpStatus.OK);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
