@@ -11,18 +11,24 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
+import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
 @Tag(name = "Event")
 @RequestMapping("/${app.prefix}/${app.version}/events")
 public class SingleEventController {
+
+
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
 
@@ -51,6 +57,7 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @DeleteMapping("/{eventId}")
     @Operation(summary = "Delete event by Id")
