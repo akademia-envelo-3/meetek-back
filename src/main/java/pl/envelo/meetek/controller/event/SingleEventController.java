@@ -57,7 +57,7 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping
     @Operation(summary = "Create a new event")
     @ApiResponses(value = {
