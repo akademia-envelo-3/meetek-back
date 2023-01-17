@@ -132,8 +132,7 @@ public class SingleEventController {
         }
 
         eventShortDtos = events.stream().
-                map(singleEvent -> dtoMapperService.
-                        mapToSingleEventShortDto(singleEvent)).
+                map(dtoMapperService::mapToSingleEventShortDto).
                 collect(Collectors.toList());
 
         if (!events.isEmpty()) {
@@ -170,8 +169,7 @@ public class SingleEventController {
         }
 
         eventShortDtos = events.stream().
-                map(singleEvent -> dtoMapperService.
-                        mapToSingleEventShortDto(singleEvent)).
+                map(dtoMapperService::mapToSingleEventShortDto).
                 collect(Collectors.toList());
 
         if (!events.isEmpty()) {
