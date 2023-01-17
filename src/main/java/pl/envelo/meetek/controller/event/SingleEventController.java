@@ -143,4 +143,22 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/past/accepted")
+    @Operation(summary = "Get all past events where the user with given ID confirmed his participation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "404", description = "No event found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getAllPastAcceptedEvents(@RequestParam long userId) {
+        List<SingleEvent> events = singleEventService.getAllPastAcceptedEvents(userId);
+        List<SingleEventShortDto> dtoEvents = events.stream()
+                .map(e -> dtoMapperService.mapToSingleEventShortDto(e))
+                .toList();
+        if (dtoEvents.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+    }
+
 }
