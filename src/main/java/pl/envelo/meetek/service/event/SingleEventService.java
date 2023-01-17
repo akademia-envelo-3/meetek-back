@@ -39,6 +39,21 @@ public class SingleEventService {
                 userId);
     }
 
+    public void deleteById(long eventId) {
+        singleEventRepo.deleteById(eventId);
+    }
+
+    public List<SingleEvent> getAllEventsBeforeToday() {
+
+        return singleEventRepo.findAllByDateTimeFromBeforeOrderByDateTimeFromDesc(LocalDateTime.now());
+    }
+
+    public List<SingleEvent> getAllEventsAfterToday() {
+
+        return singleEventRepo.findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime.now());
+    }
+
+
      public List<SingleEvent> getAllPublicPastNotAcceptedEvents(long userId){
          return singleEventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
      }

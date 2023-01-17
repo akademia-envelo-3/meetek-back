@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.event.SingleEvent;
@@ -80,12 +79,14 @@ public class SingleEventController {
             @ApiResponse(responseCode = "204", description = "Event removed successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
     public ResponseEntity<Void> deleteEvent(@PathVariable long eventId) {
+
         if (singleEventService.getSingleEventById(eventId).isPresent()) {
             singleEventService.deleteById(eventId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
+    }
 
     @GetMapping("/past")
     @Operation(summary = "Get all public past events where the user with given ID didn't confirm his participation")
@@ -142,5 +143,4 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
