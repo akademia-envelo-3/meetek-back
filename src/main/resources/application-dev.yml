@@ -21,7 +21,7 @@ spring:
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
-    doc-expansion: none
+    doc-expansion: list
     display-request-duration: true
     groups-order: ASC
     path: /api-docs

@@ -11,12 +11,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
+import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
+import java.net.URI;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -55,6 +58,20 @@ public class SingleEventController {
         }
     }
 
+    @PostMapping
+    @Operation(summary = "Create a new event")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
+        SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(entity.getEventId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 
     @DeleteMapping("/{eventId}")
     @Operation(summary = "Delete event by Id")
