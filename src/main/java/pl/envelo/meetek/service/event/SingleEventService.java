@@ -64,4 +64,10 @@ public class SingleEventService {
                 LocalDateTime.now().plusDays(days),
                 userId);
     }
+
+    public List<SingleEvent> findAllPublicFutureOwnedByDateTimeFromAfterOrderByDateTimeFromAsc(long userId) {
+        return singleEventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
+    }
+
+
 }
