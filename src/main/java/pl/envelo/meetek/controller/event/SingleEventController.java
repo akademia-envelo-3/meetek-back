@@ -194,6 +194,7 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+    }
 
     @GetMapping("/future/owned")
     @Operation(summary = "Get all future events owned by user")
