@@ -16,4 +16,8 @@ public class SingleEventService {
      public Optional<SingleEvent> getSingleEventById(long id){
          return singleEventRepo.findById(id);
      }
+
+    public void deleteById(long eventId){
+        singleEventRepo.deleteById(eventId);
+    }
 }
