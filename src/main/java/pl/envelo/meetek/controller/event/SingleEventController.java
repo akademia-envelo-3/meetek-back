@@ -18,9 +18,10 @@ import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
-
+import java.util.List;
 import java.net.URI;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -58,6 +59,47 @@ public class SingleEventController {
         }
     }
 
+
+    @GetMapping("/future")
+    @Operation(summary = "Get public future events not accepted by user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Events not found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getAllPublicFutureNotAcceptedEvents(
+            @RequestParam long userId,
+            @Parameter(description = "To get events for few days set number of days")
+            @RequestParam(required = false) Integer days) {
+
+        List<SingleEvent> events;
+        List<SingleEventShortDto> eventShortDtos;
+
+        if (days == null) {
+            events = singleEventService.getAllPublicFutureNotAcceptedEvents(userId);
+        } else {
+            if (days < 1) {
+                days = 1;
+            }
+            events = singleEventService.getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
+        }
+
+        eventShortDtos = events.stream().
+                map(singleEvent -> dtoMapperService.
+                        mapToSingleEventShortDto(singleEvent)).
+                collect(Collectors.toList());
+
+        if (!events.isEmpty()) {
+            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @PostMapping
     @Operation(summary = "Create a new event")
     @ApiResponses(value = {
@@ -90,4 +132,5 @@ public class SingleEventController {
 
 
         }
+
 }

@@ -18,7 +18,7 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
     @Query(value = """
             SELECT * FROM single_event 
             WHERE is_private IS FALSE 
-            AND date_time_from < ?1 
+            AND date_time_from <= ?1 
             AND single_event.event_id 
             NOT IN (SELECT single_event_event_id FROM single_event_participants WHERE participants_key = ?2 AND participants_event_response_id LIKE '1') 
             ORDER BY date_time_from DESC
@@ -29,7 +29,7 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
     @Query(value = """
             SELECT * FROM single_event 
             WHERE is_private IS FALSE 
-            AND date_time_from > ?1 
+            AND date_time_from >= ?1 
             AND single_event.event_id 
             NOT IN (SELECT single_event_event_id FROM single_event_participants WHERE participants_key = ?2 AND participants_event_response_id LIKE '1') 
             ORDER BY date_time_from ASC
