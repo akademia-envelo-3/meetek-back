@@ -1,6 +1,6 @@
 app:
   title: Meetek
-  version: v1.0
+  version: v0.25
   prefix: api
 spring:
   jpa:
