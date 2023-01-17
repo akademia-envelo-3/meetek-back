@@ -15,6 +15,7 @@ public class SingleEventService {
 
     private final SingleEventRepo singleEventRepo;
 
+
     public Optional<SingleEvent> getSingleEventById(long id) {
         return singleEventRepo.findById(id);
     }
@@ -30,4 +31,17 @@ public class SingleEventService {
                 LocalDateTime.now().plusDays(days),
                 userId);
     }
+
+    public Optional<SingleEvent> getSingleEventById(long id){
+         return singleEventRepo.findById(id);
+     }
+
+    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent){
+        return singleEventRepo.save(singleEvent);
+    }
+
+    public void deleteById(long eventId){
+        singleEventRepo.deleteById(eventId);
+    }
+
 }
