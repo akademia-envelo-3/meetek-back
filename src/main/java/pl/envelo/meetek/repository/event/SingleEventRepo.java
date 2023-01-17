@@ -48,4 +48,12 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             nativeQuery = true)
     List<SingleEvent> findAllPublicFutureNotAcceptedByUserForFewDays(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, long userId);
 
+    @Query(value = """
+             SELECT * FROM Single_event
+                        WHERE Date_Time_From > ?1 AND OWNER_PARTICIPANT_ID = ?2
+                        ORDER BY Date_Time_from ASC
+            """,
+            nativeQuery = true)
+    List<SingleEvent> findFutureOwnedByUser(LocalDateTime currentDateTimeFrom, long userId);
+
 }
