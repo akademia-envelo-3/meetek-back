@@ -18,6 +18,7 @@ import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.event.SingleEventService;
+
 import java.util.List;
 import java.net.URI;
 import java.util.Optional;
@@ -28,7 +29,6 @@ import java.util.stream.Collectors;
 @Tag(name = "Event")
 @RequestMapping("/${app.prefix}/${app.version}/events")
 public class SingleEventController {
-
 
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
@@ -58,7 +58,51 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @PostMapping
+    @Operation(summary = "Create a new event")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
+        SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(entity.getEventId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 
+    @DeleteMapping("/{eventId}")
+    @Operation(summary = "Delete event by Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Event removed successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
+    public ResponseEntity<Void> deleteEvent(@PathVariable long eventId) {
+        if (singleEventService.getSingleEventById(eventId).isPresent()) {
+            singleEventService.deleteById(eventId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    @GetMapping("/past")
+    @Operation(summary = "Get all public past events where the user with given ID didn't confirm his participation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "404", description = "No event found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getAllPublicPastNotAcceptedEvents(@RequestParam long userId) {
+        List<SingleEvent> events = singleEventService.getAllPublicPastNotAcceptedEvents(userId);
+        List<SingleEventShortDto> dtoEvents = events.stream()
+                .map(e -> dtoMapperService.mapToSingleEventShortDto(e))
+                .toList();
+        if (dtoEvents.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+    }
 
     @GetMapping("/future")
     @Operation(summary = "Get public future events not accepted by user")
@@ -98,39 +142,5 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    @PostMapping
-    @Operation(summary = "Create a new event")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
-        SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(entity.getEventId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
-
-    @DeleteMapping("/{eventId}")
-    @Operation(summary = "Delete event by Id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Event removed successfully", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
-    public ResponseEntity<Void> deleteEvent(@PathVariable long eventId) {
-
-        if (singleEventService.getSingleEventById(eventId).isPresent()) {
-
-            singleEventService.deleteById(eventId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-        }
 
 }

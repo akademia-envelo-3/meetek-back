@@ -15,9 +15,16 @@ public class SingleEventService {
 
     private final SingleEventRepo singleEventRepo;
 
-
     public Optional<SingleEvent> getSingleEventById(long id) {
         return singleEventRepo.findById(id);
+    }
+    
+    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent){
+        return singleEventRepo.save(singleEvent);
+    }
+
+    public void deleteById(long eventId){
+        singleEventRepo.deleteById(eventId);
     }
 
     public List<SingleEvent> getAllPublicFutureNotAcceptedEvents(long userId) {
@@ -32,16 +39,8 @@ public class SingleEventService {
                 userId);
     }
 
-    public Optional<SingleEvent> getSingleEventById(long id){
-         return singleEventRepo.findById(id);
+     public List<SingleEvent> getAllPublicPastNotAcceptedEvents(long userId){
+         return singleEventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
      }
-
-    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent){
-        return singleEventRepo.save(singleEvent);
-    }
-
-    public void deleteById(long eventId){
-        singleEventRepo.deleteById(eventId);
-    }
-
+     
 }
