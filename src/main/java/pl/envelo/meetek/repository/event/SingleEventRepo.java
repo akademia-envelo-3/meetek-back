@@ -58,6 +58,16 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             nativeQuery = true)
     List<SingleEvent> findAllPastAcceptedByUser(LocalDateTime currentDateTime, long userId);
 
+    @Query(value = """
+            SELECT * FROM single_event 
+            WHERE date_time_from <= ?1
+            AND AND OWNER_PARTICIPANT_ID = ?2
+            ORDER BY date_time_from DESC 
+            """,
+            nativeQuery = true)
+    List<SingleEvent> findPastOwnedByUser(LocalDateTime currentDateTimeFrom, long userId);
+
+    @Query(value = """
             SELECT * FROM single_event
             WHERE date_time_from >= ?1
             AND single_event.event_id
