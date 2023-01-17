@@ -56,7 +56,7 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             ORDER BY date_time_from ASC 
             """,
             nativeQuery = true)
-    List<SingleEvent> findAllFutureAcceptedEvents(LocalDateTime currentDateTime, long userId);
+    List<SingleEvent> findAllFutureAccepted(LocalDateTime currentDateTime, long userId);
 
     @Query(value = """
             SELECT * FROM single_event
@@ -66,5 +66,5 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             ORDER BY date_time_from ASC 
             """,
             nativeQuery = true)
-    List<SingleEvent> findAllFutureAcceptedEventsForFewNearestDays(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo,long userId);
+    List<SingleEvent> findAllFutureAcceptedForFewNearestDays(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, long userId);
 }

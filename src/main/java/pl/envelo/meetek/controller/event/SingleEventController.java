@@ -57,7 +57,7 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping
     @Operation(summary = "Create a new event")
     @ApiResponses(value = {
@@ -138,7 +138,6 @@ public class SingleEventController {
 
         if (!events.isEmpty()) {
             return new ResponseEntity(eventShortDtos, HttpStatus.OK);
-
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -156,7 +155,7 @@ public class SingleEventController {
     public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(
             @RequestParam long userId,
             @Parameter(description = "To get events for few days set number of days")
-            @RequestParam(required = false) Integer days){
+            @RequestParam(required = false) Integer days) {
 
         List<SingleEvent> events;
         List<SingleEventShortDto> eventShortDtos;
@@ -177,7 +176,6 @@ public class SingleEventController {
 
         if (!events.isEmpty()) {
             return new ResponseEntity(eventShortDtos, HttpStatus.OK);
-
         } else {
             return ResponseEntity.notFound().build();
         }
