@@ -1,0 +1,11 @@
+app:
+  title: Meetek
+  version: v0.25
+  prefix: api
+spring:
+  jpa:
+    defer-datasource-initialization: true
+  profiles:
+    active: dev
+  banner:
+    location: banner.txt
