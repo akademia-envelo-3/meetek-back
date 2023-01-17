@@ -97,7 +97,7 @@ public class SingleEventController {
     public ResponseEntity<List<SingleEventShortDto>> getAllPublicPastNotAcceptedEvents(@RequestParam long userId) {
         List<SingleEvent> events = singleEventService.getAllPublicPastNotAcceptedEvents(userId);
         List<SingleEventShortDto> dtoEvents = events.stream()
-                .map(e -> dtoMapperService.mapToSingleEventShortDto(e))
+                .map(dtoMapperService::mapToSingleEventShortDto)
                 .toList();
         if (dtoEvents.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -153,7 +153,7 @@ public class SingleEventController {
     public ResponseEntity<List<SingleEventShortDto>> getAllPastAcceptedEvents(@RequestParam long userId) {
         List<SingleEvent> events = singleEventService.getAllPastAcceptedEvents(userId);
         List<SingleEventShortDto> dtoEvents = events.stream()
-                .map(e -> dtoMapperService.mapToSingleEventShortDto(e))
+                .map(dtoMapperService::mapToSingleEventShortDto)
                 .toList();
         if (dtoEvents.isEmpty()) {
             return ResponseEntity.notFound().build();
