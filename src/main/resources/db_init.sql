@@ -37,13 +37,13 @@ INSERT INTO  event_response VALUES (2 , 'Declined');
 INSERT INTO  event_response VALUES (3 , 'Undecided');
 
 //SINGLE EVENT
-insert into SINGLE_EVENT values('1', '2023-03-12 18:47:52.69', '2023-03-12 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1', '1');
-insert into SINGLE_EVENT values('2', '2023-02-12 17:47:52.69', '2023-02-12 19:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1', '1');
-insert into SINGLE_EVENT values('3', '2023-09-12 16:47:52.69', '2023-09-12 18:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1', '1');
-insert into SINGLE_EVENT values('4', '2023-01-12 15:47:52.69', '2023-01-12 17:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1', '1');
-insert into SINGLE_EVENT values('5', '2022-09-10 14:47:52.69', '2022-09-10 16:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1', '1');
-insert into SINGLE_EVENT values('6', '2022-08-10 13:47:52.69', '2022-08-10 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
-insert into SINGLE_EVENT values('7', '2022-07-10 12:47:52.69', '2022-07-10 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
+insert into SINGLE_EVENT values('1', '2022-01-12 18:47:52.69', '2022-09-17 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1', '1');
+insert into SINGLE_EVENT values('2', '2022-09-12 18:47:52.69', '2022-09-17 20:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1', '1');
+insert into SINGLE_EVENT values('3', '2022-09-12 18:47:52.69', '2022-09-17 20:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1', '1');
+insert into SINGLE_EVENT values('4', '2022-09-12 18:47:52.69', '2022-09-17 20:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1', '1');
+insert into SINGLE_EVENT values('5', '2022-09-10 18:47:52.69', '2022-09-17 20:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1', '1');
+insert into SINGLE_EVENT values('6', '2022-09-10 18:47:52.69', '2022-09-17 20:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
+insert into SINGLE_EVENT values('7', '2022-09-10 18:47:52.69', '2022-09-17 20:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
 
 //SINGLE EVENT PARTICIPANTS
 INSERT INTO  single_event_participants VALUES (1 ,1 ,1);
@@ -62,9 +62,9 @@ insert into ADMIN values('1','Marek','Głowienka','maro.mareczek@mail.com','234K
 insert into ADMIN values('2','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
 
 //HASHTAGS
-insert into HASHTAG values('2','71','false','Nudy');
-insert into HASHTAG values('1','53','true','AleDymy');
-
+insert into HASHTAG values('1','71','false','Nudy');
+insert into HASHTAG values('2','53','true','AleDymy');
+insert into HASHTAG values('3','53','true','Celebrujmy');
 //ATTACHMENT
 insert into ATTACHMENT values('1','www.wbijajnatenlink.pl');
 insert into ATTACHMENT values('2','www.alekozackilink.pl');
