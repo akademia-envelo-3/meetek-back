@@ -10,7 +10,10 @@ insert into STANDARD_USER values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail.
 //CATEGORY
 insert into CATEGORY values('1', 'true', 'sport');
 insert into CATEGORY values('2', 'true', 'kulinaria');
-insert into CATEGORY values('3', 'true', 'programowanie');
+insert into CATEGORY values('3', 'false', 'programowanie');
+insert into CATEGORY values('4', 'true', 'kółko różańcowe');
+insert into CATEGORY values('5', 'true', 'taniec');
+insert into CATEGORY values('6', 'false', 'muzyka');
 
 //COORDINATES
 insert into COORDINATES values('1', '154541.2132', '484454545.23');

@@ -17,4 +17,8 @@ public class CategoryService {
         return categoryRepo.findAllByOrderByName();
     }
 
+    public List<Category> getAllActiveCategories() {
+        return categoryRepo.findAllByIsActiveOrderByName(true);
+    }
+
 }
