@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 @Tag(name = "User")
-@RequestMapping("/${app.prefix}/${app.version}/users")
-public class StandardUserController {
+@RequestMapping("/${app.prefix}/${app.version}/admin")
+public class AdminController {
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
 
-    @GetMapping("/admin/past-events")
+    @GetMapping("/past-events")
     @Operation(summary = "Get all events that started before current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
@@ -54,8 +54,8 @@ public class StandardUserController {
         }
     }
 
-    @GetMapping("/admin/future-events")
-    @Operation(summary = "Get all event that started after current dateTime")
+    @GetMapping("/future-events")
+    @Operation(summary = "Get all events that started after current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
@@ -75,7 +75,6 @@ public class StandardUserController {
         } else {
             return new ResponseEntity(futureEventsShortDto, HttpStatus.OK);
         }
-
     }
 
 }
