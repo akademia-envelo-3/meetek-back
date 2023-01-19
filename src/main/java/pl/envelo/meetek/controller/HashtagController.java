@@ -29,7 +29,7 @@ public class HashtagController {
     private final DtoMapperService dtoMapperService;
 
     @GetMapping
-    @Operation(summary = "Get all categories (admin only)")
+    @Operation(summary = "Get all hashtags")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = HashtagDto.class))}),
