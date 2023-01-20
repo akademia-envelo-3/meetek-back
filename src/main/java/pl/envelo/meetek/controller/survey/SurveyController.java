@@ -1,5 +1,6 @@
 package pl.envelo.meetek.controller.survey;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.envelo.meetek.dto.survey.SurveyDto;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
+@Tag(name = "Survey")
 public class SurveyController {
 
     private SurveyService surveyService;
