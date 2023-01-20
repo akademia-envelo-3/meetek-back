@@ -5,10 +5,13 @@ import org.springframework.stereotype.Repository;
 import pl.envelo.meetek.model.group.Section;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SectionRepo extends JpaRepository<Section, Long> {
 
     List<Section> findAllByIsActiveOrderByName(boolean isActive);
+
+    Optional<Section> findById(long id);
 
 }

@@ -11,14 +11,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.group.SectionService;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -42,6 +45,20 @@ public class SectionController {
                 .toList();
         HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(dtoSections, status);
+    }
+
+    @GetMapping("/{sectionId}")
+    @Operation(summary = "Get a section by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "section found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionLongDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId format", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+    public ResponseEntity<SectionLongDto> getSection(@PathVariable long sectionId) {
+        Optional<Section> section = sectionService.getSectionById(sectionId);
+        return section.map(dtoMapperService::mapToSectionLongDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
 }
