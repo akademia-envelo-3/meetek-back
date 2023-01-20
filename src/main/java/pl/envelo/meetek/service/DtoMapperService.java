@@ -123,9 +123,14 @@ public class DtoMapperService {
     }
 
     public SurveyDto mapToSurveyDto(Survey survey) {
-        SurveyDto surveyDto = modelMapper.map(survey, SurveyDto.class);
-        surveyDto.setChoicePercent(calculatePercentage(createResponseCount(survey)));
-        return surveyDto;
+        if(survey.getResponses().isEmpty()){
+            return modelMapper.map(survey, SurveyDto.class);
+        }
+        else {
+            SurveyDto surveyDto = modelMapper.map(survey, SurveyDto.class);
+            surveyDto.setChoicePercent(calculatePercentage(createResponseCount(survey)));
+            return surveyDto;
+        }
     }
 
     public SurveyChoice mapToSurveyChoice(SurveyChoiceDto surveyChoiceDto) {

@@ -194,7 +194,6 @@ insert into SURVEY_RESPONSE values('5', '3');
 //SURVEY RESPONSES
 insert into SURVEY_RESPONSES values('1', '1');
 insert into SURVEY_RESPONSES values('2', '2');
-insert into SURVEY_RESPONSES values('3', '3');
 insert into SURVEY_RESPONSES values('1', '4');
 insert into SURVEY_RESPONSES values('1', '5');
 
