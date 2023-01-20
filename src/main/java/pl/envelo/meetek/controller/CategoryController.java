@@ -1,6 +1,7 @@
 package pl.envelo.meetek.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -64,7 +65,7 @@ public class CategoryController {
     @Operation(summary = "Get all active categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
     public ResponseEntity<List<CategoryDto>> getActiveCategories() {
         List<Category> categories = categoryService.getAllActiveCategories();
