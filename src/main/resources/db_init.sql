@@ -231,5 +231,22 @@ insert into  SINGLE_EVENT_COMMENTS values('2','2');
 
 //STANDARD USER EVENTS WITH RESPONSE
 //BUG/BUG/BUG
-insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('1','1','1');
-insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('2','2','2');
+--insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('1','1','1');
+--insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('2','2','2');
+
+//STANDARD USER JOINED GROUPS
+--insert into  STANDARD_USER_JOINED_GROUPS   values('1','1');
+--insert into  STANDARD_USER_JOINED_GROUPS   values('2','1');
+--insert into  STANDARD_USER_JOINED_GROUPS   values('3','2');
+
+//STANDARD USER NOTIFICATIONS
+--insert into  STANDARD_USER_NOTIFICATIONS    values('1','1');
+--insert into  STANDARD_USER_NOTIFICATIONS    values('2','2');
+--
+//STANDARD USER OWNED EVENTS
+--insert into  STANDARD_USER_OWNED_EVENTS     values('1','1');
+--insert into  STANDARD_USER_OWNED_EVENTS     values('2','2');
+--
+//STANDARD USER OWNED GROUPS
+--insert into  STANDARD_USER_OWNED_GROUPS      values('1','1');
+--insert into  STANDARD_USER_OWNED_GROUPS      values('2','2');
