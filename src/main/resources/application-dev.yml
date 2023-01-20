@@ -22,11 +22,8 @@ springdoc:
   version: '@springdoc.version@'
   swagger-ui:
     doc-expansion: list
+    tagsSorter: alpha
     display-request-duration: true
-    groups-order: ASC
+    groups-order: asc
     path: /api-docs
   show-actuator: true
-  group-configs:            # add your groups here
-    - group: all
-      packagesToScan:
-        - pl.envelo.meetek
