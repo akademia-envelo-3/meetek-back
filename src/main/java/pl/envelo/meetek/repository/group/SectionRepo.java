@@ -11,5 +11,4 @@ public interface SectionRepo extends JpaRepository<Section, Long> {
 
     List<Section> findAllByIsActiveOrderByName(boolean isActive);
 
-
 }
