@@ -11,4 +11,6 @@ public interface CategoryRepo extends JpaRepository<Category, Long> {
 
     List<Category> findAllByOrderByName();
 
+    List<Category> findAllByIsActiveOrderByName(boolean isActive);
+
 }
