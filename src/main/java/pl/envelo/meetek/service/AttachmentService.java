@@ -13,13 +13,15 @@ public class AttachmentService {
 
     private final AttachmentRepo attachmentRepo;
 
-    public Attachment saveAttachment(Attachment attachment){
+    public Attachment saveAttachment(Attachment attachment) {
         return attachmentRepo.save(attachment);
     }
-    public Optional<Attachment> getAttachmentById(long attachmentId){
+
+    public Optional<Attachment> getAttachmentById(long attachmentId) {
         return attachmentRepo.findById(attachmentId);
     }
-    public void deleteAttachmentById(long attachnentId){
-        attachmentRepo.deleteById(attachnentId);
+
+    public void deleteAttachmentById(long attachmentId) {
+        attachmentRepo.deleteById(attachmentId);
     }
 }
