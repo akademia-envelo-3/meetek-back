@@ -64,6 +64,7 @@ insert into ADMIN values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##
 //HASHTAGS
 insert into HASHTAG values('2','71','false','Nudy');
 insert into HASHTAG values('1','53','true','AleDymy');
+insert into HASHTAG values('3','53','true','Celebrujmy');
 
 //ATTACHMENT
 insert into ATTACHMENT values('1','www.wbijajnatenlink.pl');
@@ -208,3 +209,27 @@ insert into SURVEY_RESPONSE_ANSWERS values('5', '2');
 insert into SINGLE_EVENT_SURVEYS values('1', '1');
 insert into SINGLE_EVENT_SURVEYS values('2', '2');
 insert into SINGLE_EVENT_SURVEYS values('3', '3');
+
+//EVENT COMMENT
+insert into EVENT_COMMENT(COMMENT_ID,ADDING_DATE_TIME, COMMENT, COMMENT_OWNER_PARTICIPANT_ID, EVENT_EVENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
+insert into EVENT_COMMENT values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
+insert into EVENT_COMMENT values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
+insert into EVENT_COMMENT(COMMENT_ID,ADDING_DATE_TIME, COMMENT, COMMENT_OWNER_PARTICIPANT_ID, EVENT_EVENT_ID) values('4','2023-02-15 17:45:52.69','comment4','1','1');
+
+//EVENT COMMENT ATTACHMENTS
+insert into EVENT_COMMENT_ATTACHMENTS  values('1', '1');
+insert into EVENT_COMMENT_ATTACHMENTS  values('2', '2');
+
+//REQUEST COMMENT
+insert into  REQUEST_COMMENT values('1', '2023-01-01 16:45:52.69','request comment1','1','1');
+insert into  REQUEST_COMMENT values('2', '2023-01-02 17:45:52.69','request comment2','2','2');
+insert into  REQUEST_COMMENT values('3', '2023-01-03 18:45:52.69','request comment3','3','3');
+
+//SINGLE EVENT COMMENTS
+insert into  SINGLE_EVENT_COMMENTS values('1','1');
+insert into  SINGLE_EVENT_COMMENTS values('2','2');
+
+//STANDARD USER EVENTS WITH RESPONSE
+//BUG/BUG/BUG
+insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('1','1','1');
+insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('2','2','2');
