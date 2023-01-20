@@ -12,9 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.envelo.meetek.dto.HashtagDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
+import pl.envelo.meetek.model.Hashtag;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.service.DtoMapperService;
+import pl.envelo.meetek.service.HashtagService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 @Tag(name = "User")
 @RequestMapping("/${app.prefix}/${app.version}/users")
 public class StandardUserController {
+    private final HashtagService hashtagService;
     private SingleEventService singleEventService;
     private DtoMapperService dtoMapperService;
 
@@ -78,4 +82,18 @@ public class StandardUserController {
 
     }
 
+    @GetMapping("/Hashtags")
+    @Operation(summary = "Get all hashtags (admin)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = HashtagDto.class))}),
+            @ApiResponse(responseCode = "204", description = "No hashtag found", content = @Content)})
+    public ResponseEntity<List<HashtagDto>> getAllHashtags() {
+        List<Hashtag> hashtags = hashtagService.getAllHashtags();
+        List<HashtagDto> dtoHashtags = hashtags.stream()
+                .map(dtoMapperService::mapToHashtagDto)
+                .toList();
+        HttpStatus status = dtoHashtags.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(dtoHashtags, status);
+    }
 }
