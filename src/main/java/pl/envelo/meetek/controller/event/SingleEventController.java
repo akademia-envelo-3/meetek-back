@@ -12,10 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.dto.comment.EventCommentDto;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
+import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.service.DtoMapperService;
+import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
 import java.util.List;
@@ -29,8 +32,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/${app.prefix}/${app.version}/events")
 public class SingleEventController {
 
-    private SingleEventService singleEventService;
-    private DtoMapperService dtoMapperService;
+    private final SingleEventService singleEventService;
+
+    private final EventCommentService eventCommentService;
+    private final DtoMapperService dtoMapperService;
+
 
     @PostMapping
     @Operation(summary = "Create a new event")
@@ -253,5 +259,25 @@ public class SingleEventController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{eventId}/comment/{commentId}")
+    @Operation(summary = "Get a comment by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found a comment",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = EventCommentDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid Id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "comment not found", content = @Content)})
+    public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
+
+        Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
+        if (eventCommentOptional.isPresent()) {
+            EventComment eventComment = eventCommentOptional.get();
+            EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
+            return new ResponseEntity(dto, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
