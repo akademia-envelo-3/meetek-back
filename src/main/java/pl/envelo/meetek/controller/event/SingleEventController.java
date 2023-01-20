@@ -260,19 +260,19 @@ public class SingleEventController {
         }
     }
 
-    @GetMapping("/comment/{commentId}")
+    @GetMapping("/{eventId}/comment/{commentId}")
     @Operation(summary = "Get a comment by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found a comment",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = EventCommentDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid Id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "comment not found", content = @Content)})
-    public ResponseEntity<EventComment> getEventComment(@PathVariable long commentId) {
+    public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
 
         Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
         if (eventCommentOptional.isPresent()) {
             EventComment eventComment = eventCommentOptional.get();
-            Object dto = dtoMapperService.mapToEventCommentDto(eventComment);
+            EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
             return new ResponseEntity(dto, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
