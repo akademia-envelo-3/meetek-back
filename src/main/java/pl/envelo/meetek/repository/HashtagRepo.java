@@ -9,8 +9,6 @@ import java.util.List;
 @Repository
 public interface HashtagRepo extends JpaRepository<Hashtag, Long> {
 
-
     List<Hashtag> findByOrderByNameAsc();
-
 
 }
