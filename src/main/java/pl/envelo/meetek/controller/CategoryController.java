@@ -34,7 +34,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
             @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
-    public ResponseEntity<List<CategoryDto>> getCategories() {
+    public ResponseEntity<List<CategoryDto>> getActiveCategories() {
         List<Category> categories = categoryService.getAllActiveCategories();
         List<CategoryDto> dtoCategories = categories.stream()
                 .map(dtoMapperService::mapToCategoryDto)
