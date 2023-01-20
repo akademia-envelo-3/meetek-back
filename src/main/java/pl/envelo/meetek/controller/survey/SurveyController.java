@@ -22,10 +22,6 @@ public class SurveyController {
     @GetMapping("/surveys")
     public SurveyDto getSurvey(@RequestParam Long id){
         Optional<Survey> surveyOptional = surveyService.getSurvey(id);
-        if (surveyOptional.isPresent()) {
-            Survey survey = surveyOptional.get();
-            return dtoMapperService.mapToSurveyDto(survey);
-        }
-        return null;
+        return surveyOptional.map(dtoMapperService::mapToSurveyDto).orElse(null);
     }
 }
