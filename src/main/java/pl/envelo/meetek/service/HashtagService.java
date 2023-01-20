@@ -16,9 +16,9 @@ public class HashtagService {
 
     public List<Hashtag> getAllActiveHashtags() {
         return hashtagRepo.findAllByIsActiveOrderByName(true);
+    }
 
     public List<Hashtag> getAllHashtags() {
         return hashtagRepo.findByOrderByNameAsc();
-
     }
 }
