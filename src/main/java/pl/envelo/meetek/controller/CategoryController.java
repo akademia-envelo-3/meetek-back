@@ -50,7 +50,7 @@ public class CategoryController {
     @Operation(summary = "Create a new category")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Category created", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> saveNewCategory(@RequestBody CategoryDto categoryDto) {
         Category category = categoryService.saveNewCategory(dtoMapperService.mapToCategory(categoryDto));
         URI location = ServletUriComponentsBuilder
@@ -59,6 +59,22 @@ public class CategoryController {
                 .buildAndExpand(category.getCategoryId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{categoryId}")
+    @Operation(summary = "Edit category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
+    public ResponseEntity<Void> editCategory(@PathVariable long categoryId, @RequestBody CategoryDto categoryDto) {
+        Optional<Category> category = categoryService.getCategoryById(categoryId);
+        if (category.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Category updatedCategory = dtoMapperService.mapToCategory(categoryDto);
+        categoryService.editCategory(categoryId, updatedCategory);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping()

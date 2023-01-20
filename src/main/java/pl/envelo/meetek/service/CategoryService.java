@@ -22,6 +22,11 @@ public class CategoryService {
         return categoryRepo.save(category);
     }
 
+    public Category editCategory(long categoryId, Category category) {
+        category.setCategoryId(categoryId);
+        return categoryRepo.save(category);
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepo.findAllByOrderByName();
     }
