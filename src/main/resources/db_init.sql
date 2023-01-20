@@ -58,8 +58,8 @@ INSERT INTO  single_event_participants VALUES (5 ,1 ,1);
 INSERT INTO  single_event_participants VALUES (5 ,2 ,2);
 
 //ADMIN
-insert into ADMIN values('1','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','2');
-insert into ADMIN values('2','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
+insert into ADMIN values('1001','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','2');
+insert into ADMIN values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
 
 //HASHTAGS
 insert into HASHTAG values('2','71','false','Nudy');
@@ -181,21 +181,29 @@ insert into SURVEY_CHOICE values('3', 'ANKIETA3');
 insert into SURVEY_CHOICES values('1', '1');
 insert into SURVEY_CHOICES values('2', '2');
 insert into SURVEY_CHOICES values('3', '3');
+insert into SURVEY_CHOICES values('1', '2');
+insert into SURVEY_CHOICES values('1', '3');
 
 //SURVEY RESPONSE
 insert into SURVEY_RESPONSE values('1', '1');
 insert into SURVEY_RESPONSE values('2', '2');
 insert into SURVEY_RESPONSE values('3', '3');
+insert into SURVEY_RESPONSE values('4', '2');
+insert into SURVEY_RESPONSE values('5', '3');
 
 //SURVEY RESPONSES
 insert into SURVEY_RESPONSES values('1', '1');
 insert into SURVEY_RESPONSES values('2', '2');
 insert into SURVEY_RESPONSES values('3', '3');
+insert into SURVEY_RESPONSES values('1', '4');
+insert into SURVEY_RESPONSES values('1', '5');
 
 //SURVEY RESPONSE ANSWERS
 insert into SURVEY_RESPONSE_ANSWERS values('1', '1');
 insert into SURVEY_RESPONSE_ANSWERS values('2', '2');
 insert into SURVEY_RESPONSE_ANSWERS values('3', '3');
+insert into SURVEY_RESPONSE_ANSWERS values('4', '2');
+insert into SURVEY_RESPONSE_ANSWERS values('5', '2');
 
 //SINGLE EVENT SURVEYS
 insert into SINGLE_EVENT_SURVEYS values('1', '1');

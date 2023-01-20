@@ -18,7 +18,7 @@ public class SurveyResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long responseId;
-    @OneToMany
+    @ManyToMany
     private Set<SurveyChoice> answers;
     @ManyToOne
     private AppUser user;
