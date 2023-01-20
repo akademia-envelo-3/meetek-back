@@ -1,6 +1,7 @@
 package pl.envelo.meetek.controller.user;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,9 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.envelo.meetek.dto.CategoryDto;
+import pl.envelo.meetek.dto.HashtagDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
+import pl.envelo.meetek.model.Category;
+import pl.envelo.meetek.model.Hashtag;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.service.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
+import pl.envelo.meetek.service.HashtagService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
 import java.util.List;
@@ -22,13 +29,16 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-@Tag(name = "User")
-@RequestMapping("/${app.prefix}/${app.version}/users")
-public class StandardUserController {
+@Tag(name = "Admin")
+@RequestMapping("/${app.prefix}/${app.version}/admin")
+public class AdminController {
+
     private SingleEventService singleEventService;
+    private final CategoryService categoryService;
+    private final HashtagService hashtagService;
     private DtoMapperService dtoMapperService;
 
-    @GetMapping("/admin/past-events")
+    @GetMapping("/past-events")
     @Operation(summary = "Get all events that started before current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
@@ -54,8 +64,8 @@ public class StandardUserController {
         }
     }
 
-    @GetMapping("/admin/future-events")
-    @Operation(summary = "Get all event that started after current dateTime")
+    @GetMapping("/future-events")
+    @Operation(summary = "Get all events that started after current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
@@ -75,7 +85,36 @@ public class StandardUserController {
         } else {
             return new ResponseEntity(futureEventsShortDto, HttpStatus.OK);
         }
+    }
 
+    @GetMapping("/categories")
+    @Operation(summary = "Get all categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+            @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
+        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryDto> dtoCategories = categories.stream()
+                .map(dtoMapperService::mapToCategoryDto)
+                .toList();
+        HttpStatus status = dtoCategories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(dtoCategories, status);
+    }
+
+    @GetMapping("/Hashtags")
+    @Operation(summary = "Get all hashtags")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = HashtagDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No hashtag found", content = @Content)})
+    public ResponseEntity<List<HashtagDto>> getAllHashtags() {
+        List<Hashtag> hashtags = hashtagService.getAllHashtags();
+        List<HashtagDto> dtoHashtags = hashtags.stream()
+                .map(dtoMapperService::mapToHashtagDto)
+                .toList();
+        HttpStatus status = dtoHashtags.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(dtoHashtags, status);
     }
 
 }
