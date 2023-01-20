@@ -64,8 +64,9 @@ insert into ADMIN values('1000','Marek','Głowienka','maro.mareczek@mail.com','2
 insert into ADMIN values('2000','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
 
 //HASHTAGS
-insert into HASHTAG values('2','71','false','Nudy');
-insert into HASHTAG values('1','53','true','AleDymy');
+insert into HASHTAG values('1','71','false','Nudy');
+insert into HASHTAG values('2','53','true','AleDymy');
+insert into HASHTAG values('3','53','true','Celebrujmy');
 
 //ATTACHMENT
 insert into ATTACHMENT values('1','www.wbijajnatenlink.pl');

@@ -10,4 +10,8 @@ import java.util.List;
 public interface HashtagRepo extends JpaRepository<Hashtag, Long> {
 
     List<Hashtag> findAllByIsActiveOrderByName(boolean isActive);
+
+    List<Hashtag> findByOrderByNameAsc();
+
+
 }
