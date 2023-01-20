@@ -9,16 +9,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.CategoryDto;
-import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.model.Category;
 import pl.envelo.meetek.service.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,13 +36,28 @@ public class CategoryController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid categoryId format", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
-    public ResponseEntity<CategoryDto> getCategory(@PathVariable long categoryId){
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable long categoryId) {
         Optional<Category> category = categoryService.getCategoryById(categoryId);
-        if (category.isPresent()){
+        if (category.isPresent()) {
             CategoryDto categoryDto = dtoMapperService.mapToCategoryDto(category.get());
             return new ResponseEntity<>(categoryDto, HttpStatus.OK);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Category created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> saveNewCategory(@RequestBody CategoryDto categoryDto) {
+        Category category = categoryService.saveNewCategory(dtoMapperService.mapToCategory(categoryDto));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(category.getCategoryId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping()

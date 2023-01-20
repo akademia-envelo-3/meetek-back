@@ -18,6 +18,10 @@ public class CategoryService {
         return categoryRepo.findById(id);
     }
 
+    public Category saveNewCategory(Category category) {
+        return categoryRepo.save(category);
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepo.findAllByOrderByName();
     }
