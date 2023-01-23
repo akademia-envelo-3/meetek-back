@@ -5,6 +5,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.RecurringEventSet;
 import pl.envelo.meetek.model.user.AppUser;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 public class Section extends Group {
 
