@@ -48,6 +48,11 @@ import pl.envelo.meetek.model.user.Admin;
 import pl.envelo.meetek.model.user.Guest;
 import pl.envelo.meetek.model.user.StandardUser;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
+
 @AllArgsConstructor
 @Service
 public class DtoMapperService {
@@ -118,7 +123,14 @@ public class DtoMapperService {
     }
 
     public SurveyDto mapToSurveyDto(Survey survey) {
-        return modelMapper.map(survey, SurveyDto.class);
+        if(survey.getResponses().isEmpty()){
+            return modelMapper.map(survey, SurveyDto.class);
+        }
+        else {
+            SurveyDto surveyDto = modelMapper.map(survey, SurveyDto.class);
+            surveyDto.setChoicePercent(calculatePercentage(createResponseCount(survey)));
+            return surveyDto;
+        }
     }
 
     public SurveyChoice mapToSurveyChoice(SurveyChoiceDto surveyChoiceDto) {
@@ -247,6 +259,32 @@ public class DtoMapperService {
 
     public RequestComment mapToRequestComment(RequestCommentDto requestCommentDto) {
         return modelMapper.map(requestCommentDto, RequestComment.class);
+    }
+
+    private Map<Long, Integer> createResponseCount(Survey survey) {
+
+        Map<Long, Integer> responseCount = new HashMap<>();
+        for (SurveyChoice surveyChoice : survey.getChoices()) {
+            responseCount.put(surveyChoice.getChoiceId(), 0);
+        }
+        for(SurveyResponse surveyResponse:survey.getResponses()){
+            for(SurveyChoice answer :surveyResponse.getAnswers()){
+                responseCount.put(answer.getChoiceId(),responseCount.get(answer.getChoiceId()) + 1);
+            }
+        }
+        return responseCount;
+    }
+    private Map<Long, BigDecimal> calculatePercentage(Map<Long, Integer> responseCount){
+
+        double value = 0;
+        Map<Long, BigDecimal> choicePercent = new HashMap<>();
+        for(Long key : responseCount.keySet()){
+            value = value + responseCount.get(key);
+        }
+        for(Long key : responseCount.keySet()){
+            choicePercent.put(key, BigDecimal.valueOf(responseCount.get(key)/value*100).setScale(2, RoundingMode.HALF_DOWN));
+        }
+        return choicePercent;
     }
 
 }

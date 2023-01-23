@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -20,4 +22,17 @@ public class SurveyDto {
     private long eventId;
     private Set<SurveyResponseDto> responses;
 
+    private Map<Long, BigDecimal> choicePercent;
+
+    @Override
+    public String toString() {
+        return "SurveyDto{" +
+                "surveyId=" + surveyId +
+                ", question='" + question + '\'' +
+                ", choices=" + choices +
+                ", maxChoicesNumber=" + maxChoicesNumber +
+                ", eventId=" + eventId +
+                ", responses=" + responses +
+                '}';
+    }
 }
