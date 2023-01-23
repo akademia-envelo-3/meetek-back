@@ -6,6 +6,7 @@ import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.repository.group.SectionRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -15,6 +16,10 @@ public class SectionService {
 
     public List<Section> getAllActiveSections() {
         return sectionRepo.findAllByIsActiveOrderByName(true);
+    }
+
+    public Optional<Section> getSectionById(long id){
+        return sectionRepo.findById(id);
     }
 
 }
