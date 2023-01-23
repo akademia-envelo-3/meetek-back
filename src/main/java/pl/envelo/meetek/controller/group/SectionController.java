@@ -68,10 +68,12 @@ public class SectionController {
     public ResponseEntity<Void> editSection(@PathVariable long sectionId, @RequestBody SectionLongDto sectionDto) {
         if (sectionDto.getGroupId() != sectionId) {
             return ResponseEntity.badRequest().build();
-        } else if (sectionService.getSectionById(sectionId).isEmpty()) {
+        }
+        Optional<Section> section = sectionService.getSectionById(sectionId);
+        if (section.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            sectionService.editSection(sectionDto);
+            sectionService.editSection(section.get(), sectionDto);
             return ResponseEntity.ok().build();
         }
     }

@@ -21,17 +21,16 @@ public class SectionService {
         return sectionRepo.findAllByIsActiveOrderByName(true);
     }
 
-    public Optional<Section> getSectionById(long id){
+    public Optional<Section> getSectionById(long id) {
         return sectionRepo.findById(id);
     }
 
-    public Section editSection(SectionLongDto sectionDto) {
-        Section section = sectionRepo.findById(sectionDto.getGroupId()).orElseThrow();
+    public Section editSection(Section section, SectionLongDto sectionDto) {
         section.setName(sectionDto.getName());
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
-        if(sectionDto.getSectionOwner().getParticipantId() != sectionDto.getSectionOwner().getParticipantId()){
-            if(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()){
+        if (sectionDto.getSectionOwner().getParticipantId() != sectionDto.getSectionOwner().getParticipantId()) {
+            if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
                 section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
             }
         }
