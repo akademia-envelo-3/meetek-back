@@ -11,7 +11,8 @@ public class RecurringEventSetService {
 
     private final RecurringEventSetRepo recurringEventSetRepo;
 
-    public RecurringEventSet createRecurringEventSet(RecurringEventSet recurringEventSet){
+    public RecurringEventSet createRecurringEventSet(RecurringEventSet recurringEventSet) {
         return recurringEventSetRepo.save(recurringEventSet);
     }
+
 }
