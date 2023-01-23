@@ -21,6 +21,10 @@ public class SectionService {
         return sectionRepo.findAllByIsActiveOrderByName(true);
     }
 
+    public List<Section> getOwnedSectionsByUserId(long userId) {
+        return sectionRepo.findAllOwnedBySectionOwnerParticipantId(userId);
+    }
+
     public Optional<Section> getSectionById(long id) {
         return sectionRepo.findById(id);
     }

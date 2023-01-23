@@ -12,6 +12,8 @@ public interface SectionRepo extends JpaRepository<Section, Long> {
 
     List<Section> findAllByIsActiveOrderByName(boolean isActive);
 
+    List<Section> findAllOwnedBySectionOwnerParticipantId(long userId);
+
     Optional<Section> findById(long id);
 
 }
