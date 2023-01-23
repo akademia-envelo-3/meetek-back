@@ -13,5 +13,4 @@ public interface HashtagRepo extends JpaRepository<Hashtag, Long> {
 
     List<Hashtag> findByOrderByNameAsc();
 
-
 }

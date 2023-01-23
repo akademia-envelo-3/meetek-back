@@ -10,15 +10,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.HashtagDto;
 import pl.envelo.meetek.model.Hashtag;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.HashtagService;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -28,6 +29,54 @@ public class HashtagController {
 
     private final HashtagService hashtagService;
     private final DtoMapperService dtoMapperService;
+
+    @GetMapping("/{hashtagId}")
+    @Operation(summary = "Get a hashtag by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hashtag found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = HashtagDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invaild hashtagId format", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Hashtag not found", content = @Content)})
+    public ResponseEntity<HashtagDto> getHashtag(@PathVariable long hashtagId) {
+        Optional<Hashtag> hashtag = hashtagService.getHashtagById(hashtagId);
+        if (hashtag.isPresent()) {
+            HashtagDto hashtagDto = dtoMapperService.mapToHashtagDto(hashtag.get());
+            return new ResponseEntity<>(hashtagDto, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new hashtag")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Hashtag created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
+    public ResponseEntity<Void> saveNewHashtag(@RequestBody HashtagDto hashtagDto) {
+        Hashtag hashtag = hashtagService.saveNewHashtag(dtoMapperService.mapToHashtag(hashtagDto));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(hashtag.getHashtagId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{hashtagId}")
+    @Operation(summary = "Edit hashtag")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hashtag updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Hashtag not found", content = @Content)})
+    public ResponseEntity<Void> editHashtag(@PathVariable long hashtagId, @RequestBody HashtagDto hashtagDto) {
+        Optional<Hashtag> hashtag = hashtagService.getHashtagById(hashtagId);
+        if (hashtag.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Hashtag updatedHashtag = dtoMapperService.mapToHashtag(hashtagDto);
+        hashtagService.editHashtag(hashtagId, updatedHashtag);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping()
     @Operation(summary = "Get all active hashtags")
