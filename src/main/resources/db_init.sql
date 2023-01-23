@@ -11,6 +11,7 @@ insert into STANDARD_USER values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail.
 insert into CATEGORY values('1', 'true', 'sport');
 insert into CATEGORY values('2', 'true', 'kulinaria');
 insert into CATEGORY values('3', 'true', 'programowanie');
+insert into CATEGORY values('4', 'false', 'taniec');
 
 //COORDINATES
 insert into COORDINATES values('1', '154541.2132', '484454545.23');
@@ -73,7 +74,6 @@ insert into ATTACHMENT values('2','www.alekozackilink.pl');
 //REQUEST_STATUS
 insert into REQUEST_STATUS values('1','accepted');
 insert into REQUEST_STATUS values('2','declined');
-insert into REQUEST_STATUS values('3','pending');
 
 //REQUEST_BOX
 insert into REQUEST_BOX values('1');
@@ -253,6 +253,6 @@ insert into  SINGLE_EVENT_COMMENTS values('2','2');
 --insert into  STANDARD_USER_OWNED_GROUPS      values('2','2');
 
 //CATEGORY_REQUEST
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, STATUS_STATUS_ID,  NAME) values ('1', '1', '3', 'taniec')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, STATUS_STATUS_ID,  NAME) values ('2', '1', '3', 'sport')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, STATUS_STATUS_ID,  NAME) values ('3', '2', '3', 'kółko różańcowe')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('1', '1', 'taniec')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('2', '1', 'sport')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('3', '2', 'kółko różańcowe')

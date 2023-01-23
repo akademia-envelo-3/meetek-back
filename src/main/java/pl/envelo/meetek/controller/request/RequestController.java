@@ -9,15 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
+import pl.envelo.meetek.model.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
+import pl.envelo.meetek.service.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.request.CategoryRequestService;
 
+import java.net.URI;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -27,6 +28,7 @@ import java.util.Optional;
 public class RequestController {
 
     private final CategoryRequestService categoryRequestService;
+    private final CategoryService categoryService;
     private final DtoMapperService dtoMapperService;
 
     @GetMapping("/{categoryRequestId}")
@@ -43,6 +45,30 @@ public class RequestController {
         }
         CategoryRequestDto categoryRequestDto = dtoMapperService.mapToCategoryRequestDto(categoryRequest.get());
         return new ResponseEntity<>(categoryRequestDto, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new category request")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Category request created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request - wrong parameters or category already exists", content = @Content)})
+    public ResponseEntity<String> createCategoryRequest(@RequestBody CategoryRequestDto categoryRequestDto) {
+        Optional<Category> category = categoryService.getCategoryByName(categoryRequestDto.getName());
+        CategoryRequest categoryRequest = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
+        if (category.isPresent()) {
+            if (category.get().isActive()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category already exists");
+            } else {
+                categoryRequest.setCategory(category.get());
+            }
+        }
+        categoryRequest = categoryRequestService.createCategoryRequest(categoryRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(categoryRequest.getRequestId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
 }

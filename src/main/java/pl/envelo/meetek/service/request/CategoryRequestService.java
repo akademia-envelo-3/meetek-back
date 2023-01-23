@@ -17,4 +17,8 @@ public class CategoryRequestService {
         return categoryRequestRepo.findById(id);
     }
 
+    public CategoryRequest createCategoryRequest(CategoryRequest categoryRequest) {
+        return categoryRequestRepo.save(categoryRequest);
+    }
+
 }
