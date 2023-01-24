@@ -78,4 +78,20 @@ public class SectionController {
         }
     }
 
+    @GetMapping("owned/{userId}")
+    @Operation(summary = "Get all owned sections")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SectionShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "Section list is empty", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid userId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
+    public ResponseEntity<List<SectionShortDto>> getOwnedSections(@PathVariable long userId) {
+        List<Section> ownedSections = sectionService.getOwnedSectionsByUserId(userId);
+        List<SectionShortDto> dtoSections = ownedSections.stream()
+                .map(dtoMapperService::mapToSectionShortDto)
+                .toList();
+        HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK;
+        return new ResponseEntity<>(dtoSections, status);
+    }
 }

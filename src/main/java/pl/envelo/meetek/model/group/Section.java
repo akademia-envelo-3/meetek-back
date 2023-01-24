@@ -1,6 +1,7 @@
 package pl.envelo.meetek.model.group;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Entity
 public class Section extends Group {
 
-    @OneToMany
+    @ManyToMany
     private Set<AppUser> joinedUsers;
     @OneToMany
     private Set<Event> events;
