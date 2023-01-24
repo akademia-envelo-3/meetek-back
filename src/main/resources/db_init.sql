@@ -63,84 +63,84 @@ insert into ADMIN values('1001','Marek','Głowienka','maro.mareczek@mail.com','2
 insert into ADMIN values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
 
 //HASHTAGS
-insert into HASHTAG values('2','71','false','Nudy');
-insert into HASHTAG values('1','53','true','AleDymy');
-insert into HASHTAG values('3','53','true','Celebrujmy');
+insert into HASHTAGS values('2','71','false','Nudy');
+insert into HASHTAGS values('1','53','true','AleDymy');
+insert into HASHTAGS values('3','53','true','Celebrujmy');
 
 //ATTACHMENTS
 insert into ATTACHMENTS values('1','www.wbijajnatenlink.pl');
 insert into ATTACHMENTS values('2','www.alekozackilink.pl');
 
-//REQUEST_STATUS
-insert into REQUEST_STATUS values('1','accepted');
-insert into REQUEST_STATUS values('2','declined');
+//REQUEST_STATUSES
+insert into REQUEST_STATUSES values('1','accepted');
+insert into REQUEST_STATUSES values('2','declined');
 
-//REQUEST_BOX
-insert into REQUEST_BOX values('1');
-insert into REQUEST_BOX values('2');
-insert into REQUEST_BOX values('3');
+//REQUEST_BOXES
+insert into REQUEST_BOXES values('1');
+insert into REQUEST_BOXES values('2');
+insert into REQUEST_BOXES values('3');
 
-//REQUEST_BOX_REQUESTS
-insert into REQUEST_BOX_REQUESTS values('1','1');
-insert into REQUEST_BOX_REQUESTS values('1','2');
-insert into REQUEST_BOX_REQUESTS values('1','3');
-insert into REQUEST_BOX_REQUESTS values('1','4');
-insert into REQUEST_BOX_REQUESTS values('2','5');
-insert into REQUEST_BOX_REQUESTS values('1','6');
-insert into REQUEST_BOX_REQUESTS values('1','7');
-insert into REQUEST_BOX_REQUESTS values('1','8');
-insert into REQUEST_BOX_REQUESTS values('1','9');
-insert into REQUEST_BOX_REQUESTS values('1','10');
+//REQUEST_BOXES_REQUESTS
+insert into REQUEST_BOXES_REQUESTS values('1','1');
+insert into REQUEST_BOXES_REQUESTS values('1','2');
+insert into REQUEST_BOXES_REQUESTS values('1','3');
+insert into REQUEST_BOXES_REQUESTS values('1','4');
+insert into REQUEST_BOXES_REQUESTS values('2','5');
+insert into REQUEST_BOXES_REQUESTS values('1','6');
+insert into REQUEST_BOXES_REQUESTS values('1','7');
+insert into REQUEST_BOXES_REQUESTS values('1','8');
+insert into REQUEST_BOXES_REQUESTS values('1','9');
+insert into REQUEST_BOXES_REQUESTS values('1','10');
 
-//NOTIFICATION_TYPE
-insert into NOTIFICATION_TYPE values('1','DELETE');
-insert into NOTIFICATION_TYPE values('2','EDIT');
-insert into NOTIFICATION_TYPE values('3','EDIT DATE');
-insert into NOTIFICATION_TYPE values('4','EDIT LOCATION');
-insert into NOTIFICATION_TYPE values('5','EDIT TIME');
-insert into NOTIFICATION_TYPE values('6','CHANGE OWNERSHIP');
-insert into NOTIFICATION_TYPE values('7','MENTIONED');
-insert into NOTIFICATION_TYPE values('8','QUOTED');
-insert into NOTIFICATION_TYPE values('9','ACCEPTED REQUEST');
-insert into NOTIFICATION_TYPE values('10','DECLINE REQUEST');
-insert into NOTIFICATION_TYPE values('11','RESPONSE REQUIRED');
+//NOTIFICATION_TYPES
+insert into NOTIFICATION_TYPES values('1','DELETE');
+insert into NOTIFICATION_TYPES values('2','EDIT');
+insert into NOTIFICATION_TYPES values('3','EDIT DATE');
+insert into NOTIFICATION_TYPES values('4','EDIT LOCATION');
+insert into NOTIFICATION_TYPES values('5','EDIT TIME');
+insert into NOTIFICATION_TYPES values('6','CHANGE OWNERSHIP');
+insert into NOTIFICATION_TYPES values('7','MENTIONED');
+insert into NOTIFICATION_TYPES values('8','QUOTED');
+insert into NOTIFICATION_TYPES values('9','ACCEPTED REQUEST');
+insert into NOTIFICATION_TYPES values('10','DECLINE REQUEST');
+insert into NOTIFICATION_TYPES values('11','RESPONSE REQUIRED');
 
-//NOTIFICATION_CATEGORY
-insert into NOTIFICATION_CATEGORY values('1','sport');
-insert into NOTIFICATION_CATEGORY values('2','impreza');
-insert into NOTIFICATION_CATEGORY values('3','modlitwa');
+//NOTIFICATION_CATEGORIES
+insert into NOTIFICATION_CATEGORIES values('1','sport');
+insert into NOTIFICATION_CATEGORIES values('2','impreza');
+insert into NOTIFICATION_CATEGORIES values('3','modlitwa');
 
-//NOTIFICATION_NOTIFICATION_TYPES
-insert into NOTIFICATION_NOTIFICATION_TYPES values('1','1');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('2','2');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('3','3');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('4','4');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('5','5');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('6','6');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('7','7');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('8','8');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('9','9');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('10','10');
-insert into NOTIFICATION_NOTIFICATION_TYPES values('11','11');
+//NOTIFICATIONS_TYPES
+insert into NOTIFICATIONS_TYPES values('1','1');
+insert into NOTIFICATIONS_TYPES values('2','2');
+insert into NOTIFICATIONS_TYPES values('3','3');
+insert into NOTIFICATIONS_TYPES values('4','4');
+insert into NOTIFICATIONS_TYPES values('5','5');
+insert into NOTIFICATIONS_TYPES values('6','6');
+insert into NOTIFICATIONS_TYPES values('7','7');
+insert into NOTIFICATIONS_TYPES values('8','8');
+insert into NOTIFICATIONS_TYPES values('9','9');
+insert into NOTIFICATIONS_TYPES values('10','10');
+insert into NOTIFICATIONS_TYPES values('11','11');
 
 //EVENT_HASHTAGS
 insert into EVENT_HASHTAGS values('1','1');
 insert into EVENT_HASHTAGS values('4','2');
 
-//EVENT_NOTIFICATION
-insert into EVENT_NOTIFICATION values('1','2023-07-11 20:47:52.69','true','true','1','1','1');
-insert into EVENT_NOTIFICATION values('2','2023-07-11 20:46:52.69','true','false','2','3','2');
-insert into EVENT_NOTIFICATION values('3','2023-07-11 20:45:52.69','false','false','3','4','3');
+//NOTIFICATIONS_EVENT
+insert into NOTIFICATIONS_EVENT values('1','2023-07-11 20:47:52.69','true','true','1','1','1');
+insert into NOTIFICATIONS_EVENT values('2','2023-07-11 20:46:52.69','true','false','2','3','2');
+insert into NOTIFICATIONS_EVENT values('3','2023-07-11 20:45:52.69','false','false','3','4','3');
 
-//GENERAL_NOTIFICATION
-insert into GENERAL_NOTIFICATION values('1','2023-07-11 20:45:52.69','true','true','1','1');
-insert into GENERAL_NOTIFICATION values('2','2023-07-11 20:45:52.69','true','false','2','3');
-insert into GENERAL_NOTIFICATION values('3','2023-07-11 20:45:52.69','false','false','3','4');
+//NOTIFICATIONS_GENERAL
+insert into NOTIFICATIONS_GENERAL values('1','2023-07-11 20:45:52.69','true','true','1','1');
+insert into NOTIFICATIONS_GENERAL values('2','2023-07-11 20:45:52.69','true','false','2','3');
+insert into NOTIFICATIONS_GENERAL values('3','2023-07-11 20:45:52.69','false','false','3','4');
 
-//GROUP_NOTIFICATION
-insert into GROUP_NOTIFICATION values('1','2023-07-11 20:45:52.69','true','true','1','1','1');
-insert into GROUP_NOTIFICATION values('2','2023-07-11 20:45:52.69','true','false','2','3','2');
-insert into GROUP_NOTIFICATION values('3','2023-07-11 20:45:52.69','false','false','3','4','3');
+//NOTIFICATIONS_GROUP
+insert into NOTIFICATIONS_GROUP values('1','2023-07-11 20:45:52.69','true','true','1','1','1');
+insert into NOTIFICATIONS_GROUP values('2','2023-07-11 20:45:52.69','true','false','2','3','2');
+insert into NOTIFICATIONS_GROUP values('3','2023-07-11 20:45:52.69','false','false','3','4','3');
 
 //GUEST
 insert into GUEST values('1','Norbert','Gierczak','distork@mail.pl');
@@ -178,42 +178,42 @@ insert into SINGLE_EVENT_JOINED_GUESTS values('1', '1');
 insert into SINGLE_EVENT_JOINED_GUESTS values('2', '2');
 insert into SINGLE_EVENT_JOINED_GUESTS values('3', '3');
 
-//SURVEY
-insert into SURVEY values('1', '1','QUESTION1','1');
-insert into SURVEY values('2', '2','QUESTION2','2');
-insert into SURVEY values('3', '3','QUESTION3','3');
-
-//SURVEY CHOICE
-insert into SURVEY_CHOICE values('1', 'ANKIETA1');
-insert into SURVEY_CHOICE values('2', 'ANKIETA2');
-insert into SURVEY_CHOICE values('3', 'ANKIETA3');
+//SURVEYS
+insert into SURVEYS values('1', '1','QUESTION1','1');
+insert into SURVEYS values('2', '2','QUESTION2','2');
+insert into SURVEYS values('3', '3','QUESTION3','3');
 
 //SURVEY CHOICES
-insert into SURVEY_CHOICES values('1', '1');
-insert into SURVEY_CHOICES values('2', '2');
-insert into SURVEY_CHOICES values('3', '3');
-insert into SURVEY_CHOICES values('1', '2');
-insert into SURVEY_CHOICES values('1', '3');
+insert into SURVEY_CHOICES values('1', 'ANKIETA1');
+insert into SURVEY_CHOICES values('2', 'ANKIETA2');
+insert into SURVEY_CHOICES values('3', 'ANKIETA3');
 
-//SURVEY RESPONSE
-insert into SURVEY_RESPONSE values('1', '1');
-insert into SURVEY_RESPONSE values('2', '2');
-insert into SURVEY_RESPONSE values('3', '3');
-insert into SURVEY_RESPONSE values('4', '2');
-insert into SURVEY_RESPONSE values('5', '3');
+//SURVEYS CHOICES
+insert into SURVEYS_CHOICES values('1', '1');
+insert into SURVEYS_CHOICES values('2', '2');
+insert into SURVEYS_CHOICES values('3', '3');
+insert into SURVEYS_CHOICES values('1', '2');
+insert into SURVEYS_CHOICES values('1', '3');
 
 //SURVEY RESPONSES
 insert into SURVEY_RESPONSES values('1', '1');
 insert into SURVEY_RESPONSES values('2', '2');
-insert into SURVEY_RESPONSES values('1', '4');
-insert into SURVEY_RESPONSES values('1', '5');
+insert into SURVEY_RESPONSES values('3', '3');
+insert into SURVEY_RESPONSES values('4', '2');
+insert into SURVEY_RESPONSES values('5', '3');
 
-//SURVEY RESPONSE ANSWERS
-insert into SURVEY_RESPONSE_ANSWERS values('1', '1');
-insert into SURVEY_RESPONSE_ANSWERS values('2', '2');
-insert into SURVEY_RESPONSE_ANSWERS values('3', '3');
-insert into SURVEY_RESPONSE_ANSWERS values('4', '2');
-insert into SURVEY_RESPONSE_ANSWERS values('5', '2');
+//SURVEYS RESPONSES
+insert into SURVEYS_RESPONSES values('1', '1');
+insert into SURVEYS_RESPONSES values('2', '2');
+insert into SURVEYS_RESPONSES values('1', '4');
+insert into SURVEYS_RESPONSES values('1', '5');
+
+//SURVEY RESPONSES ANSWERS
+insert into SURVEY_RESPONSES_ANSWERS values('1', '1');
+insert into SURVEY_RESPONSES_ANSWERS values('2', '2');
+insert into SURVEY_RESPONSES_ANSWERS values('3', '3');
+insert into SURVEY_RESPONSES_ANSWERS values('4', '2');
+insert into SURVEY_RESPONSES_ANSWERS values('5', '2');
 
 //SINGLE EVENT SURVEYS
 insert into SINGLE_EVENT_SURVEYS values('1', '1');
@@ -261,14 +261,14 @@ insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comm
 --insert into  STANDARD_USER_OWNED_GROUPS      values('1','1');
 --insert into  STANDARD_USER_OWNED_GROUPS      values('2','2');
 
-//CATEGORY_REQUEST
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('1', '1', 'taniec')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('2', '1', 'sport')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('3', '1', 'kółko różańcowe')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('4', '2', 'programowanie')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('5', '2', 'muzyka')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('6', '1', 'kuchnia')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('7', '1', 'książki')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('8', '2', 'teatr')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('9', '1', 'kino')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('10', '1', 'ogród')
+//REQUESTS_CATEGORY
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('1', '1', 'taniec')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('2', '1', 'sport')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('3', '1', 'kółko różańcowe')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('4', '2', 'programowanie')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('5', '2', 'muzyka')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('6', '1', 'kuchnia')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('7', '1', 'książki')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('8', '2', 'teatr')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('9', '1', 'kino')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('10', '1', 'ogród')
