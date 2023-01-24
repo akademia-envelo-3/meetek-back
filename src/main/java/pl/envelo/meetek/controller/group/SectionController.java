@@ -11,12 +11,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.group.SectionService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +78,24 @@ public class SectionController {
             sectionService.editSection(section.get(), sectionDto);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> saveNewSection(@RequestBody SectionLongDto sectionDto) {
+        Optional<Section> section = sectionService.saveNewSection(sectionDto);
+        if(section.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(section.get().getGroupId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
 }

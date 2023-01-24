@@ -7,6 +7,7 @@ import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.repository.group.SectionRepo;
 import pl.envelo.meetek.service.user.StandardUserService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,6 @@ public class SectionService {
 
     private final SectionRepo sectionRepo;
     private final StandardUserService standardUserService;
-
     public List<Section> getAllActiveSections() {
         return sectionRepo.findAllByIsActiveOrderByName(true);
     }
@@ -35,6 +35,24 @@ public class SectionService {
             }
         }
         return sectionRepo.save(section);
+    }
+
+    public Optional<Section> saveNewSection(SectionLongDto sectionDto) {
+        Section section = new Section();
+        section.setName(sectionDto.getName());
+        section.setDescription(sectionDto.getDescription());
+        section.setActive(sectionDto.isActive());
+        section.setDescription(sectionDto.getDescription());
+        if(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()){
+            section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
+        }else{
+            return Optional.empty();
+        }
+        section.setJoinedUsers(new HashSet<>());
+        section.setEvents(new HashSet<>());
+        section.setRecurringEvents(new HashSet<>());
+        section.setGroupId(sectionDto.getGroupId());
+        return Optional.of(sectionRepo.save(section));
     }
 
 }
