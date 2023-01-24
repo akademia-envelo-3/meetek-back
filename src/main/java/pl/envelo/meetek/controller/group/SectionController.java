@@ -80,6 +80,24 @@ public class SectionController {
         }
     }
 
+    @GetMapping("/joined")
+    @Operation(summary = "Get all joined sections")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionShortDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No content", content = @Content)})
+    public ResponseEntity<List<SectionShortDto>> getAllJoinedSections(@RequestParam long userId) {
+        List<Section> sections = sectionService.getAllJoinedSections(userId);
+        List<SectionShortDto> dtoSections = sections.stream()
+                .map(dtoMapperService::mapToSectionShortDto)
+                .toList();
+        if (dtoSections.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return new ResponseEntity<>(dtoSections, HttpStatus.OK);
+    }
+
     @PostMapping
     @Operation(summary = "Create a new section")
     @ApiResponses(value = {
@@ -114,4 +132,5 @@ public class SectionController {
         HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(dtoSections, status);
     }
+
 }

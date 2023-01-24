@@ -42,6 +42,9 @@ public class SectionService {
         return sectionRepo.save(section);
     }
 
+    public List<Section> getAllJoinedSections(long userId) {
+        return sectionRepo.findAllJoinedSections(userId);
+
     public Optional<Section> saveNewSection(SectionLongDto sectionDto) {
         Section section = new Section();
         section.setName(sectionDto.getName());
