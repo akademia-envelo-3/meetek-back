@@ -18,6 +18,10 @@ public class CategoryService {
         return categoryRepo.findById(id);
     }
 
+    public Optional<Category> getCategoryByName(String name) {
+        return categoryRepo.findByName(name);
+    }
+
     public Category saveNewCategory(Category category) {
         return categoryRepo.save(category);
     }
