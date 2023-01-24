@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,6 +14,6 @@ import java.util.Set;
 public class RequestBoxDto {
 
     private long requestBoxId;
-    private Set<CategoryRequestDto> requests;
+    private List<CategoryRequestDto> requests;
 
 }

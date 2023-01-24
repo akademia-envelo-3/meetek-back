@@ -78,10 +78,19 @@ insert into REQUEST_STATUS values('2','declined');
 //REQUEST_BOX
 insert into REQUEST_BOX values('1');
 insert into REQUEST_BOX values('2');
+insert into REQUEST_BOX values('3');
 
 //REQUEST_BOX_REQUESTS
 insert into REQUEST_BOX_REQUESTS values('1','1');
-insert into REQUEST_BOX_REQUESTS values('2','2');
+insert into REQUEST_BOX_REQUESTS values('1','2');
+insert into REQUEST_BOX_REQUESTS values('1','3');
+insert into REQUEST_BOX_REQUESTS values('1','4');
+insert into REQUEST_BOX_REQUESTS values('2','5');
+insert into REQUEST_BOX_REQUESTS values('1','6');
+insert into REQUEST_BOX_REQUESTS values('1','7');
+insert into REQUEST_BOX_REQUESTS values('1','8');
+insert into REQUEST_BOX_REQUESTS values('1','9');
+insert into REQUEST_BOX_REQUESTS values('1','10');
 
 //NOTIFICATION_TYPE
 insert into NOTIFICATION_TYPE values('1','DELETE');
@@ -255,4 +264,11 @@ insert into  SINGLE_EVENT_COMMENTS values('2','2');
 //CATEGORY_REQUEST
 insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('1', '1', 'taniec')
 insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('2', '1', 'sport')
-insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('3', '2', 'kółko różańcowe')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('3', '1', 'kółko różańcowe')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('4', '2', 'programowanie')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('5', '2', 'muzyka')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('6', '1', 'kuchnia')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('7', '1', 'książki')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('8', '2', 'teatr')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('9', '1', 'kino')
+insert into CATEGORY_REQUEST (REQUEST_ID, REQUESTER_PARTICIPANT_ID, NAME) values ('10', '1', 'ogród')
