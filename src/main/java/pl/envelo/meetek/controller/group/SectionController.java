@@ -91,7 +91,7 @@ public class SectionController {
                 .map(dtoMapperService::mapToSectionShortDto)
                 .toList();
         if (dtoSections.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
         return new ResponseEntity<>(dtoSections, HttpStatus.OK);
     }
