@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.util.Objects;
@@ -12,15 +13,21 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "survey_responses")
 public class SurveyResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long responseId;
     @ManyToMany
+    @JoinTable(name = "survey_responses_answers",
+            joinColumns = @JoinColumn(name = "response_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id"))
     private Set<SurveyChoice> answers;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @Override

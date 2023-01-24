@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Notification {
@@ -23,10 +25,13 @@ public abstract class Notification {
     private boolean isDisplayed;
     private boolean isImportant;
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private NotificationCategory category;
     @OneToMany
+    @JoinTable(name = "notifications_types")
     private Set<NotificationType> notificationTypes;
     @ManyToOne
+    @JoinColumn(name = "recipient_id")
     private AppUser recipient;
     private LocalDateTime addingDateTime;
 

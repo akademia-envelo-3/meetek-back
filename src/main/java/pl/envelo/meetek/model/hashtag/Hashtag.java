@@ -1,9 +1,6 @@
 package pl.envelo.meetek.model.hashtag;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(name = "hashtags")
 public class Hashtag {
 
     @Id
@@ -23,6 +21,7 @@ public class Hashtag {
     private Long hashtagId;
     private String name;
     private boolean isActive;
+    @Column(name = "usage_count")
     private int countOfHashtagUsage;
 
     @Override

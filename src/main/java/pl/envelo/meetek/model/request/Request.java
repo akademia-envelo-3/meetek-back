@@ -21,8 +21,10 @@ public abstract class Request {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestId;
     @ManyToOne
+    @JoinColumn(name = "requester_id")
     private AppUser requester;
     @ManyToOne
+    @JoinColumn(name = "status_id")
     private RequestStatus status;
 
     @Override

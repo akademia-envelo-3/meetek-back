@@ -1,9 +1,6 @@
 package pl.envelo.meetek.model.request;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +15,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(name = "requests_category")
 public class CategoryRequest extends Request {
 
     private String name;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 
 import java.util.Objects;
@@ -12,7 +13,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "surveys")
 public class Survey {
 
     @Id
@@ -20,11 +23,18 @@ public class Survey {
     private Long surveyId;
     private String question;
     @ManyToMany
+    @JoinTable(name = "surveys_choices",
+            joinColumns = @JoinColumn(name = "survey_id"),
+            inverseJoinColumns = @JoinColumn(name = "choice_id"))
     private Set<SurveyChoice> choices;
     private int maxChoicesNumber;
     @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
     @OneToMany
+    @JoinTable(name = "surveys_responses",
+            joinColumns = @JoinColumn(name = "survey_id"),
+            inverseJoinColumns = @JoinColumn(name = "response_id"))
     private Set<SurveyResponse> responses;
 
     @Override

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,13 +12,18 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "request_boxes")
 public class RequestBox {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestBoxId;
     @OneToMany
+    @JoinTable(name = "request_boxes_requests",
+            joinColumns = @JoinColumn(name = "request_box_id"),
+            inverseJoinColumns = @JoinColumn(name = "request_id"))
     private List<Request> requests;
 
     @Override
