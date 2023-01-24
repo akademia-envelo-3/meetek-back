@@ -11,12 +11,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.group.SectionService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +96,41 @@ public class SectionController {
             return ResponseEntity.noContent().build();
         }
         return new ResponseEntity<>(dtoSections, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> saveNewSection(@RequestBody SectionLongDto sectionDto) {
+        Optional<Section> section = sectionService.saveNewSection(sectionDto);
+        if (section.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(section.get().getGroupId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("owned/{userId}")
+    @Operation(summary = "Get all owned sections")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SectionShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "Section list is empty", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid userId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
+    public ResponseEntity<List<SectionShortDto>> getOwnedSections(@PathVariable long userId) {
+        List<Section> ownedSections = sectionService.getOwnedSectionsByUserId(userId);
+        List<SectionShortDto> dtoSections = ownedSections.stream()
+                .map(dtoMapperService::mapToSectionShortDto)
+                .toList();
+        HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(dtoSections, status);
     }
 
 }
