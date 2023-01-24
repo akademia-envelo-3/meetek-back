@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.hashtag;
+package pl.envelo.meetek.controller.hashtag;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

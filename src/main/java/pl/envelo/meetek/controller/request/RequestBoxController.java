@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.request;
+package pl.envelo.meetek.controller.request;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

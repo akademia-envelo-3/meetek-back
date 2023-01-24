@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.notification;
+package pl.envelo.meetek.controller.notification;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;

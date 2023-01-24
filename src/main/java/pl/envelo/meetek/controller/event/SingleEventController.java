@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.event;
+package pl.envelo.meetek.controller.event;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -60,7 +60,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi hashtagOpenApi() {
-        String packages[] = {"pl.envelo.meetek.controller.hashtags"};
+        String packages[] = {"pl.envelo.meetek.controller.hashtag"};
         return GroupedOpenApi.builder().group("hashtags").packagesToScan(packages).build();
     }
 

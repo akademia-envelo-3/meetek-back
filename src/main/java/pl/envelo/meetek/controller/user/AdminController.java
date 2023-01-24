@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.user;
+package pl.envelo.meetek.controller.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

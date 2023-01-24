@@ -1,4 +1,4 @@
-package pl.envelo.meetek.repository.controller.survey;
+package pl.envelo.meetek.controller.survey;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
