@@ -44,9 +44,9 @@ public class SectionService {
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
         section.setDescription(sectionDto.getDescription());
-        if(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()){
+        if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
             section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
-        }else{
+        } else {
             return Optional.empty();
         }
         section.setJoinedUsers(new HashSet<>());
