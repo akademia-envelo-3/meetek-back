@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.dto.AttachmentDto;
-import pl.envelo.meetek.dto.CategoryDto;
-import pl.envelo.meetek.dto.CoordinatesDto;
-import pl.envelo.meetek.model.Hashtag;
+import pl.envelo.meetek.dto.attachment.AttachmentDto;
+import pl.envelo.meetek.dto.category.CategoryDto;
+import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
+import pl.envelo.meetek.model.hashtag.Hashtag;
 
 import java.time.LocalDateTime;
 import java.util.Set;
