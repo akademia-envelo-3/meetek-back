@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class RequestBox {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestBoxId;
     @OneToMany
-    private Set<Request> requests;
+    private List<Request> requests;
 
     @Override
     public String toString() {
