@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
@@ -83,7 +82,7 @@ public class SectionController {
     @Operation(summary = "Get all joined sections")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionShortDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
             @ApiResponse(responseCode = "404", description = "No section found", content = @Content)})
     public ResponseEntity<List<SectionShortDto>> getAllJoinedSections(@RequestParam long userId) {
