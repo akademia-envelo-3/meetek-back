@@ -111,7 +111,7 @@ public class SectionController {
         List<SectionShortDto> dtoSections = ownedSections.stream()
                 .map(dtoMapperService::mapToSectionShortDto)
                 .toList();
-        HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK;
+        HttpStatus status = dtoSections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(dtoSections, status);
     }
 }
