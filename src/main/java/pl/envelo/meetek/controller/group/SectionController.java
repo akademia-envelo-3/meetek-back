@@ -87,7 +87,7 @@ public class SectionController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> saveNewSection(@RequestBody SectionLongDto sectionDto) {
         Optional<Section> section = sectionService.saveNewSection(sectionDto);
-        if(section.isEmpty()) {
+        if (section.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
         URI location = ServletUriComponentsBuilder
