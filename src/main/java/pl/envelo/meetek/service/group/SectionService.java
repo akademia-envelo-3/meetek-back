@@ -2,6 +2,7 @@ package pl.envelo.meetek.service.group;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.repository.group.SectionRepo;
@@ -18,18 +19,22 @@ public class SectionService {
     private final SectionRepo sectionRepo;
     private final StandardUserService standardUserService;
 
+    @Transactional(readOnly = true)
     public List<Section> getAllActiveSections() {
         return sectionRepo.findAllByIsActiveOrderByName(true);
     }
 
+    @Transactional(readOnly = true)
     public List<Section> getOwnedSectionsByUserId(long userId) {
         return sectionRepo.findAllOwnedBySectionOwnerParticipantId(userId);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Section> getSectionById(long id) {
         return sectionRepo.findById(id);
     }
 
+    @Transactional
     public Section editSection(Section section, SectionLongDto sectionDto) {
         section.setName(sectionDto.getName());
         section.setDescription(sectionDto.getDescription());
@@ -42,10 +47,12 @@ public class SectionService {
         return sectionRepo.save(section);
     }
 
+    @Transactional(readOnly = true)
     public List<Section> getAllJoinedSections(long userId) {
         return sectionRepo.findAllJoinedSections(userId);
     }
 
+    @Transactional
     public Optional<Section> saveNewSection(SectionLongDto sectionDto) {
         Section section = new Section();
         section.setName(sectionDto.getName());

@@ -2,6 +2,7 @@ package pl.envelo.meetek.service.hashtag;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.repository.hashtag.HashtagRepo;
 
@@ -14,24 +15,30 @@ public class HashtagService {
 
     private final HashtagRepo hashtagRepo;
 
+    @Transactional(readOnly = true)
     public Optional<Hashtag> getHashtagById(long id) {
         return hashtagRepo.findById(id);
     }
 
+    @Transactional
     public Hashtag saveNewHashtag(Hashtag hashtag) {
         return hashtagRepo.save(hashtag);
     }
 
+    @Transactional
     public Hashtag editHashtag(long hashtagId, Hashtag hashtag) {
         hashtag.setHashtagId(hashtagId);
         return hashtagRepo.save(hashtag);
     }
 
+    @Transactional(readOnly = true)
     public List<Hashtag> getAllActiveHashtags() {
         return hashtagRepo.findAllByIsActiveOrderByName(true);
     }
 
+    @Transactional(readOnly = true)
     public List<Hashtag> getAllHashtags() {
         return hashtagRepo.findByOrderByNameAsc();
     }
+
 }
