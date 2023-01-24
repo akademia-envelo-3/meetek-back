@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.dto.comment.RequestCommentDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
-import pl.envelo.meetek.model.Category;
+import pl.envelo.meetek.model.category.Category;
 
 @Getter
 @Setter

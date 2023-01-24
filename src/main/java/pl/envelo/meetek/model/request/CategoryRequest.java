@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.model.Category;
+import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.comment.RequestComment;
 
 import java.util.Objects;

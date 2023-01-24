@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.envelo.meetek.model.Hashtag;
+import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.time.LocalDateTime;

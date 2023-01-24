@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.dto.AttachmentDto;
+import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
 
 import java.time.LocalDateTime;
