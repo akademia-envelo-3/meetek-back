@@ -1,9 +1,6 @@
 package pl.envelo.meetek.model.group;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,15 +15,23 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "sections")
 public class Section extends Group {
 
     @ManyToMany
+    @JoinTable(name = "section_joined_users",
+            joinColumns = @JoinColumn(name = "section_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<AppUser> joinedUsers;
     @OneToMany
     private Set<Event> events;
     @OneToMany
+    @JoinTable(name = "section_recurring_events",
+            joinColumns = @JoinColumn(name = "section_id"),
+            inverseJoinColumns = @JoinColumn(name = "recurring_event_id"))
     private Set<RecurringEventSet> recurringEvents;
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private AppUser sectionOwner;
 
     public Section(Long groupId, String name, String description, boolean isActive, Set<AppUser> joinedUsers, Set<Event> events, Set<RecurringEventSet> recurringEvents, AppUser sectionOwner) {

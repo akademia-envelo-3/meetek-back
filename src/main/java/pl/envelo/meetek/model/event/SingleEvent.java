@@ -27,6 +27,7 @@ import java.util.Set;
 public class SingleEvent extends Event {
 
     @ManyToOne
+    @JoinColumn(name = "group_id")
     private Group group;
     @ManyToOne
     private Category category;
@@ -36,7 +37,7 @@ public class SingleEvent extends Event {
     private Map<StandardUser, EventResponse> participants;
     @OneToMany
     private Set<Guest> joinedGuests;
-    @OneToMany
+    @OneToMany(mappedBy = "event")
     private Set<EventComment> comments;
     private String locationName;
     @ManyToOne

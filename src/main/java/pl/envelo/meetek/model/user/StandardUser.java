@@ -1,8 +1,6 @@
 package pl.envelo.meetek.model.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.envelo.meetek.model.event.Event;
