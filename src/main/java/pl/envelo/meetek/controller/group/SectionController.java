@@ -83,7 +83,7 @@ public class SectionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SectionShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "Invalid userId found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "Section list is empty", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid userId", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
     public ResponseEntity<List<SectionShortDto>> getOwnedSections(@PathVariable long userId) {
