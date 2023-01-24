@@ -17,6 +17,7 @@ public class SectionService {
 
     private final SectionRepo sectionRepo;
     private final StandardUserService standardUserService;
+
     public List<Section> getAllActiveSections() {
         return sectionRepo.findAllByIsActiveOrderByName(true);
     }
