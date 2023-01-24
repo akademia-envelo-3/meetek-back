@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
@@ -76,6 +77,24 @@ public class SectionController {
             sectionService.editSection(section.get(), sectionDto);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @GetMapping("/joined")
+    @Operation(summary = "Get all joined sections")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "No section found", content = @Content)})
+    public ResponseEntity<List<SectionShortDto>> getAllJoinedSections(@RequestParam long userId) {
+        List<Section> sections = sectionService.getAllJoinedSections(userId);
+        List<SectionShortDto> dtoSections = sections.stream()
+                .map(dtoMapperService::mapToSectionShortDto)
+                .toList();
+        if (dtoSections.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(dtoSections, HttpStatus.OK);
     }
 
 }

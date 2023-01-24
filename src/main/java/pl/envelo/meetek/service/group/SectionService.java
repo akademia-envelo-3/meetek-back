@@ -37,5 +37,9 @@ public class SectionService {
         return sectionRepo.save(section);
     }
 
+    public List<Section> getAllJoinedSections(long userId){
+        return sectionRepo.findAllJoinedSection(userId);
+    }
+
 }
 
