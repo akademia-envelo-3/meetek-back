@@ -22,6 +22,6 @@ public interface SectionRepo extends JpaRepository<Section, Long> {
             ORDER BY name
             """,
             nativeQuery = true)
-    List<Section> findAllJoinedSection(long userId);
+    List<Section> findAllJoinedSections(long userId);
 
 }
