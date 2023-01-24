@@ -7,25 +7,25 @@ insert into STANDARD_USER values('4', 'Władysław', 'Kowal', 'wladyslaw.k@mail.
 insert into STANDARD_USER values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail.com', '#U12376545$%dhf54$#%', '1');
 
 
-//CATEGORY
-insert into CATEGORY values('1', 'true', 'sport');
-insert into CATEGORY values('2', 'true', 'kulinaria');
-insert into CATEGORY values('3', 'true', 'programowanie');
-insert into CATEGORY values('4', 'false', 'taniec');
+//CATEGORIES
+insert into CATEGORIES values('1', 'true', 'sport');
+insert into CATEGORIES values('2', 'true', 'kulinaria');
+insert into CATEGORIES values('3', 'true', 'programowanie');
+insert into CATEGORIES values('4', 'false', 'taniec');
 
 //COORDINATES
 insert into COORDINATES values('1', '154541.2132', '484454545.23');
 
-//SECTION
-insert into SECTION values('1', 'first section', 'true', 'first section', '1');
-insert into SECTION values('2', 'second section', 'true', 'second section', '2');
-insert into SECTION values('3', 'third section', 'true', 'third section', '3');
-insert into SECTION values('4', 'fourth section', 'false', 'fourth section', '4');
+//SECTIONS
+insert into SECTIONS values('1', 'first section', 'true', 'first section', '1');
+insert into SECTIONS values('2', 'second section', 'true', 'second section', '2');
+insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
+insert into SECTIONS values('4', 'fourth section', 'false', 'fourth section', '4');
 
-//SECTION EVENTS
-insert into SECTION_EVENTS values('1', '1');
-insert into SECTION_EVENTS values('2', '2');
-insert into SECTION_EVENTS values('3', '3');
+//SECTIONS EVENTS
+insert into SECTIONS_EVENTS values('1', '1');
+insert into SECTIONS_EVENTS values('2', '2');
+insert into SECTIONS_EVENTS values('3', '3');
 
 //SECTION JOINED USERS
 insert into SECTION_JOINED_USERS values('1', '1');
@@ -67,9 +67,9 @@ insert into HASHTAG values('2','71','false','Nudy');
 insert into HASHTAG values('1','53','true','AleDymy');
 insert into HASHTAG values('3','53','true','Celebrujmy');
 
-//ATTACHMENT
-insert into ATTACHMENT values('1','www.wbijajnatenlink.pl');
-insert into ATTACHMENT values('2','www.alekozackilink.pl');
+//ATTACHMENTS
+insert into ATTACHMENTS values('1','www.wbijajnatenlink.pl');
+insert into ATTACHMENTS values('2','www.alekozackilink.pl');
 
 //REQUEST_STATUS
 insert into REQUEST_STATUS values('1','accepted');
@@ -220,24 +220,24 @@ insert into SINGLE_EVENT_SURVEYS values('1', '1');
 insert into SINGLE_EVENT_SURVEYS values('2', '2');
 insert into SINGLE_EVENT_SURVEYS values('3', '3');
 
-//EVENT COMMENT
-insert into EVENT_COMMENT(COMMENT_ID,ADDING_DATE_TIME, COMMENT, COMMENT_OWNER_PARTICIPANT_ID, EVENT_EVENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
-insert into EVENT_COMMENT values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
-insert into EVENT_COMMENT values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
-insert into EVENT_COMMENT(COMMENT_ID,ADDING_DATE_TIME, COMMENT, COMMENT_OWNER_PARTICIPANT_ID, EVENT_EVENT_ID) values('4','2023-02-15 17:45:52.69','comment4','1','1');
+//EVENT COMMENTS
+insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
+insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
+insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
+insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('4','2023-02-15 17:45:52.69','comment4','1','1');
 
-//EVENT COMMENT ATTACHMENTS
-insert into EVENT_COMMENT_ATTACHMENTS  values('1', '1');
-insert into EVENT_COMMENT_ATTACHMENTS  values('2', '2');
+//EVENT COMMENTS ATTACHMENTS
+insert into EVENT_COMMENTS_ATTACHMENTS  values('1', '1');
+insert into EVENT_COMMENTS_ATTACHMENTS  values('1', '2');
 
-//REQUEST COMMENT
-insert into  REQUEST_COMMENT values('1', '2023-01-01 16:45:52.69','request comment1','1','1');
-insert into  REQUEST_COMMENT values('2', '2023-01-02 17:45:52.69','request comment2','2','2');
-insert into  REQUEST_COMMENT values('3', '2023-01-03 18:45:52.69','request comment3','3','3');
+//REQUEST COMMENTS
+insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comment1','1','1');
+insert into  REQUEST_COMMENTS values('2', '2023-01-02 17:45:52.69','request comment2','2','2');
+insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comment3','3','3');
 
 //SINGLE EVENT COMMENTS
-insert into  SINGLE_EVENT_COMMENTS values('1','1');
-insert into  SINGLE_EVENT_COMMENTS values('2','2');
+--insert into  SINGLE_EVENT_COMMENTS values('1','1');
+--insert into  SINGLE_EVENT_COMMENTS values('2','2');
 
 //STANDARD USER EVENTS WITH RESPONSE
 //BUG/BUG/BUG
