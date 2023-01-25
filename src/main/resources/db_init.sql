@@ -218,7 +218,7 @@ insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
 insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
 insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
-insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('4','2023-02-15 17:45:52.69','comment4','1','1');
+insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID) values('4','2023-02-15 17:45:52.69','comment4','1');
 
 //EVENT COMMENTS ATTACHMENTS
 insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '1');
@@ -256,9 +256,9 @@ insert into  users_x_events_responses  values('2','2','2');
 --insert into  USERS_X_OWNED_GROUPS      values('2','2');
 
 //REQUESTS_CATEGORY
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('1', '1', 'taniec')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('2', '1', 'sport')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('3', '1', 'kółko różańcowe')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('1', '1', 'taniec', '1')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('2', '1', 'sport', '2')
+insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('3', '1', 'kółko różańcowe', '3')
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('4', '2', 'programowanie')
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('5', '2', 'muzyka')
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('6', '1', 'kuchnia')
