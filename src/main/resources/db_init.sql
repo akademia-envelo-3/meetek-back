@@ -22,14 +22,14 @@ insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
 insert into SECTIONS values('4', 'fourth section', 'false', 'fourth section', '4');
 
 //SECTIONS EVENTS
-insert into SECTIONS_EVENTS values('1', '1');
-insert into SECTIONS_EVENTS values('2', '2');
-insert into SECTIONS_EVENTS values('3', '3');
+insert into SECTIONS_X_EVENTS values('1', '1');
+insert into SECTIONS_X_EVENTS values('2', '2');
+insert into SECTIONS_X_EVENTS values('3', '3');
 
 //SECTION JOINED USERS
-insert into SECTION_JOINED_USERS values('1', '1');
-insert into SECTION_JOINED_USERS values('2', '2');
-insert into SECTION_JOINED_USERS values('3', '3');
+insert into SECTIONS_X_JOINED_USERS values('1', '1');
+insert into SECTIONS_X_JOINED_USERS values('2', '2');
+insert into SECTIONS_X_JOINED_USERS values('3', '3');
 
 //EVENT_RESPONSES
 INSERT INTO event_responses VALUES (1 , 'Accepted');
@@ -80,16 +80,16 @@ insert into REQUEST_BOXES values('2');
 insert into REQUEST_BOXES values('3');
 
 //REQUEST_BOXES_REQUESTS
-insert into REQUEST_BOXES_REQUESTS values('1','1');
-insert into REQUEST_BOXES_REQUESTS values('1','2');
-insert into REQUEST_BOXES_REQUESTS values('1','3');
-insert into REQUEST_BOXES_REQUESTS values('1','4');
-insert into REQUEST_BOXES_REQUESTS values('2','5');
-insert into REQUEST_BOXES_REQUESTS values('1','6');
-insert into REQUEST_BOXES_REQUESTS values('1','7');
-insert into REQUEST_BOXES_REQUESTS values('1','8');
-insert into REQUEST_BOXES_REQUESTS values('1','9');
-insert into REQUEST_BOXES_REQUESTS values('1','10');
+insert into REQUEST_BOXES_X_REQUESTS values('1','1');
+insert into REQUEST_BOXES_X_REQUESTS values('1','2');
+insert into REQUEST_BOXES_X_REQUESTS values('1','3');
+insert into REQUEST_BOXES_X_REQUESTS values('1','4');
+insert into REQUEST_BOXES_X_REQUESTS values('2','5');
+insert into REQUEST_BOXES_X_REQUESTS values('1','6');
+insert into REQUEST_BOXES_X_REQUESTS values('1','7');
+insert into REQUEST_BOXES_X_REQUESTS values('1','8');
+insert into REQUEST_BOXES_X_REQUESTS values('1','9');
+insert into REQUEST_BOXES_X_REQUESTS values('1','10');
 
 //NOTIFICATION_TYPES
 insert into NOTIFICATION_TYPES values('1','DELETE');
@@ -110,21 +110,21 @@ insert into NOTIFICATION_CATEGORIES values('2','impreza');
 insert into NOTIFICATION_CATEGORIES values('3','modlitwa');
 
 //NOTIFICATIONS_TYPES
-insert into NOTIFICATIONS_TYPES values('1','1');
-insert into NOTIFICATIONS_TYPES values('2','2');
-insert into NOTIFICATIONS_TYPES values('3','3');
-insert into NOTIFICATIONS_TYPES values('4','4');
-insert into NOTIFICATIONS_TYPES values('5','5');
-insert into NOTIFICATIONS_TYPES values('6','6');
-insert into NOTIFICATIONS_TYPES values('7','7');
-insert into NOTIFICATIONS_TYPES values('8','8');
-insert into NOTIFICATIONS_TYPES values('9','9');
-insert into NOTIFICATIONS_TYPES values('10','10');
-insert into NOTIFICATIONS_TYPES values('11','11');
+insert into NOTIFICATIONS_X_TYPES values('1','1');
+insert into NOTIFICATIONS_X_TYPES values('2','2');
+insert into NOTIFICATIONS_X_TYPES values('3','3');
+insert into NOTIFICATIONS_X_TYPES values('4','4');
+insert into NOTIFICATIONS_X_TYPES values('5','5');
+insert into NOTIFICATIONS_X_TYPES values('6','6');
+insert into NOTIFICATIONS_X_TYPES values('7','7');
+insert into NOTIFICATIONS_X_TYPES values('8','8');
+insert into NOTIFICATIONS_X_TYPES values('9','9');
+insert into NOTIFICATIONS_X_TYPES values('10','10');
+insert into NOTIFICATIONS_X_TYPES values('11','11');
 
 //EVENT_HASHTAGS
-insert into EVENT_HASHTAGS values('1','1');
-insert into EVENT_HASHTAGS values('4','2');
+insert into EVENTS_X_HASHTAGS values('1','1');
+insert into EVENTS_X_HASHTAGS values('4','2');
 
 //NOTIFICATIONS_EVENT
 insert into NOTIFICATIONS_EVENT values('1','2023-07-11 20:47:52.69','true','true','1','1','1');
@@ -159,9 +159,9 @@ insert into RECURRING_EVENTS_X_EVENTS values('2','3');
 insert into RECURRING_EVENTS_X_EVENTS values('3','5');
 
 //SECTION RECURRING EVENTS
-insert into SECTION_RECURRING_EVENTS values('1', '1');
-insert into SECTION_RECURRING_EVENTS values('2', '2');
-insert into SECTION_RECURRING_EVENTS values('3', '3');
+insert into SECTIONS_X_RECURRING_EVENTS values('1', '1');
+insert into SECTIONS_X_RECURRING_EVENTS values('2', '2');
+insert into SECTIONS_X_RECURRING_EVENTS values('3', '3');
 
 //EVENTs ATTACHMENTS
 insert into EVENTS_X_ATTACHMENTS values('1', '1');
@@ -188,11 +188,11 @@ insert into SURVEY_CHOICES values('2', 'ANKIETA2');
 insert into SURVEY_CHOICES values('3', 'ANKIETA3');
 
 //SURVEYS CHOICES
-insert into SURVEYS_CHOICES values('1', '1');
-insert into SURVEYS_CHOICES values('2', '2');
-insert into SURVEYS_CHOICES values('3', '3');
-insert into SURVEYS_CHOICES values('1', '2');
-insert into SURVEYS_CHOICES values('1', '3');
+insert into SURVEYS_X_CHOICES values('1', '1');
+insert into SURVEYS_X_CHOICES values('2', '2');
+insert into SURVEYS_X_CHOICES values('3', '3');
+insert into SURVEYS_X_CHOICES values('1', '2');
+insert into SURVEYS_X_CHOICES values('1', '3');
 
 //SURVEY RESPONSES
 insert into SURVEY_RESPONSES values('1', '1');
@@ -202,17 +202,17 @@ insert into SURVEY_RESPONSES values('4', '2');
 insert into SURVEY_RESPONSES values('5', '3');
 
 //SURVEYS RESPONSES
-insert into SURVEYS_RESPONSES values('1', '1');
-insert into SURVEYS_RESPONSES values('2', '2');
-insert into SURVEYS_RESPONSES values('1', '4');
-insert into SURVEYS_RESPONSES values('1', '5');
+insert into SURVEYS_X_RESPONSES values('1', '1');
+insert into SURVEYS_X_RESPONSES values('2', '2');
+insert into SURVEYS_X_RESPONSES values('1', '4');
+insert into SURVEYS_X_RESPONSES values('1', '5');
 
 //SURVEY RESPONSES ANSWERS
-insert into SURVEY_RESPONSES_ANSWERS values('1', '1');
-insert into SURVEY_RESPONSES_ANSWERS values('2', '2');
-insert into SURVEY_RESPONSES_ANSWERS values('3', '3');
-insert into SURVEY_RESPONSES_ANSWERS values('4', '2');
-insert into SURVEY_RESPONSES_ANSWERS values('5', '2');
+insert into SURVEY_RESPONSES_X_ANSWERS values('1', '1');
+insert into SURVEY_RESPONSES_X_ANSWERS values('2', '2');
+insert into SURVEY_RESPONSES_X_ANSWERS values('3', '3');
+insert into SURVEY_RESPONSES_X_ANSWERS values('4', '2');
+insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 
 //EVENTS SURVEYS
 insert into EVENTS_X_SURVEYS values('1', '1');
@@ -226,8 +226,8 @@ insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('4','2023-02-15 17:45:52.69','comment4','1','1');
 
 //EVENT COMMENTS ATTACHMENTS
-insert into EVENT_COMMENTS_ATTACHMENTS  values('1', '1');
-insert into EVENT_COMMENTS_ATTACHMENTS  values('1', '2');
+insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '1');
+insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '2');
 
 //REQUEST COMMENTS
 insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comment1','1','1');
@@ -244,21 +244,21 @@ insert into  users_x_events_responses  values('1','1','1');
 insert into  users_x_events_responses  values('2','2','2');
 
 //USERS JOINED GROUPS
---insert into  USERS_JOINED_GROUPS   values('1','1');
---insert into  USERS_JOINED_GROUPS   values('2','1');
---insert into  USERS_JOINED_GROUPS   values('3','2');
+--insert into  USERS_X_JOINED_GROUPS   values('1','1');
+--insert into  USERS_X_JOINED_GROUPS   values('2','1');
+--insert into  USERS_X_JOINED_GROUPS   values('3','2');
 
 //USERS NOTIFICATIONS
---insert into  USERS_NOTIFICATIONS    values('1','1');
---insert into  USERS_NOTIFICATIONS    values('2','2');
+--insert into  USERS_X_NOTIFICATIONS    values('1','1');
+--insert into  USERS_X_NOTIFICATIONS    values('2','2');
 --
 //USERS OWNED EVENTS
---insert into  USERS_OWNED_EVENTS     values('1','1');
---insert into  USERS_OWNED_EVENTS     values('2','2');
+--insert into  USERS_X_OWNED_EVENTS     values('1','1');
+--insert into  USERS_X_OWNED_EVENTS     values('2','2');
 --
 //USERS OWNED GROUPS
---insert into  USERS_OWNED_GROUPS      values('1','1');
---insert into  USERS_OWNED_GROUPS      values('2','2');
+insert into  USERS_X_OWNED_GROUPS      values('1','1');
+insert into  USERS_X_OWNED_GROUPS      values('2','2');
 
 //REQUESTS_CATEGORY
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('1', '1', 'taniec')
