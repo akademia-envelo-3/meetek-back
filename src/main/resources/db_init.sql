@@ -21,20 +21,20 @@ insert into SECTIONS values('2', 'second section', 'true', 'second section', '2'
 insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
 insert into SECTIONS values('4', 'fourth section', 'false', 'fourth section', '4');
 
-//SECTIONS EVENTS
+//SECTIONS_X_EVENTS
 insert into SECTIONS_X_EVENTS values('1', '1');
 insert into SECTIONS_X_EVENTS values('2', '2');
 insert into SECTIONS_X_EVENTS values('3', '3');
 
-//SECTION JOINED USERS
+//SECTIONS_X_JOINED_USERS
 insert into SECTIONS_X_JOINED_USERS values('1', '1');
 insert into SECTIONS_X_JOINED_USERS values('2', '2');
 insert into SECTIONS_X_JOINED_USERS values('3', '3');
 
 //EVENT_RESPONSES
-INSERT INTO event_responses VALUES (1 , 'Accepted');
-INSERT INTO event_responses VALUES (2 , 'Declined');
-INSERT INTO event_responses VALUES (3 , 'Undecided');
+INSERT INTO EVENT_RESPONSES VALUES (1 , 'Accepted');
+INSERT INTO EVENT_RESPONSES VALUES (2 , 'Declined');
+INSERT INTO EVENT_RESPONSES VALUES (3 , 'Undecided');
 
 //EVENTS
 insert into EVENTS values('1', '2023-03-12 18:47:52.69', '2023-03-12 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1');
@@ -45,17 +45,17 @@ insert into EVENTS values('5', '2022-09-10 14:47:52.69', '2022-09-10 16:47:52.69
 insert into EVENTS values('6', '2022-08-10 13:47:52.69', '2022-08-10 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
 insert into EVENTS values('7', '2022-07-10 12:47:52.69', '2022-07-10 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
 
-//events_x_users_responses
-INSERT INTO events_x_users_responses VALUES (1 ,1 ,1);
-INSERT INTO events_x_users_responses VALUES (1 ,3 ,2);
-INSERT INTO events_x_users_responses VALUES (2 ,3 ,1);
-INSERT INTO events_x_users_responses VALUES (2 ,2 ,2);
-INSERT INTO events_x_users_responses VALUES (3 ,3 ,1);
-INSERT INTO events_x_users_responses VALUES (3 ,2 ,2);
-INSERT INTO events_x_users_responses VALUES (4 ,3 ,1);
-INSERT INTO events_x_users_responses VALUES (4 ,1 ,2);
-INSERT INTO events_x_users_responses VALUES (5 ,1 ,1);
-INSERT INTO events_x_users_responses VALUES (5 ,2 ,2);
+//EVENTS_X_USERS_RESPONSES
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (1 ,1 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (1 ,3 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (2 ,3 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (2 ,2 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (3 ,3 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (3 ,2 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (4 ,3 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (4 ,1 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (5 ,1 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (5 ,2 ,2);
 
 //ADMINS
 insert into ADMINS values('1001','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','2');
@@ -79,7 +79,7 @@ insert into REQUEST_BOXES values('1');
 insert into REQUEST_BOXES values('2');
 insert into REQUEST_BOXES values('3');
 
-//REQUEST_BOXES_REQUESTS
+//REQUEST_BOXES_X_REQUESTS
 insert into REQUEST_BOXES_X_REQUESTS values('1','1');
 insert into REQUEST_BOXES_X_REQUESTS values('1','2');
 insert into REQUEST_BOXES_X_REQUESTS values('1','3');
@@ -109,7 +109,7 @@ insert into NOTIFICATION_CATEGORIES values('1','sport');
 insert into NOTIFICATION_CATEGORIES values('2','impreza');
 insert into NOTIFICATION_CATEGORIES values('3','modlitwa');
 
-//NOTIFICATIONS_TYPES
+//NOTIFICATIONS_X_TYPES
 insert into NOTIFICATIONS_X_TYPES values('1','1');
 insert into NOTIFICATIONS_X_TYPES values('2','2');
 insert into NOTIFICATIONS_X_TYPES values('3','3');
@@ -122,7 +122,7 @@ insert into NOTIFICATIONS_X_TYPES values('9','9');
 insert into NOTIFICATIONS_X_TYPES values('10','10');
 insert into NOTIFICATIONS_X_TYPES values('11','11');
 
-//EVENT_HASHTAGS
+//EVENTS_X_HASHTAGS
 insert into EVENTS_X_HASHTAGS values('1','1');
 insert into EVENTS_X_HASHTAGS values('4','2');
 
@@ -148,31 +148,31 @@ insert into GUESTS values('3','Krzysztof','Sauć','golemztopa@mail.pl');
 insert into GUESTS values('4','Jakub','Turewicz','hardstuckwd2@mail.com');
 insert into GUESTS values('5','Jakub','Cinkrof','toniezlylec@mail.com');
 
-//RECURRING EVENTs
+//RECURRING_EVENTS
 insert into RECURRING_EVENTS values('1','15','2');
 insert into RECURRING_EVENTS values('2','0','3');
 insert into RECURRING_EVENTS values('3','32','0');
 
-//RECURRING EVENTS EVENTS
+//RECURRING_EVENTS_X_EVENTS
 insert into RECURRING_EVENTS_X_EVENTS values('1','1');
 insert into RECURRING_EVENTS_X_EVENTS values('2','3');
 insert into RECURRING_EVENTS_X_EVENTS values('3','5');
 
-//SECTION RECURRING EVENTS
+//SECTIONS_X_RECURRING_EVENTS
 insert into SECTIONS_X_RECURRING_EVENTS values('1', '1');
 insert into SECTIONS_X_RECURRING_EVENTS values('2', '2');
 insert into SECTIONS_X_RECURRING_EVENTS values('3', '3');
 
-//EVENTs ATTACHMENTS
+//EVENTS_X_ATTACHMENTS
 insert into EVENTS_X_ATTACHMENTS values('1', '1');
 insert into EVENTS_X_ATTACHMENTS values('2', '2');
 
-//EVENTs INVITED USERS
+//EVENTS_X_INVITED_USERS
 insert into EVENTS_X_INVITED_USERS values('1', '1');
 insert into EVENTS_X_INVITED_USERS values('2', '2');
 insert into EVENTS_X_INVITED_USERS values('3', '3');
 
-//EVENTs JOINED GUESTS
+//EVENTS_X_JOINED_GUESTS
 insert into EVENTS_X_JOINED_GUESTS values('1', '1');
 insert into EVENTS_X_JOINED_GUESTS values('2', '2');
 insert into EVENTS_X_JOINED_GUESTS values('3', '3');
@@ -182,49 +182,49 @@ insert into SURVEYS values('1', '1','QUESTION1','1');
 insert into SURVEYS values('2', '2','QUESTION2','2');
 insert into SURVEYS values('3', '3','QUESTION3','3');
 
-//SURVEY CHOICES
+//SURVEY_CHOICES
 insert into SURVEY_CHOICES values('1', 'ANKIETA1');
 insert into SURVEY_CHOICES values('2', 'ANKIETA2');
 insert into SURVEY_CHOICES values('3', 'ANKIETA3');
 
-//SURVEYS CHOICES
+//SURVEYS_X_CHOICES
 insert into SURVEYS_X_CHOICES values('1', '1');
 insert into SURVEYS_X_CHOICES values('2', '2');
 insert into SURVEYS_X_CHOICES values('3', '3');
 insert into SURVEYS_X_CHOICES values('1', '2');
 insert into SURVEYS_X_CHOICES values('1', '3');
 
-//SURVEY RESPONSES
+//SURVEY_RESPONSES
 insert into SURVEY_RESPONSES values('1', '1');
 insert into SURVEY_RESPONSES values('2', '2');
 insert into SURVEY_RESPONSES values('3', '3');
 insert into SURVEY_RESPONSES values('4', '2');
 insert into SURVEY_RESPONSES values('5', '3');
 
-//SURVEYS RESPONSES
+//SURVEYS_X_RESPONSES
 insert into SURVEYS_X_RESPONSES values('1', '1');
 insert into SURVEYS_X_RESPONSES values('2', '2');
 insert into SURVEYS_X_RESPONSES values('1', '4');
 insert into SURVEYS_X_RESPONSES values('1', '5');
 
-//SURVEY RESPONSES ANSWERS
+//SURVEY_RESPONSES_X_ANSWERS
 insert into SURVEY_RESPONSES_X_ANSWERS values('1', '1');
 insert into SURVEY_RESPONSES_X_ANSWERS values('2', '2');
 insert into SURVEY_RESPONSES_X_ANSWERS values('3', '3');
 insert into SURVEY_RESPONSES_X_ANSWERS values('4', '2');
 insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 
-//EVENT COMMENTS
+//EVENT_COMMENTS
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
 insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
 insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID) values('4','2023-02-15 17:45:52.69','comment4','1');
 
-//EVENT COMMENTS ATTACHMENTS
-insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '1');
-insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '2');
+//EVENT_COMMENTS_X_ATTACHMENTS
+insert into EVENT_COMMENTS_X_ATTACHMENTS values('1', '1');
+insert into EVENT_COMMENTS_X_ATTACHMENTS values('1', '2');
 
-//REQUEST COMMENTS
+//REQUEST_COMMENTS
 insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comment1','1');
 insert into  REQUEST_COMMENTS values('2', '2023-01-02 17:45:52.69','request comment2','2');
 insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comment3','3');
