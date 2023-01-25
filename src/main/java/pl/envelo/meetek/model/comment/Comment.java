@@ -21,6 +21,7 @@ public abstract class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long commentId;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private AppUser commentOwner;

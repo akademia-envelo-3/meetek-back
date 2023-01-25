@@ -19,6 +19,7 @@ import java.util.Objects;
 public class CategoryRequest extends Request {
 
     private String name;
+
     @OneToOne
     @JoinColumn(name = "comment_id")
     private RequestComment comment;

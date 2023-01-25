@@ -24,16 +24,19 @@ public abstract class Notification {
     private Long notificationId;
     private boolean isDisplayed;
     private boolean isImportant;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private NotificationCategory category;
+
     @ManyToMany
     @JoinTable(name = "notifications_x_types",
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
     private Set<NotificationType> notificationTypes;
+
     @ManyToOne
-    @JoinColumn( name = "recipient_id")
+    @JoinColumn(name = "recipient_id")
     private AppUser recipient;
     private LocalDateTime addingDateTime;
 

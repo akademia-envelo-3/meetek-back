@@ -20,6 +20,7 @@ public class RecurringEventSet {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventSetId;
+
     @OneToMany
     @JoinTable(name = "recurring_events_x_events",
             joinColumns = @JoinColumn(name = "event_set_id"),

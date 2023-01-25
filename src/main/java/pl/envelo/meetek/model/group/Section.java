@@ -8,7 +8,6 @@ import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.RecurringEventSet;
 import pl.envelo.meetek.model.user.AppUser;
 
-import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -23,11 +22,13 @@ public class Section extends Group {
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<AppUser> joinedUsers;
+
     @OneToMany
     @JoinTable(name = "sections_x_events",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
+
     @OneToMany
     @JoinTable(name = "sections_x_recurring_events",
             joinColumns = @JoinColumn(name = "section_id"),

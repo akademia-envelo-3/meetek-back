@@ -22,9 +22,11 @@ public class EventComment extends Comment {
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
+
     @ManyToOne
     @JoinColumn(name = "replied_comment_id")
     private EventComment replyToComment;
+
     @OneToMany
     @JoinTable(name = "event_comments_x_attachments",
             joinColumns = @JoinColumn(name = "comment_id"),

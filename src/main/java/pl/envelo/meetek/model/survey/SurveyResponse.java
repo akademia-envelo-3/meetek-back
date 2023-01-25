@@ -27,7 +27,7 @@ public class SurveyResponse {
             joinColumns = @JoinColumn(name = "response_id"),
             inverseJoinColumns = @JoinColumn(name = "answer_id"))
     private Set<SurveyChoice> answers;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;

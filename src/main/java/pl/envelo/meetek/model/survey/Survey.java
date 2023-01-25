@@ -21,7 +21,6 @@ public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long surveyId;
-
     private String question;
 
     @ManyToMany
@@ -29,7 +28,6 @@ public class Survey {
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "choice_id"))
     private Set<SurveyChoice> choices;
-
     private int maxChoicesNumber;
 
     @ManyToOne

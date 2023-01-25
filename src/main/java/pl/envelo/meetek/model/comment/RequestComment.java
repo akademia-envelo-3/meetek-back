@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "request_comments")
 public class RequestComment extends Comment {
-
 
     @Override
     public String toString() {

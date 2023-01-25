@@ -21,6 +21,7 @@ public class Hashtag {
     private Long hashtagId;
     private String name;
     private boolean isActive;
+
     @Column(name = "usage_count")
     private int countOfHashtagUsage;
 

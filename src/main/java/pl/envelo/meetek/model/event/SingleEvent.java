@@ -28,29 +28,34 @@ import java.util.Set;
 @Entity
 @Table(name = "events")
 public class SingleEvent extends Event {
-    
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
     @ManyToMany
     @JoinTable(name = "events_x_invited_users",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<StandardUser> invitedUsers;
+
     @ManyToMany
     @JoinTable(name = "events_x_users_responses",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "response_id"))
     @MapKeyJoinColumn(name = "user_id")
     private Map<StandardUser, EventResponse> participants;
+
     @OneToMany
     @JoinTable(name = "events_x_joined_guests",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "guest_id"))
     private Set<Guest> joinedGuests;
+
     @OneToMany(mappedBy = "event")
     private Set<EventComment> comments;
     private String locationName;
+
     @ManyToOne
     @JoinColumn(name = "coordinate_id")
     private Coordinates coordinates;
@@ -59,11 +64,13 @@ public class SingleEvent extends Event {
     private boolean isPrivate;
     private boolean isResponseRequired;
     private int participantsLimit;
+
     @OneToMany
     @JoinTable(name = "events_x_attachments",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
     private Set<Attachment> attachments;
+
     @OneToMany(mappedBy = "event")
     private Set<Survey> surveys;
 

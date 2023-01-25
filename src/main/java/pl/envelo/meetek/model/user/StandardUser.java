@@ -21,14 +21,17 @@ public class StandardUser extends AppUser {
 
     @OneToMany(mappedBy = "owner")
     private Set<Event> ownedEvents;
+
     @ManyToMany
     @JoinTable(name = "users_x_events_responses",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "response_id"))
     @MapKeyJoinColumn(name = "event_id")
     private Map<Event, EventResponse> eventsWithResponse;
+
     @OneToMany(mappedBy = "groupOwner")
     private Set<Group> ownedGroups;
+
     @ManyToMany
     @JoinTable(name = "sections_x_joined_users",
             joinColumns = @JoinColumn(name = "user_id"),
