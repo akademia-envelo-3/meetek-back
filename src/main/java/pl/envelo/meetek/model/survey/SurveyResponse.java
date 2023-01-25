@@ -21,11 +21,13 @@ public class SurveyResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long responseId;
+
     @ManyToMany
-    @JoinTable(name = "survey_responses_answers",
+    @JoinTable(name = "survey_responses_x_answers",
             joinColumns = @JoinColumn(name = "response_id"),
             inverseJoinColumns = @JoinColumn(name = "answer_id"))
     private Set<SurveyChoice> answers;
+    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
@@ -44,11 +46,11 @@ public class SurveyResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SurveyResponse that = (SurveyResponse) o;
-        return Objects.equals(responseId, that.responseId) && Objects.equals(answers, that.answers) && Objects.equals(user, that.user);
+        return Objects.equals(responseId, that.responseId) && Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(responseId, answers, user);
+        return Objects.hash(responseId, user);
     }
 }

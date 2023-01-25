@@ -36,11 +36,11 @@ public class GroupNotification extends Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupNotification that = (GroupNotification) o;
-        return Objects.equals(group, that.group);
+        return Objects.equals(group, that.group) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(group);
+        return super.hashCode();
     }
 }

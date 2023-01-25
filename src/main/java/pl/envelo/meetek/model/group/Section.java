@@ -19,14 +19,17 @@ import java.util.Set;
 public class Section extends Group {
 
     @ManyToMany
-    @JoinTable(name = "section_joined_users",
+    @JoinTable(name = "sections_x_joined_users",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<AppUser> joinedUsers;
     @OneToMany
+    @JoinTable(name = "sections_x_events",
+            joinColumns = @JoinColumn(name = "section_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
     @OneToMany
-    @JoinTable(name = "section_recurring_events",
+    @JoinTable(name = "sections_x_recurring_events",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "recurring_event_id"))
     private Set<RecurringEventSet> recurringEvents;
@@ -54,15 +57,11 @@ public class Section extends Group {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Section section = (Section) o;
-        return Objects.equals(joinedUsers, section.joinedUsers) && Objects.equals(events, section.events) && Objects.equals(recurringEvents, section.recurringEvents) && Objects.equals(sectionOwner, section.sectionOwner);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), joinedUsers, events, recurringEvents, sectionOwner);
+        return super.hashCode();
     }
 }

@@ -36,11 +36,11 @@ public class EventNotification extends Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventNotification that = (EventNotification) o;
-        return Objects.equals(event, that.event);
+        return Objects.equals(event, that.event) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(event);
+        return super.hashCode();
     }
 }

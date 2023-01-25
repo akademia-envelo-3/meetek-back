@@ -42,11 +42,11 @@ public class CategoryRequest extends Request {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         CategoryRequest that = (CategoryRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(comment, that.comment) && Objects.equals(category, that.category);
+        return Objects.equals(name, that.name) && Objects.equals(comment, that.comment) && Objects.equals(category, that.category) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, comment, category);
+        return super.hashCode();
     }
 }

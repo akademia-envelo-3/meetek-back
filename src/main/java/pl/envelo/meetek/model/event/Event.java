@@ -24,8 +24,12 @@ public abstract class Event {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventId;
     @ManyToMany
+    @JoinTable(name = "events_x_hashtags",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<Hashtag> hashtags;
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private AppUser owner;
     private String name;
     private String link;

@@ -14,6 +14,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "Groups")
 public abstract class Group {
 
     @Id

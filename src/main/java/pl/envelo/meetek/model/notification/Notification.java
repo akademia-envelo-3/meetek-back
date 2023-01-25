@@ -28,10 +28,12 @@ public abstract class Notification {
     @JoinColumn(name = "category_id")
     private NotificationCategory category;
     @OneToMany
-    @JoinTable(name = "notifications_types")
+    @JoinTable(name = "notifications_x_types",
+            joinColumns = @JoinColumn(name = "notification_id"),
+            inverseJoinColumns = @JoinColumn(name = "type_id"))
     private Set<NotificationType> notificationTypes;
     @ManyToOne
-    @JoinColumn(name = "recipient_id")
+    @JoinColumn( name = "recipient_id")
     private AppUser recipient;
     private LocalDateTime addingDateTime;
 
@@ -53,11 +55,11 @@ public abstract class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return isDisplayed == that.isDisplayed && isImportant == that.isImportant && Objects.equals(notificationId, that.notificationId) && Objects.equals(category, that.category) && Objects.equals(notificationTypes, that.notificationTypes) && Objects.equals(recipient, that.recipient) && Objects.equals(addingDateTime, that.addingDateTime);
+        return isDisplayed == that.isDisplayed && isImportant == that.isImportant && Objects.equals(notificationId, that.notificationId) && Objects.equals(category, that.category) && Objects.equals(addingDateTime, that.addingDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notificationId, isDisplayed, isImportant, category, notificationTypes, recipient, addingDateTime);
+        return Objects.hash(notificationId, isDisplayed, isImportant, category, addingDateTime);
     }
 }

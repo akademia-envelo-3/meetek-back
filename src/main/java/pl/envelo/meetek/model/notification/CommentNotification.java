@@ -33,11 +33,12 @@ public class CommentNotification extends Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommentNotification that = (CommentNotification) o;
-        return Objects.equals(comment, that.comment);
+        return Objects.equals(comment, that.comment) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(comment);
+        return super.hashCode();
     }
+
 }

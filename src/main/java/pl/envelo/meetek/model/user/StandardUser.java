@@ -19,10 +19,10 @@ import java.util.Set;
 @Table(name = "standard_users")
 public class StandardUser extends AppUser {
 
-    @OneToMany
-    @JoinTable(name = "users_x_owned_events",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @OneToMany(mappedBy = "owner")
+//    @JoinTable(name = "users_x_owned_events",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> ownedEvents;
     @ManyToMany
     @JoinTable(name = "users_x_events_responses",
@@ -31,10 +31,20 @@ public class StandardUser extends AppUser {
     @MapKeyJoinColumn(name = "event_id")
     private Map<Event, EventResponse> eventsWithResponse;
     @OneToMany
+    @JoinTable(name = "users_x_owned_groups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<Group> ownedGroups;
     @ManyToMany
+    @JoinTable(name = "sections_x_joined_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id"))
     private Set<Group> joinedGroups;
-    @OneToMany
+
+    @OneToMany(mappedBy = "recipient")
+//    @JoinTable(name = "users_x_notifications",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private Set<Notification> notifications;
 
     public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {

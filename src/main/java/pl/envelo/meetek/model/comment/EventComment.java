@@ -26,7 +26,7 @@ public class EventComment extends Comment {
     @JoinColumn(name = "replied_comment_id")
     private EventComment replyToComment;
     @OneToMany
-    @JoinTable(name = "event_comments_attachments",
+    @JoinTable(name = "event_comments_x_attachments",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
     private Set<Attachment> attachments;
@@ -46,11 +46,11 @@ public class EventComment extends Comment {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         EventComment that = (EventComment) o;
-        return Objects.equals(event, that.event) && Objects.equals(replyToComment, that.replyToComment) && Objects.equals(attachments, that.attachments);
+        return Objects.equals(event, that.event) && Objects.equals(replyToComment, that.replyToComment) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), event, replyToComment, attachments);
+        return super.hashCode();
     }
 }

@@ -30,7 +30,6 @@ import java.util.Set;
 public class SingleEvent extends Event {
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
     private Group group;
     @ManyToOne
     @JoinColumn(name = "category_id")

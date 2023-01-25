@@ -37,11 +37,11 @@ public class RequestComment extends Comment {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         RequestComment that = (RequestComment) o;
-        return Objects.equals(request, that.request);
+        return Objects.equals(request, that.request) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), request);
+        return super.hashCode();
     }
 }

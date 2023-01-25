@@ -38,16 +38,12 @@ public abstract class AppUser extends Participant {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        AppUser appUser = (AppUser) o;
-        return Objects.equals(password, appUser.password) && role == appUser.role;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), password, role);
+        return super.hashCode();
     }
 
 }
