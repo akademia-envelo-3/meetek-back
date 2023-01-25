@@ -1,11 +1,10 @@
 
-//USER
-insert into STANDARD_USER values('1', 'Jan', 'Kowalski', 'jan.kowalski@mail.com', '#$fvxy8&df$%dfg24$#%', '1');
-insert into STANDARD_USER values('2', 'Anna', 'Kowalska', 'anna.kowalska@mail.com', '34534#$#%df$%dfg24$#%', '1');
-insert into STANDARD_USER values('3', 'Stanisław', 'Nowak', 'stan.kowal@mail.com', '#$fvxy8&854dfg24$#%', '1');
-insert into STANDARD_USER values('4', 'Władysław', 'Kowal', 'wladyslaw.k@mail.com', '#$fvxy345345$%dfg24$#%', '1');
-insert into STANDARD_USER values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail.com', '#U12376545$%dhf54$#%', '1');
-
+//STANDARD_USERS
+insert into STANDARD_USERS values('1', 'Jan', 'Kowalski', 'jan.kowalski@mail.com', '#$fvxy8&df$%dfg24$#%', '1');
+insert into STANDARD_USERS values('2', 'Anna', 'Kowalska', 'anna.kowalska@mail.com', '34534#$#%df$%dfg24$#%', '1');
+insert into STANDARD_USERS values('3', 'Stanisław', 'Nowak', 'stan.kowal@mail.com', '#$fvxy8&854dfg24$#%', '1');
+insert into STANDARD_USERS values('4', 'Władysław', 'Kowal', 'wladyslaw.k@mail.com', '#$fvxy345345$%dfg24$#%', '1');
+insert into STANDARD_USERS values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail.com', '#U12376545$%dhf54$#%', '1');
 
 //CATEGORIES
 insert into CATEGORIES values('1', 'true', 'sport');
@@ -32,35 +31,35 @@ insert into SECTION_JOINED_USERS values('1', '1');
 insert into SECTION_JOINED_USERS values('2', '2');
 insert into SECTION_JOINED_USERS values('3', '3');
 
-//EVENT_RESPONSE
-INSERT INTO  event_response VALUES (1 , 'Accepted');
-INSERT INTO  event_response VALUES (2 , 'Declined');
-INSERT INTO  event_response VALUES (3 , 'Undecided');
+//EVENT_RESPONSES
+INSERT INTO event_responses VALUES (1 , 'Accepted');
+INSERT INTO event_responses VALUES (2 , 'Declined');
+INSERT INTO event_responses VALUES (3 , 'Undecided');
 
-//SINGLE EVENT
-insert into SINGLE_EVENT values('1', '2023-03-12 18:47:52.69', '2023-03-12 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1', '1');
-insert into SINGLE_EVENT values('2', '2023-02-12 17:47:52.69', '2023-02-12 19:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1', '1');
-insert into SINGLE_EVENT values('3', '2023-09-12 16:47:52.69', '2023-09-12 18:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1', '1');
-insert into SINGLE_EVENT values('4', '2023-01-12 15:47:52.69', '2023-01-12 17:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1', '1');
-insert into SINGLE_EVENT values('5', '2022-09-10 14:47:52.69', '2022-09-10 16:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1', '1');
-insert into SINGLE_EVENT values('6', '2022-08-10 13:47:52.69', '2022-08-10 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
-insert into SINGLE_EVENT values('7', '2022-07-10 12:47:52.69', '2022-07-10 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
+//EVENTS
+insert into EVENTS values('1', '2023-03-12 18:47:52.69', '2023-03-12 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1', '1');
+insert into EVENTS values('2', '2023-02-12 17:47:52.69', '2023-02-12 19:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1', '1');
+insert into EVENTS values('3', '2023-09-12 16:47:52.69', '2023-09-12 18:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1', '1');
+insert into EVENTS values('4', '2023-01-12 15:47:52.69', '2023-01-12 17:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1', '1');
+insert into EVENTS values('5', '2022-09-10 14:47:52.69', '2022-09-10 16:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1', '1');
+insert into EVENTS values('6', '2022-08-10 13:47:52.69', '2022-08-10 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
+insert into EVENTS values('7', '2022-07-10 12:47:52.69', '2022-07-10 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1', '1');
 
-//SINGLE EVENT PARTICIPANTS
-INSERT INTO  single_event_participants VALUES (1 ,1 ,1);
-INSERT INTO  single_event_participants VALUES (1 ,3 ,2);
-INSERT INTO  single_event_participants VALUES (2 ,3 ,1);
-INSERT INTO  single_event_participants VALUES (2 ,2 ,2);
-INSERT INTO  single_event_participants VALUES (3 ,3 ,1);
-INSERT INTO  single_event_participants VALUES (3 ,2 ,2);
-INSERT INTO  single_event_participants VALUES (4 ,3 ,1);
-INSERT INTO  single_event_participants VALUES (4 ,1 ,2);
-INSERT INTO  single_event_participants VALUES (5 ,1 ,1);
-INSERT INTO  single_event_participants VALUES (5 ,2 ,2);
+//events_x_users_responses
+INSERT INTO events_x_users_responses VALUES (1 ,1 ,1);
+INSERT INTO events_x_users_responses VALUES (1 ,3 ,2);
+INSERT INTO events_x_users_responses VALUES (2 ,3 ,1);
+INSERT INTO events_x_users_responses VALUES (2 ,2 ,2);
+INSERT INTO events_x_users_responses VALUES (3 ,3 ,1);
+INSERT INTO events_x_users_responses VALUES (3 ,2 ,2);
+INSERT INTO events_x_users_responses VALUES (4 ,3 ,1);
+INSERT INTO events_x_users_responses VALUES (4 ,1 ,2);
+INSERT INTO events_x_users_responses VALUES (5 ,1 ,1);
+INSERT INTO events_x_users_responses VALUES (5 ,2 ,2);
 
-//ADMIN
-insert into ADMIN values('1001','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','2');
-insert into ADMIN values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
+//ADMINS
+insert into ADMINS values('1001','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','2');
+insert into ADMINS values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','2');
 
 //HASHTAGS
 insert into HASHTAGS values('2','71','false','Nudy');
@@ -142,41 +141,41 @@ insert into NOTIFICATIONS_GROUP values('1','2023-07-11 20:45:52.69','true','true
 insert into NOTIFICATIONS_GROUP values('2','2023-07-11 20:45:52.69','true','false','2','3','2');
 insert into NOTIFICATIONS_GROUP values('3','2023-07-11 20:45:52.69','false','false','3','4','3');
 
-//GUEST
-insert into GUEST values('1','Norbert','Gierczak','distork@mail.pl');
-insert into GUEST values('2','Marcin','Majkut','xayoo777@mail.com');
-insert into GUEST values('3','Krzysztof','Sauć','golemztopa@mail.pl');
-insert into GUEST values('4','Jakub','Turewicz','hardstuckwd2@mail.com');
-insert into GUEST values('5','Jakub','Cinkrof','toniezlylec@mail.com');
+//GUESTS
+insert into GUESTS values('1','Norbert','Gierczak','distork@mail.pl');
+insert into GUESTS values('2','Marcin','Majkut','xayoo777@mail.com');
+insert into GUESTS values('3','Krzysztof','Sauć','golemztopa@mail.pl');
+insert into GUESTS values('4','Jakub','Turewicz','hardstuckwd2@mail.com');
+insert into GUESTS values('5','Jakub','Cinkrof','toniezlylec@mail.com');
 
-//RECURRING EVENT SET
-insert into RECURRING_EVENT_SET values('1','15','2');
-insert into RECURRING_EVENT_SET values('2','0','3');
-insert into RECURRING_EVENT_SET values('3','32','0');
+//RECURRING EVENTs
+insert into RECURRING_EVENTS values('1','15','2');
+insert into RECURRING_EVENTS values('2','0','3');
+insert into RECURRING_EVENTS values('3','32','0');
 
-//RECURRING EVENT SET EVENTS
-insert into RECURRING_EVENT_SET_EVENTS values('1','1');
-insert into RECURRING_EVENT_SET_EVENTS values('2','3');
-insert into RECURRING_EVENT_SET_EVENTS values('3','5');
+//RECURRING EVENTS EVENTS
+insert into RECURRING_EVENTS_X_EVENTS values('1','1');
+insert into RECURRING_EVENTS_X_EVENTS values('2','3');
+insert into RECURRING_EVENTS_X_EVENTS values('3','5');
 
 //SECTION RECURRING EVENTS
 insert into SECTION_RECURRING_EVENTS values('1', '1');
 insert into SECTION_RECURRING_EVENTS values('2', '2');
 insert into SECTION_RECURRING_EVENTS values('3', '3');
 
-//SINGLE EVENT ATTACHMENTS
-insert into SINGLE_EVENT_ATTACHMENTS values('1', '1');
-insert into SINGLE_EVENT_ATTACHMENTS values('2', '2');
+//EVENTs ATTACHMENTS
+insert into EVENTS_X_ATTACHMENTS values('1', '1');
+insert into EVENTS_X_ATTACHMENTS values('2', '2');
 
-//SINGLE EVENT INVITED USERS
-insert into SINGLE_EVENT_INVITED_USERS values('1', '1');
-insert into SINGLE_EVENT_INVITED_USERS values('2', '2');
-insert into SINGLE_EVENT_INVITED_USERS values('3', '3');
+//EVENTs INVITED USERS
+insert into EVENTS_X_INVITED_USERS values('1', '1');
+insert into EVENTS_X_INVITED_USERS values('2', '2');
+insert into EVENTS_X_INVITED_USERS values('3', '3');
 
-//SINGLE EVENT JOINED GUESTS
-insert into SINGLE_EVENT_JOINED_GUESTS values('1', '1');
-insert into SINGLE_EVENT_JOINED_GUESTS values('2', '2');
-insert into SINGLE_EVENT_JOINED_GUESTS values('3', '3');
+//EVENTs JOINED GUESTS
+insert into EVENTS_X_JOINED_GUESTS values('1', '1');
+insert into EVENTS_X_JOINED_GUESTS values('2', '2');
+insert into EVENTS_X_JOINED_GUESTS values('3', '3');
 
 //SURVEYS
 insert into SURVEYS values('1', '1','QUESTION1','1');
@@ -215,10 +214,10 @@ insert into SURVEY_RESPONSES_ANSWERS values('3', '3');
 insert into SURVEY_RESPONSES_ANSWERS values('4', '2');
 insert into SURVEY_RESPONSES_ANSWERS values('5', '2');
 
-//SINGLE EVENT SURVEYS
-insert into SINGLE_EVENT_SURVEYS values('1', '1');
-insert into SINGLE_EVENT_SURVEYS values('2', '2');
-insert into SINGLE_EVENT_SURVEYS values('3', '3');
+//EVENTS SURVEYS
+insert into EVENTS_X_SURVEYS values('1', '1');
+insert into EVENTS_X_SURVEYS values('2', '2');
+insert into EVENTS_X_SURVEYS values('3', '3');
 
 //EVENT COMMENTS
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
@@ -239,27 +238,27 @@ insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comm
 --insert into  SINGLE_EVENT_COMMENTS values('1','1');
 --insert into  SINGLE_EVENT_COMMENTS values('2','2');
 
-//STANDARD USER EVENTS WITH RESPONSE
+//users_x_events_responses
 //BUG/BUG/BUG
---insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('1','1','1');
---insert into  STANDARD_USER_EVENTS_WITH_RESPONSE  values('2','2','2');
+insert into  users_x_events_responses  values('1','1','1');
+insert into  users_x_events_responses  values('2','2','2');
 
-//STANDARD USER JOINED GROUPS
---insert into  STANDARD_USER_JOINED_GROUPS   values('1','1');
---insert into  STANDARD_USER_JOINED_GROUPS   values('2','1');
---insert into  STANDARD_USER_JOINED_GROUPS   values('3','2');
+//USERS JOINED GROUPS
+--insert into  USERS_JOINED_GROUPS   values('1','1');
+--insert into  USERS_JOINED_GROUPS   values('2','1');
+--insert into  USERS_JOINED_GROUPS   values('3','2');
 
-//STANDARD USER NOTIFICATIONS
---insert into  STANDARD_USER_NOTIFICATIONS    values('1','1');
---insert into  STANDARD_USER_NOTIFICATIONS    values('2','2');
+//USERS NOTIFICATIONS
+--insert into  USERS_NOTIFICATIONS    values('1','1');
+--insert into  USERS_NOTIFICATIONS    values('2','2');
 --
-//STANDARD USER OWNED EVENTS
---insert into  STANDARD_USER_OWNED_EVENTS     values('1','1');
---insert into  STANDARD_USER_OWNED_EVENTS     values('2','2');
+//USERS OWNED EVENTS
+--insert into  USERS_OWNED_EVENTS     values('1','1');
+--insert into  USERS_OWNED_EVENTS     values('2','2');
 --
-//STANDARD USER OWNED GROUPS
---insert into  STANDARD_USER_OWNED_GROUPS      values('1','1');
---insert into  STANDARD_USER_OWNED_GROUPS      values('2','2');
+//USERS OWNED GROUPS
+--insert into  USERS_OWNED_GROUPS      values('1','1');
+--insert into  USERS_OWNED_GROUPS      values('2','2');
 
 //REQUESTS_CATEGORY
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('1', '1', 'taniec')
