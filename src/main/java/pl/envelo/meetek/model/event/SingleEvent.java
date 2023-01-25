@@ -28,9 +28,7 @@ import java.util.Set;
 @Entity
 @Table(name = "events")
 public class SingleEvent extends Event {
-
-    @ManyToOne
-    private Group group;
+    
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -74,7 +72,6 @@ public class SingleEvent extends Event {
 
     public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, Set<Attachment> attachments) {
         super(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
-        this.group = group;
         this.category = category;
         this.comments = comments;
         this.locationName = locationName;
@@ -90,7 +87,6 @@ public class SingleEvent extends Event {
     @Override
     public String toString() {
         return super.toString() + " SingleEvent{" +
-                "group=" + group +
                 ", category=" + category +
                 ", invitedUsers=" + invitedUsers +
                 ", participants=" + participants +
@@ -114,7 +110,7 @@ public class SingleEvent extends Event {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SingleEvent that = (SingleEvent) o;
-        return (isOnline == that.isOnline && isExternal == that.isExternal && isPrivate == that.isPrivate && isResponseRequired == that.isResponseRequired && participantsLimit == that.participantsLimit && Objects.equals(group, that.group) && Objects.equals(category, that.category) && Objects.equals(locationName, that.locationName) && Objects.equals(coordinates, that.coordinates) && super.equals(o));
+        return (isOnline == that.isOnline && isExternal == that.isExternal && isPrivate == that.isPrivate && isResponseRequired == that.isResponseRequired && participantsLimit == that.participantsLimit && Objects.equals(category, that.category) && Objects.equals(locationName, that.locationName) && Objects.equals(coordinates, that.coordinates) && super.equals(o));
     }
 
     @Override
