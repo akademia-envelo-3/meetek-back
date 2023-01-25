@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.user.AppUser;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Event {
@@ -50,11 +52,11 @@ public abstract class Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(eventId, event.eventId) && Objects.equals(hashtags, event.hashtags) && Objects.equals(owner, event.owner) && Objects.equals(name, event.name) && Objects.equals(link, event.link) && Objects.equals(description, event.description) && Objects.equals(dateTimeFrom, event.dateTimeFrom) && Objects.equals(dateTimeTo, event.dateTimeTo);
+        return Objects.equals(eventId, event.eventId) && Objects.equals(owner, event.owner) && Objects.equals(name, event.name) && Objects.equals(link, event.link) && Objects.equals(description, event.description) && Objects.equals(dateTimeFrom, event.dateTimeFrom) && Objects.equals(dateTimeTo, event.dateTimeTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
+        return Objects.hash(eventId, owner, name, link, description, dateTimeFrom, dateTimeTo);
     }
 }

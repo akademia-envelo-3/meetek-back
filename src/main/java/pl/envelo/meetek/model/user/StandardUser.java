@@ -3,23 +3,32 @@ package pl.envelo.meetek.model.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.EventResponse;
 import pl.envelo.meetek.model.group.Group;
 import pl.envelo.meetek.model.notification.Notification;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "standard_users")
 public class StandardUser extends AppUser {
 
     @OneToMany
+    @JoinTable(name = "users_x_owned_events",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> ownedEvents;
     @ManyToMany
+    @JoinTable(name = "users_x_events_responses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "response_id"))
+    @MapKeyJoinColumn(name = "event_id")
     private Map<Event, EventResponse> eventsWithResponse;
     @OneToMany
     private Set<Group> ownedGroups;
@@ -50,14 +59,12 @@ public class StandardUser extends AppUser {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StandardUser that = (StandardUser) o;
-        return Objects.equals(ownedEvents, that.ownedEvents) && Objects.equals(eventsWithResponse, that.eventsWithResponse) && Objects.equals(ownedGroups, that.ownedGroups) && Objects.equals(joinedGroups, that.joinedGroups) && Objects.equals(notifications, that.notifications);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ownedEvents, eventsWithResponse, ownedGroups, joinedGroups, notifications);
+        return super.hashCode();
     }
+
 }

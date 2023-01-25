@@ -1,12 +1,16 @@
 package pl.envelo.meetek.model.user;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "admins")
 public class Admin extends AppUser {
 
     public Admin(String password) {

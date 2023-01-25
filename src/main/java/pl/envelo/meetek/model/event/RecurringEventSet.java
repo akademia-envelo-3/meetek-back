@@ -14,12 +14,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "recurring_events")
 public class RecurringEventSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventSetId;
     @OneToMany
+    @JoinTable(name = "recurring_events_x_events",
+            joinColumns = @JoinColumn(name = "event_set_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
     private int eventFrequency;
     private int recursiveCount;
@@ -39,11 +43,11 @@ public class RecurringEventSet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecurringEventSet that = (RecurringEventSet) o;
-        return eventFrequency == that.eventFrequency && recursiveCount == that.recursiveCount && Objects.equals(eventSetId, that.eventSetId) && Objects.equals(events, that.events);
+        return eventFrequency == that.eventFrequency && recursiveCount == that.recursiveCount && Objects.equals(eventSetId, that.eventSetId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventSetId, events, eventFrequency, recursiveCount);
+        return Objects.hash(eventSetId, eventFrequency, recursiveCount);
     }
 }

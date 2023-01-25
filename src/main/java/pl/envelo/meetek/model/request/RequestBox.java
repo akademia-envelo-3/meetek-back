@@ -20,7 +20,7 @@ public class RequestBox {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestBoxId;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "request_boxes_requests",
             joinColumns = @JoinColumn(name = "request_box_id"),
             inverseJoinColumns = @JoinColumn(name = "request_id"))

@@ -44,7 +44,7 @@ public class SingleEventLongDto {
     private boolean isOnline;
     private boolean isExternal;
     private boolean isPrivate;
-    private boolean eventResponseRequired;
+    private boolean isResponseRequired;
     private int participantsLimit;
     private Set<AttachmentDto> attachments;
     private Set<SurveyDto> surveys;
