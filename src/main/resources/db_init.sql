@@ -229,31 +229,9 @@ insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comm
 insert into  REQUEST_COMMENTS values('2', '2023-01-02 17:45:52.69','request comment2','2');
 insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comment3','3');
 
-//SINGLE EVENT COMMENTS
---insert into  SINGLE_EVENT_COMMENTS values('1','1');
---insert into  SINGLE_EVENT_COMMENTS values('2','2');
-
-//users_x_events_responses
-//BUG/BUG/BUG
-insert into  users_x_events_responses  values('1','1','1');
-insert into  users_x_events_responses  values('2','2','2');
-
-//USERS JOINED GROUPS
---insert into  USERS_X_JOINED_GROUPS   values('1','1');
---insert into  USERS_X_JOINED_GROUPS   values('2','1');
---insert into  USERS_X_JOINED_GROUPS   values('3','2');
-
-//USERS NOTIFICATIONS
---insert into  USERS_X_NOTIFICATIONS    values('1','1');
---insert into  USERS_X_NOTIFICATIONS    values('2','2');
---
-//USERS OWNED EVENTS
---insert into  USERS_X_OWNED_EVENTS     values('1','1');
---insert into  USERS_X_OWNED_EVENTS     values('2','2');
---
-//USERS OWNED GROUPS
---insert into  USERS_X_OWNED_GROUPS      values('1','1');
---insert into  USERS_X_OWNED_GROUPS      values('2','2');
+//USERS_X_EVENTS_RESPONSES
+insert into USERS_X_EVENTS_RESPONSES  values('1','1','1');
+insert into USERS_X_EVENTS_RESPONSES  values('2','2','2');
 
 //REQUESTS_CATEGORY
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('1', '1', 'taniec', '1')
