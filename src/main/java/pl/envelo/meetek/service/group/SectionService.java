@@ -26,7 +26,7 @@ public class SectionService {
 
     @Transactional(readOnly = true)
     public List<Section> getOwnedSectionsByUserId(long userId) {
-        return sectionRepo.findAllOwnedBySectionOwnerParticipantId(userId);
+        return sectionRepo.findAllOwnedSections(userId);
     }
 
     @Transactional(readOnly = true)
@@ -39,9 +39,9 @@ public class SectionService {
         section.setName(sectionDto.getName());
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
-        if (sectionDto.getSectionOwner().getParticipantId() != sectionDto.getSectionOwner().getParticipantId()) {
-            if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
-                section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
+        if (sectionDto.getGroupOwner().getParticipantId() != sectionDto.getGroupOwner().getParticipantId()) {
+            if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
+                section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
             }
         }
         return sectionRepo.save(section);
@@ -59,8 +59,8 @@ public class SectionService {
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
         section.setDescription(sectionDto.getDescription());
-        if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
-            section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
+        if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
+            section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
         } else {
             return Optional.empty();
         }

@@ -64,10 +64,7 @@ public class SingleEvent extends Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
     private Set<Attachment> attachments;
-    @OneToMany
-    @JoinTable(name = "events_x_surveys",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "survey_id"))
+    @OneToMany(mappedBy = "event")
     private Set<Survey> surveys;
 
     public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, Set<Attachment> attachments) {

@@ -33,16 +33,13 @@ public class Section extends Group {
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "recurring_event_id"))
     private Set<RecurringEventSet> recurringEvents;
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private AppUser sectionOwner;
 
-    public Section(Long groupId, String name, String description, boolean isActive, Set<AppUser> joinedUsers, Set<Event> events, Set<RecurringEventSet> recurringEvents, AppUser sectionOwner) {
-        super(groupId, name, description, isActive);
+
+    public Section(Long groupId, String name, String description, boolean isActive, AppUser sectionOwner, Set<AppUser> joinedUsers, Set<Event> events, Set<RecurringEventSet> recurringEvents) {
+        super(groupId, name, description, isActive, sectionOwner);
         this.joinedUsers = joinedUsers;
         this.events = events;
         this.recurringEvents = recurringEvents;
-        this.sectionOwner = sectionOwner;
     }
 
     @Override
@@ -51,7 +48,6 @@ public class Section extends Group {
                 "joinedUsers=" + joinedUsers +
                 ", events=" + events +
                 ", recurringEvents=" + recurringEvents +
-                ", sectionOwner=" + sectionOwner +
                 '}';
     }
 

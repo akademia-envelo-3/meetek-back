@@ -23,6 +23,6 @@ public class SectionLongDto {
     private Set<StandardUserShortDto> joinedUsers;
     private Set<SingleEventShortDto> events;
     private Set<RecurringEventSetDto> recurringEvents;
-    private StandardUserShortDto sectionOwner;
+    private StandardUserShortDto groupOwner;
 
 }

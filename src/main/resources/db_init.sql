@@ -214,11 +214,6 @@ insert into SURVEY_RESPONSES_X_ANSWERS values('3', '3');
 insert into SURVEY_RESPONSES_X_ANSWERS values('4', '2');
 insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 
-//EVENTS SURVEYS
-insert into EVENTS_X_SURVEYS values('1', '1');
-insert into EVENTS_X_SURVEYS values('2', '2');
-insert into EVENTS_X_SURVEYS values('3', '3');
-
 //EVENT COMMENTS
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
 insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
@@ -257,8 +252,8 @@ insert into  users_x_events_responses  values('2','2','2');
 --insert into  USERS_X_OWNED_EVENTS     values('2','2');
 --
 //USERS OWNED GROUPS
-insert into  USERS_X_OWNED_GROUPS      values('1','1');
-insert into  USERS_X_OWNED_GROUPS      values('2','2');
+--insert into  USERS_X_OWNED_GROUPS      values('1','1');
+--insert into  USERS_X_OWNED_GROUPS      values('2','2');
 
 //REQUESTS_CATEGORY
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('1', '1', 'taniec')
