@@ -225,9 +225,9 @@ insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '1');
 insert into EVENT_COMMENTS_X_ATTACHMENTS  values('1', '2');
 
 //REQUEST COMMENTS
-insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comment1','1','1');
-insert into  REQUEST_COMMENTS values('2', '2023-01-02 17:45:52.69','request comment2','2','2');
-insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comment3','3','3');
+insert into  REQUEST_COMMENTS values('1', '2023-01-01 16:45:52.69','request comment1','1');
+insert into  REQUEST_COMMENTS values('2', '2023-01-02 17:45:52.69','request comment2','2');
+insert into  REQUEST_COMMENTS values('3', '2023-01-03 18:45:52.69','request comment3','3');
 
 //SINGLE EVENT COMMENTS
 --insert into  SINGLE_EVENT_COMMENTS values('1','1');

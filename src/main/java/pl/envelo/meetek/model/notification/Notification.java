@@ -27,7 +27,7 @@ public abstract class Notification {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private NotificationCategory category;
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "notifications_x_types",
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
