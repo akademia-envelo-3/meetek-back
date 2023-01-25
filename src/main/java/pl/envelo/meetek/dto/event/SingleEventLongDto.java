@@ -33,7 +33,6 @@ public class SingleEventLongDto {
     private String description;
     private LocalDateTime dateTimeFrom;
     private LocalDateTime dateTimeTo;
-    private SectionLongDto group;
     private CategoryDto category;
     private Set<StandardUserShortDto> invitedUsers;
     private Map<StandardUserShortDto, EventResponse> participants;
