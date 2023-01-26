@@ -22,7 +22,6 @@ public class SurveyDto {
     private int maxChoicesNumber;
     private long eventId;
     private Set<SurveyResponseDto> responses;
-
     private Map<Long, BigDecimal> choicePercent;
 
     @Override

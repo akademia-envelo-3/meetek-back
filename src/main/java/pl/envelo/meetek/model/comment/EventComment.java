@@ -10,7 +10,6 @@ import pl.envelo.meetek.model.event.Event;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
