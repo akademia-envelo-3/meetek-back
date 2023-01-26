@@ -17,6 +17,7 @@ import pl.envelo.meetek.model.user.Guest;
 import pl.envelo.meetek.model.user.StandardUser;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -69,12 +70,12 @@ public class SingleEvent extends Event {
     @JoinTable(name = "events_x_attachments",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
-    private Set<Attachment> attachments;
+    private List<Attachment> attachments;
 
     @OneToMany(mappedBy = "event")
     private Set<Survey> surveys;
 
-    public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, Set<Attachment> attachments) {
+    public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, List<Attachment> attachments) {
         super(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
         this.category = category;
         this.comments = comments;

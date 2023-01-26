@@ -215,7 +215,7 @@ insert into SURVEY_RESPONSES_X_ANSWERS values('4', '2');
 insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 
 //EVENT_COMMENTS
-insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, REPLIED_COMMENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
+insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, EVENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
 insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
 insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID) values('4','2023-02-15 17:45:52.69','comment4','1');
@@ -244,3 +244,5 @@ insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('7', '1',
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('8', '2', 'teatr')
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('9', '1', 'kino')
 insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('10', '1', 'ogród')
+
+

@@ -16,6 +16,7 @@ import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.event.EventResponse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class SingleEventLongDto {
     private boolean isPrivate;
     private boolean isResponseRequired;
     private int participantsLimit;
-    private Set<AttachmentDto> attachments;
+    private List<AttachmentDto> attachments;
     private Set<SurveyDto> surveys;
 
 }

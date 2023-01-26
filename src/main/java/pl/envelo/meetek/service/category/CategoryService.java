@@ -1,6 +1,7 @@
 package pl.envelo.meetek.service.category;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.category.Category;
@@ -38,12 +39,12 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<Category> getAllCategories() {
-        return categoryRepo.findAllByOrderByName();
+        return categoryRepo.findAll(Sort.by("name"));
     }
 
     @Transactional(readOnly = true)
     public List<Category> getAllActiveCategories() {
-        return categoryRepo.findAllByIsActiveOrderByName(true);
+        return categoryRepo.findAllByIsActiveTrueOrderByName();
     }
 
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.event.Event;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class EventComment extends Comment {
     @JoinTable(name = "event_comments_x_attachments",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
-    private Set<Attachment> attachments;
+    private List<Attachment> attachments;
 
     @Override
     public String toString() {

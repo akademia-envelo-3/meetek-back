@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Survey {
     @JoinTable(name = "surveys_x_choices",
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "choice_id"))
-    private Set<SurveyChoice> choices;
+    private List<SurveyChoice> choices;
     private int maxChoicesNumber;
 
     @ManyToOne
