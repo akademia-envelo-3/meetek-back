@@ -8,7 +8,6 @@ import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.category.CategoryDto;
 import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
-import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.dto.user.GuestDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
