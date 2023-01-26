@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface HashtagRepo extends JpaRepository<Hashtag, Long> {
 
-    List<Hashtag> findAllByIsActiveOrderByName(boolean isActive);
+    List<Hashtag> findAllByIsActiveTrueOrderByName();
 
     List<Hashtag> findByOrderByNameAsc();
 

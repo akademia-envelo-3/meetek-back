@@ -21,7 +21,7 @@ public class SectionService {
 
     @Transactional(readOnly = true)
     public List<Section> getAllActiveSections() {
-        return sectionRepo.findAllByIsActiveOrderByName(true);
+        return sectionRepo.findAllByIsActiveTrueOrderByName();
     }
 
     @Transactional(readOnly = true)

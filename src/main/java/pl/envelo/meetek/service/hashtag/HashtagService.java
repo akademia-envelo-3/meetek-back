@@ -33,7 +33,7 @@ public class HashtagService {
 
     @Transactional(readOnly = true)
     public List<Hashtag> getAllActiveHashtags() {
-        return hashtagRepo.findAllByIsActiveOrderByName(true);
+        return hashtagRepo.findAllByIsActiveTrueOrderByName();
     }
 
     @Transactional(readOnly = true)
