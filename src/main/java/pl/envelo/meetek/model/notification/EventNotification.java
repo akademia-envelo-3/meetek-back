@@ -1,10 +1,13 @@
 package pl.envelo.meetek.model.notification;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 
 import java.util.Objects;
@@ -12,10 +15,13 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "notifications_event")
 public class EventNotification extends Notification {
 
     @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @Override
@@ -30,11 +36,11 @@ public class EventNotification extends Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventNotification that = (EventNotification) o;
-        return Objects.equals(event, that.event);
+        return Objects.equals(event, that.event) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(event);
+        return super.hashCode();
     }
 }

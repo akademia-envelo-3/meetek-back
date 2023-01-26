@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.envelo.meetek.model.user.AppUser;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "Groups")
 public abstract class Group {
 
     @Id
@@ -23,6 +25,10 @@ public abstract class Group {
     private String description;
     private boolean isActive;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private AppUser groupOwner;
+
     @Override
     public String toString() {
         return "Group{" +
@@ -30,6 +36,7 @@ public abstract class Group {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", isActive=" + isActive +
+                ", groupOwner=" + groupOwner +
                 '}';
     }
 
@@ -38,11 +45,11 @@ public abstract class Group {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return isActive == group.isActive && Objects.equals(groupId, group.groupId) && Objects.equals(name, group.name) && Objects.equals(description, group.description);
+        return isActive == group.isActive && groupId.equals(group.groupId) && name.equals(group.name) && description.equals(group.description) && groupOwner.equals(group.groupOwner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, name, description, isActive);
+        return Objects.hash(groupId, name, description, isActive, groupOwner);
     }
 }

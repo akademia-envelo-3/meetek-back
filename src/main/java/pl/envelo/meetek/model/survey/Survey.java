@@ -4,27 +4,41 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "surveys")
 public class Survey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long surveyId;
     private String question;
+
     @ManyToMany
-    private Set<SurveyChoice> choices;
+    @JoinTable(name = "surveys_x_choices",
+            joinColumns = @JoinColumn(name = "survey_id"),
+            inverseJoinColumns = @JoinColumn(name = "choice_id"))
+    private List<SurveyChoice> choices;
     private int maxChoicesNumber;
+
     @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
+
     @OneToMany
+    @JoinTable(name = "surveys_x_responses",
+            joinColumns = @JoinColumn(name = "survey_id"),
+            inverseJoinColumns = @JoinColumn(name = "response_id"))
     private Set<SurveyResponse> responses;
 
     @Override
@@ -44,11 +58,12 @@ public class Survey {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Survey survey = (Survey) o;
-        return maxChoicesNumber == survey.maxChoicesNumber && Objects.equals(surveyId, survey.surveyId) && Objects.equals(question, survey.question) && Objects.equals(choices, survey.choices) && Objects.equals(event, survey.event) && Objects.equals(responses, survey.responses);
+        return maxChoicesNumber == survey.maxChoicesNumber && Objects.equals(surveyId, survey.surveyId) && Objects.equals(question, survey.question) && Objects.equals(event, survey.event);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(surveyId, question, choices, maxChoicesNumber, event, responses);
+        return Objects.hash(surveyId, question, maxChoicesNumber, event);
     }
+
 }

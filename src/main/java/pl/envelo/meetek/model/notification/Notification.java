@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Notification {
@@ -22,11 +24,19 @@ public abstract class Notification {
     private Long notificationId;
     private boolean isDisplayed;
     private boolean isImportant;
+
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private NotificationCategory category;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "notifications_x_types",
+            joinColumns = @JoinColumn(name = "notification_id"),
+            inverseJoinColumns = @JoinColumn(name = "type_id"))
     private Set<NotificationType> notificationTypes;
+
     @ManyToOne
+    @JoinColumn(name = "recipient_id")
     private AppUser recipient;
     private LocalDateTime addingDateTime;
 
@@ -48,11 +58,11 @@ public abstract class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return isDisplayed == that.isDisplayed && isImportant == that.isImportant && Objects.equals(notificationId, that.notificationId) && Objects.equals(category, that.category) && Objects.equals(notificationTypes, that.notificationTypes) && Objects.equals(recipient, that.recipient) && Objects.equals(addingDateTime, that.addingDateTime);
+        return isDisplayed == that.isDisplayed && isImportant == that.isImportant && Objects.equals(notificationId, that.notificationId) && Objects.equals(category, that.category) && Objects.equals(addingDateTime, that.addingDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notificationId, isDisplayed, isImportant, category, notificationTypes, recipient, addingDateTime);
+        return Objects.hash(notificationId, isDisplayed, isImportant, category, addingDateTime);
     }
 }

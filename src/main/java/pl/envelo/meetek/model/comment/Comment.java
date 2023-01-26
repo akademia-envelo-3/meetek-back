@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Comment {
@@ -19,7 +21,9 @@ public abstract class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long commentId;
+
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private AppUser commentOwner;
     private LocalDateTime addingDateTime;
     private String comment;

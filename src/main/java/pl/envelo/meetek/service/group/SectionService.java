@@ -2,6 +2,7 @@ package pl.envelo.meetek.service.group;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.repository.group.SectionRepo;
@@ -18,42 +19,48 @@ public class SectionService {
     private final SectionRepo sectionRepo;
     private final StandardUserService standardUserService;
 
+    @Transactional(readOnly = true)
     public List<Section> getAllActiveSections() {
-        return sectionRepo.findAllByIsActiveOrderByName(true);
+        return sectionRepo.findAllByIsActiveTrueOrderByName();
     }
 
+    @Transactional(readOnly = true)
     public List<Section> getOwnedSectionsByUserId(long userId) {
-        return sectionRepo.findAllOwnedBySectionOwnerParticipantId(userId);
+        return sectionRepo.findAllOwnedSections(userId);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Section> getSectionById(long id) {
         return sectionRepo.findById(id);
     }
 
+    @Transactional
     public Section editSection(Section section, SectionLongDto sectionDto) {
         section.setName(sectionDto.getName());
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
-        if (sectionDto.getSectionOwner().getParticipantId() != sectionDto.getSectionOwner().getParticipantId()) {
-            if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
-                section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
+        if (sectionDto.getGroupOwner().getParticipantId() != sectionDto.getGroupOwner().getParticipantId()) {
+            if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
+                section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
             }
         }
         return sectionRepo.save(section);
     }
 
+    @Transactional(readOnly = true)
     public List<Section> getAllJoinedSections(long userId) {
         return sectionRepo.findAllJoinedSections(userId);
     }
 
+    @Transactional
     public Optional<Section> saveNewSection(SectionLongDto sectionDto) {
         Section section = new Section();
         section.setName(sectionDto.getName());
         section.setDescription(sectionDto.getDescription());
         section.setActive(sectionDto.isActive());
         section.setDescription(sectionDto.getDescription());
-        if (standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).isPresent()) {
-            section.setSectionOwner(standardUserService.getStandardUserById(sectionDto.getSectionOwner().getParticipantId()).get());
+        if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
+            section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
         } else {
             return Optional.empty();
         }
