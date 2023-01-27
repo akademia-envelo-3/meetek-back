@@ -76,21 +76,12 @@ public class SingleEventController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventLongDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
-    public ResponseEntity getEvent(@PathVariable long eventId,
-                                   @Parameter(description = "for all information about event use: details, for basic info leave blank") @RequestParam(required = false) String fields) {
+    public ResponseEntity<SingleEventLongDto> getEvent(@PathVariable long eventId) {
         Optional<SingleEvent> eventOptional = singleEventService.getSingleEventById(eventId);
         if (eventOptional.isPresent()) {
             SingleEvent event = eventOptional.get();
-            Object dto;
-            if (fields != null) {
-                switch (fields) {
-                    case "details" -> dto = dtoMapperService.mapToSingleEventLongDto(event);
-                    default -> dto = dtoMapperService.mapToSingleEventShortDto(event);
-                }
-            } else {
-                dto = dtoMapperService.mapToSingleEventShortDto(event);
-            }
-            return new ResponseEntity(dto, HttpStatus.OK);
+            SingleEventLongDto dto = dtoMapperService.mapToSingleEventLongDto(event);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -125,7 +116,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!events.isEmpty()) {
-            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -160,7 +151,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!events.isEmpty()) {
-            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -186,7 +177,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!futureOwnedEvents.isEmpty()) {
-            return new ResponseEntity(futureOwnedEventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(futureOwnedEventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -247,7 +238,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!pastOwnedEvents.isEmpty()) {
-            return new ResponseEntity(pastOwnedEventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(pastOwnedEventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -258,15 +249,15 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found a comment",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = EventCommentDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "comments not found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, invalid Id supplied", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid Id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "event or comment not found", content = @Content)})
     public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
 
         Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
         if (eventCommentOptional.isPresent()) {
             EventComment eventComment = eventCommentOptional.get();
             EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
-            return new ResponseEntity(dto, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
