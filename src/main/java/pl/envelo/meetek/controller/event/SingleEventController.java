@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class SingleEventController {
 
     private final SingleEventService singleEventService;
-
     private final EventCommentService eventCommentService;
     private final DtoMapperService dtoMapperService;
 
@@ -112,21 +111,14 @@ public class SingleEventController {
         List<SingleEvent> events;
         List<SingleEventShortDto> eventShortDtos;
 
-        if (days == null) {
-            events = singleEventService.getAllPublicFutureNotAcceptedEvents(userId);
-        } else {
-            if (days < 1) {
-                days = 1;
-            }
-            events = singleEventService.getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
-        }
+        events = singleEventService.getAllPublicFutureNotAcceptedEvents(userId, days);
 
         eventShortDtos = events.stream()
                 .map(dtoMapperService::mapToSingleEventShortDto)
                 .collect(Collectors.toList());
 
         if (!events.isEmpty()) {
-            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -149,21 +141,14 @@ public class SingleEventController {
         List<SingleEvent> events;
         List<SingleEventShortDto> eventShortDtos;
 
-        if (days == null) {
-            events = singleEventService.getAllFutureAcceptedEvents(userId);
-        } else {
-            if (days < 1) {
-                days = 1;
-            }
-            events = singleEventService.getAllFutureAcceptedEventsForFewNearestDays(userId, days);
-        }
+        events = singleEventService.getAllFutureAcceptedEvents(userId, days);
 
         eventShortDtos = events.stream()
                 .map(dtoMapperService::mapToSingleEventShortDto)
                 .collect(Collectors.toList());
 
         if (!events.isEmpty()) {
-            return new ResponseEntity(eventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -191,7 +176,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!futureOwnedEvents.isEmpty()) {
-            return new ResponseEntity(futureOwnedEventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(futureOwnedEventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -254,7 +239,7 @@ public class SingleEventController {
                 .collect(Collectors.toList());
 
         if (!pastOwnedEvents.isEmpty()) {
-            return new ResponseEntity(pastOwnedEventShortDtos, HttpStatus.OK);
+            return new ResponseEntity<>(pastOwnedEventShortDtos, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -273,11 +258,10 @@ public class SingleEventController {
         if (eventCommentOptional.isPresent()) {
             EventComment eventComment = eventCommentOptional.get();
             EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
-            return new ResponseEntity(dto, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 }
