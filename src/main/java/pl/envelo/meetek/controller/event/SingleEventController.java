@@ -2,6 +2,7 @@ package pl.envelo.meetek.controller.event;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -99,11 +100,9 @@ public class SingleEventController {
     @Operation(summary = "Get public future events not accepted by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllPublicFutureNotAcceptedEvents(
             @RequestParam long userId,
             @Parameter(description = "To get events for few days set number of days")
@@ -136,11 +135,9 @@ public class SingleEventController {
     @Operation(summary = "Get all future events accepted by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = " Events not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(
             @RequestParam long userId,
             @Parameter(description = "To get events for few days set number of days")
@@ -173,11 +170,9 @@ public class SingleEventController {
     @Operation(summary = "Get all future events owned by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getFutureOwnedByUser(
             @RequestParam long userId) {
 
@@ -201,9 +196,9 @@ public class SingleEventController {
     @Operation(summary = "Get all public past events where the user with given ID didn't confirm his participation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "No event found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No events found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllPublicPastNotAcceptedEvents(@RequestParam long userId) {
         List<SingleEvent> events = singleEventService.getAllPublicPastNotAcceptedEvents(userId);
         List<SingleEventShortDto> dtoEvents = events.stream()
@@ -219,9 +214,9 @@ public class SingleEventController {
     @Operation(summary = "Get all past events where the user with given ID confirmed his participation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "No event found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No events found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllPastAcceptedEvents(@RequestParam long userId) {
         List<SingleEvent> events = singleEventService.getAllPastAcceptedEvents(userId);
         List<SingleEventShortDto> dtoEvents = events.stream()
@@ -237,11 +232,9 @@ public class SingleEventController {
     @Operation(summary = "Get all past events owned by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getPastOwnedByUser(@RequestParam long userId) {
 
         List<SingleEvent> pastOwnedEvents;
@@ -260,13 +253,13 @@ public class SingleEventController {
         }
     }
 
-    @GetMapping("/{eventId}/comment/{commentId}")
+    @GetMapping("/{eventId}/comments/{commentId}")
     @Operation(summary = "Get a comment by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found a comment",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = EventCommentDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid Id supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "comment not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = EventCommentDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "comments not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid Id supplied", content = @Content)})
     public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
 
         Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
