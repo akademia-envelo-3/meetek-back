@@ -75,7 +75,7 @@ public class AdminController {
         List<SingleEvent> futureEvents;
         List<SingleEventShortDto> futureEventsShortDto;
 
-        futureEvents = singleEventService.getAllEventsBeforeToday();
+        futureEvents = singleEventService.getAllEventsAfterToday();
 
         futureEventsShortDto = futureEvents.stream().map(singleEvent -> dtoMapperService.
                 mapToSingleEventShortDto(singleEvent)).collect(Collectors.toList());

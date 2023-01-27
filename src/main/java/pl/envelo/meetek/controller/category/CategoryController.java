@@ -68,12 +68,12 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
     public ResponseEntity<Void> editCategory(@PathVariable long categoryId, @RequestBody CategoryDto categoryDto) {
-        Optional<Category> category = categoryService.getCategoryById(categoryId);
-        if (category.isEmpty()){
+        Optional<Category> categoryToBeUpdated = categoryService.getCategoryById(categoryId);
+        if (categoryToBeUpdated.isEmpty()){
             return ResponseEntity.notFound().build();
         }
         Category updatedCategory = dtoMapperService.mapToCategory(categoryDto);
-        categoryService.editCategory(categoryId, updatedCategory);
+        categoryService.editCategory(categoryToBeUpdated.get(), updatedCategory);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

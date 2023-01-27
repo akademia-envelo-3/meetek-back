@@ -35,6 +35,8 @@ public class Section extends Group {
             inverseJoinColumns = @JoinColumn(name = "recurring_event_id"))
     private Set<RecurringEventSet> recurringEvents;
 
+    @Transient
+    private int membersCount;
 
     public Section(Long groupId, String name, String description, boolean isActive, AppUser sectionOwner, Set<AppUser> joinedUsers, Set<Event> events, Set<RecurringEventSet> recurringEvents) {
         super(groupId, name, description, isActive, sectionOwner);

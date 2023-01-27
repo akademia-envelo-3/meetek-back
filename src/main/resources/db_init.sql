@@ -17,9 +17,9 @@ insert into COORDINATES values('1', '154541.2132', '484454545.23');
 
 //SECTIONS
 insert into SECTIONS values('1', 'first section', 'true', 'first section', '1');
-insert into SECTIONS values('2', 'second section', 'true', 'second section', '2');
+insert into SECTIONS values('2', 'second section', 'false', 'second section', '1');
 insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
-insert into SECTIONS values('4', 'fourth section', 'false', 'fourth section', '4');
+insert into SECTIONS values('4', 'fourth section', 'true', 'fourth section', '4');
 
 //SECTIONS_X_EVENTS
 insert into SECTIONS_X_EVENTS values('1', '1');
@@ -27,9 +27,13 @@ insert into SECTIONS_X_EVENTS values('2', '2');
 insert into SECTIONS_X_EVENTS values('3', '3');
 
 //SECTIONS_X_JOINED_USERS
-insert into SECTIONS_X_JOINED_USERS values('1', '1');
-insert into SECTIONS_X_JOINED_USERS values('2', '2');
+insert into SECTIONS_X_JOINED_USERS values('1', '2');
+insert into SECTIONS_X_JOINED_USERS values('2', '1');
 insert into SECTIONS_X_JOINED_USERS values('3', '3');
+insert into SECTIONS_X_JOINED_USERS values('1', '3');
+insert into SECTIONS_X_JOINED_USERS values('2', '3');
+insert into SECTIONS_X_JOINED_USERS values('5', '3');
+insert into SECTIONS_X_JOINED_USERS values('5', '1');
 
 //EVENT_RESPONSES
 INSERT INTO EVENT_RESPONSES VALUES (1 , 'Accepted');

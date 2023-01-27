@@ -31,14 +31,23 @@ public class SingleEventService {
         singleEventRepo.deleteById(eventId);
     }
 
+    public List<SingleEvent> getAllPublicFutureNotAcceptedEvents(long userId, Integer days) {
+        Integer validatedDays = validateDaysCount(days);
+        if (validatedDays == null) {
+            return getAllPublicFutureNotAcceptedEvents(userId);
+        } else {
+            return getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
+        }
+    }
+
     @Transactional(readOnly = true)
-    public List<SingleEvent> getAllPublicFutureNotAcceptedEvents(long userId) {
+    private List<SingleEvent> getAllPublicFutureNotAcceptedEvents(long userId) {
         return singleEventRepo.findAllPublicFutureNotAcceptedByUserAll(
                 LocalDateTime.now(), userId);
     }
 
     @Transactional(readOnly = true)
-    public List<SingleEvent> getAllPublicFutureNotAcceptedEventsForFewNearestDays(long userId, int days) {
+    private List<SingleEvent> getAllPublicFutureNotAcceptedEventsForFewNearestDays(long userId, int days) {
         return singleEventRepo.findAllPublicFutureNotAcceptedByUserForFewDays(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusDays(days),
@@ -70,13 +79,22 @@ public class SingleEventService {
         return singleEventRepo.findPastOwnedByUser(LocalDateTime.now(), userId);
     }
 
+    public List<SingleEvent> getAllFutureAcceptedEvents(long userId, Integer days) {
+        Integer validatedDays = validateDaysCount(days);
+        if (validatedDays == null) {
+            return getAllFutureAcceptedEvents(userId);
+        } else {
+            return getAllFutureAcceptedEventsForFewNearestDays(userId, validatedDays);
+        }
+    }
+
     @Transactional(readOnly = true)
-    public List<SingleEvent> getAllFutureAcceptedEvents(long userId) {
+    private List<SingleEvent> getAllFutureAcceptedEvents(long userId) {
         return singleEventRepo.findAllFutureAccepted(LocalDateTime.now(), userId);
     }
 
     @Transactional(readOnly = true)
-    public List<SingleEvent> getAllFutureAcceptedEventsForFewNearestDays(long userId, int days) {
+    private List<SingleEvent> getAllFutureAcceptedEventsForFewNearestDays(long userId, int days) {
         return singleEventRepo.findAllFutureAcceptedForFewNearestDays(
                 LocalDateTime.now(),
                 LocalDateTime.now().plusDays(days),
@@ -86,6 +104,16 @@ public class SingleEventService {
     @Transactional(readOnly = true)
     public List<SingleEvent> findAllFutureOwnedByUser(long userId) {
         return singleEventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
+    }
+
+    private Integer validateDaysCount(Integer days) {
+        if (days == null) {
+            return null;
+        } else if (days == 0) {
+            return 1;
+        } else {
+            return days;
+        }
     }
 
 }
