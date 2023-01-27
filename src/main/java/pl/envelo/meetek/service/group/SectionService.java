@@ -21,17 +21,20 @@ public class SectionService {
 
     @Transactional(readOnly = true)
     public List<Section> getAllActiveSections() {
-        return sectionRepo.findAllByIsActiveTrueOrderByName();
+        List<Section> sections = sectionRepo.findAllByIsActiveTrueOrderByName();
+        return setCountMembers(sections);
     }
 
     @Transactional(readOnly = true)
     public List<Section> getOwnedSectionsByUserId(long userId) {
-        return sectionRepo.findAllOwnedSections(userId);
+        List<Section> sections = sectionRepo.findAllOwnedSections(userId);
+        return setCountMembers(sections);
     }
 
     @Transactional(readOnly = true)
     public Optional<Section> getSectionById(long id) {
-        return sectionRepo.findById(id);
+        Optional<Section> section = sectionRepo.findById(id);
+        return section.map(this::setCountMembers);
     }
 
     @Transactional
@@ -49,7 +52,8 @@ public class SectionService {
 
     @Transactional(readOnly = true)
     public List<Section> getAllJoinedSections(long userId) {
-        return sectionRepo.findAllJoinedSections(userId);
+        List<Section> sections = sectionRepo.findAllJoinedSections(userId);
+        return setCountMembers(sections);
     }
 
     @Transactional
@@ -69,6 +73,15 @@ public class SectionService {
         section.setRecurringEvents(new HashSet<>());
         section.setGroupId(sectionDto.getGroupId());
         return Optional.of(sectionRepo.save(section));
+    }
+
+    private Section setCountMembers(Section section) {
+        section.setMembersCount(section.getJoinedUsers().size());
+        return section;
+    }
+
+    private List<Section> setCountMembers(List<Section> sections) {
+        return sections.stream().map(this::setCountMembers).toList();
     }
 
 }
