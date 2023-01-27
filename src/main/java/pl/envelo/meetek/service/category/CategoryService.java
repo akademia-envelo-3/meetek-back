@@ -32,9 +32,10 @@ public class CategoryService {
     }
 
     @Transactional
-    public Category editCategory(long categoryId, Category category) {
-        category.setCategoryId(categoryId);
-        return categoryRepo.save(category);
+    public void editCategory(Category categoryToBeUpdated, Category updatedCategory) {
+        categoryToBeUpdated.setName(updatedCategory.getName());
+        categoryToBeUpdated.setActive(updatedCategory.isActive());
+        categoryRepo.save(categoryToBeUpdated);
     }
 
     @Transactional(readOnly = true)
