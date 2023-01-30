@@ -42,8 +42,8 @@ public class AdminController {
     @Operation(summary = "Get all events that started before current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No events found", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllEventsBeforeToday() {
 
         List<SingleEvent> pastEvents;
@@ -55,12 +55,9 @@ public class AdminController {
                 mapToSingleEventShortDto(singleEvent)).collect(Collectors.toList());
 
         if (pastEvents.isEmpty()) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity(pastEventsShortDto, HttpStatus.OK);
-
+            return new ResponseEntity<>(pastEventsShortDto, HttpStatus.OK);
         }
     }
 
@@ -68,9 +65,9 @@ public class AdminController {
     @Operation(summary = "Get all events that started after current dateTime")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found events",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "404", description = "Events not found", content = @Content)})
-    public ResponseEntity<SingleEventShortDto> getAllEventsAfterToday() {
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No events found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getAllEventsAfterToday() {
 
         List<SingleEvent> futureEvents;
         List<SingleEventShortDto> futureEventsShortDto;
@@ -83,7 +80,7 @@ public class AdminController {
         if (futureEvents.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity(futureEventsShortDto, HttpStatus.OK);
+            return new ResponseEntity<>(futureEventsShortDto, HttpStatus.OK);
         }
     }
 
@@ -91,7 +88,7 @@ public class AdminController {
     @Operation(summary = "Get all categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))}),
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
     public ResponseEntity<List<CategoryDto>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
