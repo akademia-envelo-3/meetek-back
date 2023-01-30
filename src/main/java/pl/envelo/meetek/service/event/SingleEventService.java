@@ -5,20 +5,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
+import pl.envelo.meetek.service.survey.SurveyService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class SingleEventService {
 
     private final SingleEventRepo singleEventRepo;
+    private final SurveyService surveyService;
 
     @Transactional(readOnly = true)
     public Optional<SingleEvent> getSingleEventById(long id) {
-        return singleEventRepo.findById(id);
+        Optional<SingleEvent> singleEventOptional = singleEventRepo.findById(id);
+        if(singleEventOptional.isPresent()){
+            if(!singleEventOptional.get().getSurveys().isEmpty()) {
+                singleEventOptional.get().getSurveys()
+                        .forEach(surveyService::setSurveyFields);
+            }
+        }
+        return singleEventOptional;
     }
 
     @Transactional
