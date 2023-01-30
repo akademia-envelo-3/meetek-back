@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public abstract class Event {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private AppUser owner;
+    private StandardUser owner;
     private String name;
     private String link;
     private String description;

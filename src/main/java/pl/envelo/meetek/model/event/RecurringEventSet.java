@@ -25,7 +25,7 @@ public class RecurringEventSet {
     @JoinTable(name = "recurring_events_x_events",
             joinColumns = @JoinColumn(name = "event_set_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private Set<Event> events;
+    private Set<SingleEvent> events;
     private int eventFrequency;
     private int recursiveCount;
 

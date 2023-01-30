@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public abstract class Group {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private AppUser groupOwner;
+    private StandardUser groupOwner;
 
     @Override
     public String toString() {

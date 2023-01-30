@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
+import pl.envelo.meetek.model.event.SingleEvent;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Survey {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private SingleEvent event;
 
     @OneToMany
     @JoinTable(name = "surveys_x_responses",

@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.RecurringEventSet;
+import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Set;
 
@@ -21,13 +23,13 @@ public class Section extends Group {
     @JoinTable(name = "sections_x_joined_users",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<AppUser> joinedUsers;
+    private Set<StandardUser> joinedUsers;
 
     @OneToMany
     @JoinTable(name = "sections_x_events",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private Set<Event> events;
+    private Set<SingleEvent> events;
 
     @OneToMany
     @JoinTable(name = "sections_x_recurring_events",
@@ -36,7 +38,7 @@ public class Section extends Group {
     private Set<RecurringEventSet> recurringEvents;
 
 
-    public Section(Long groupId, String name, String description, boolean isActive, AppUser sectionOwner, Set<AppUser> joinedUsers, Set<Event> events, Set<RecurringEventSet> recurringEvents) {
+    public Section(Long groupId, String name, String description, boolean isActive, StandardUser sectionOwner, Set<StandardUser> joinedUsers, Set<SingleEvent> events, Set<RecurringEventSet> recurringEvents) {
         super(groupId, name, description, isActive, sectionOwner);
         this.joinedUsers = joinedUsers;
         this.events = events;

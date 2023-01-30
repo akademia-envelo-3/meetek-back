@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public abstract class Request {
 
     @ManyToOne
     @JoinColumn(name = "requester_id")
-    private AppUser requester;
+    private StandardUser requester;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

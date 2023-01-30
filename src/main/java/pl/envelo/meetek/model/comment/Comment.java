@@ -21,10 +21,6 @@ public abstract class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long commentId;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private AppUser commentOwner;
     private LocalDateTime addingDateTime;
     private String comment;
 
@@ -32,7 +28,6 @@ public abstract class Comment {
     public String toString() {
         return "Comment{" +
                 "commentId=" + commentId +
-                ", commentOwner=" + commentOwner +
                 ", addingDateTime=" + addingDateTime +
                 ", comment='" + comment + '\'' +
                 '}';
@@ -43,11 +38,11 @@ public abstract class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment1 = (Comment) o;
-        return Objects.equals(commentId, comment1.commentId) && Objects.equals(commentOwner, comment1.commentOwner) && Objects.equals(addingDateTime, comment1.addingDateTime) && Objects.equals(comment, comment1.comment);
+        return Objects.equals(commentId, comment1.commentId) && Objects.equals(addingDateTime, comment1.addingDateTime) && Objects.equals(comment, comment1.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, commentOwner, addingDateTime, comment);
+        return Objects.hash(commentId, addingDateTime, comment);
     }
 }

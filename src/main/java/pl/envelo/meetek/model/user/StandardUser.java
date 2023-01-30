@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.EventResponse;
+import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.group.Group;
+import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.model.notification.Notification;
 
 import java.util.Map;
@@ -20,28 +22,28 @@ import java.util.Set;
 public class StandardUser extends AppUser {
 
     @OneToMany(mappedBy = "owner")
-    private Set<Event> ownedEvents;
+    private Set<SingleEvent> ownedEvents;
 
     @ManyToMany
     @JoinTable(name = "users_x_events_responses",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "response_id"))
     @MapKeyJoinColumn(name = "event_id")
-    private Map<Event, EventResponse> eventsWithResponse;
+    private Map<SingleEvent, EventResponse> eventsWithResponse;
 
     @OneToMany(mappedBy = "groupOwner")
-    private Set<Group> ownedGroups;
+    private Set<Section> ownedGroups;
 
     @ManyToMany
     @JoinTable(name = "sections_x_joined_users",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "section_id"))
-    private Set<Group> joinedGroups;
+    private Set<Section> joinedGroups;
 
     @OneToMany(mappedBy = "recipient")
     private Set<Notification> notifications;
 
-    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {
+    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<SingleEvent> ownedEvents, Map<SingleEvent, EventResponse> eventsWithResponse, Set<Section> ownedGroups, Set<Section> joinedGroups, Set<Notification> notifications) {
         super(participantId, firstname, lastname, mail, password, Role.ROLE_USER);
         this.ownedEvents = ownedEvents;
         this.eventsWithResponse = eventsWithResponse;
