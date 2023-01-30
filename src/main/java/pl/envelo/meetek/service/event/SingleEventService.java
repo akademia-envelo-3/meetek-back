@@ -57,7 +57,7 @@ public class SingleEventService {
                 userId);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     private void addSurvey(Survey survey) {
         surveyService.createSurvey(survey);
     }
