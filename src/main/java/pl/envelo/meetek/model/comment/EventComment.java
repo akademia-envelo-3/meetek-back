@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.event.Event;
+import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.user.AppUser;
 import pl.envelo.meetek.model.user.StandardUser;
 
@@ -26,7 +27,7 @@ public class EventComment extends Comment {
     private StandardUser commentOwner;
     @ManyToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private SingleEvent event;
 
     @ManyToOne
     @JoinColumn(name = "replied_comment_id")
