@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.survey.SurveyService;
 
@@ -62,6 +63,11 @@ public class SingleEventService {
                 LocalDateTime.now(),
                 LocalDateTime.now().plusDays(days),
                 userId);
+    }
+
+    @Transactional
+    private void addSurvey(Survey survey) {
+        surveyService.createSurvey(survey);
     }
 
     @Transactional(readOnly = true)
