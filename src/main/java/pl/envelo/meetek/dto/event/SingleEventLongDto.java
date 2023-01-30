@@ -8,11 +8,10 @@ import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.category.CategoryDto;
 import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
+import pl.envelo.meetek.dto.hashtag.HashtagDto;
 import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.dto.user.GuestDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
-import pl.envelo.meetek.model.hashtag.Hashtag;
-import pl.envelo.meetek.model.event.EventResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.Set;
 public class SingleEventLongDto {
 
     private long eventId;
-    private Set<Hashtag> hashtags;
+    private Set<HashtagDto> hashtags;
     private StandardUserShortDto owner;
     private String name;
     private String link;
@@ -35,7 +34,7 @@ public class SingleEventLongDto {
     private LocalDateTime dateTimeTo;
     private CategoryDto category;
     private Set<StandardUserShortDto> invitedUsers;
-    private Map<StandardUserShortDto, EventResponse> participants;
+    private Map<StandardUserShortDto, EventResponseDto> participants;
     private Set<GuestDto> joinedGuests;
     private Set<EventCommentDto> comments;
     private String locationName;
