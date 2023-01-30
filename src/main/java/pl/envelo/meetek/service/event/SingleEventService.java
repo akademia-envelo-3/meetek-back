@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
+import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.survey.SurveyService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,12 +19,13 @@ public class SingleEventService {
 
     private final SingleEventRepo singleEventRepo;
     private final SurveyService surveyService;
+    private final EventCommentService eventCommentService;
 
     @Transactional(readOnly = true)
     public Optional<SingleEvent> getSingleEventById(long id) {
         Optional<SingleEvent> singleEventOptional = singleEventRepo.findById(id);
-        if(singleEventOptional.isPresent()){
-            if(!singleEventOptional.get().getSurveys().isEmpty()) {
+        if (singleEventOptional.isPresent()) {
+            if (!singleEventOptional.get().getSurveys().isEmpty()) {
                 singleEventOptional.get().getSurveys()
                         .forEach(surveyService::setSurveyFields);
             }
@@ -124,6 +126,16 @@ public class SingleEventService {
         } else {
             return days;
         }
+    }
+
+    public void changeCounterOfHashtag(Hashtag hashtag, boolean counterIncrease) {
+        int counter = hashtag.getCountOfHashtagUsage();
+        if (!counterIncrease) {
+            counter += 1;
+        } else {
+            counter -= 1;
+        }
+        hashtag.setCountOfHashtagUsage(counter);
     }
 
 }
