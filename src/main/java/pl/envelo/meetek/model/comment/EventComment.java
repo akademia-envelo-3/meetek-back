@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.event.Event;
+import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -20,8 +23,11 @@ import java.util.Objects;
 public class EventComment extends Comment {
 
     @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private StandardUser commentOwner;
+    @ManyToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private SingleEvent event;
 
     @ManyToOne
     @JoinColumn(name = "replied_comment_id")
@@ -32,6 +38,14 @@ public class EventComment extends Comment {
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
     private List<Attachment> attachments;
+
+    public EventComment(Long commentId, LocalDateTime addingDateTime, String comment, StandardUser commentOwner, SingleEvent event, EventComment replyToComment, List<Attachment> attachments) {
+        super(commentId, addingDateTime, comment);
+        this.commentOwner = commentOwner;
+        this.event = event;
+        this.replyToComment = replyToComment;
+        this.attachments = attachments;
+    }
 
     @Override
     public String toString() {

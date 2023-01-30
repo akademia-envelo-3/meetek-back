@@ -104,14 +104,11 @@ public class SectionController {
             @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> saveNewSection(@RequestBody SectionLongDto sectionDto) {
-        Optional<Section> section = sectionService.saveNewSection(sectionDto);
-        if (section.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+        Section section = sectionService.saveNewSection(dtoMapperService.mapToSection(sectionDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(section.get().getGroupId())
+                .buildAndExpand(section.getGroupId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }

@@ -13,6 +13,10 @@ import lombok.Setter;
 @Table(name = "guests")
 public class Guest extends Participant {
 
+    public Guest(Long participantId, String firstname, String lastname, String mail) {
+        super(participantId, firstname, lastname, mail);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " Guest{}";

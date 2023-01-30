@@ -8,6 +8,7 @@ import lombok.Setter;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.coordinates.Coordinates;
+import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.group.Group;
@@ -75,7 +76,7 @@ public class SingleEvent extends Event {
     @OneToMany(mappedBy = "event")
     private Set<Survey> surveys;
 
-    public SingleEvent(Long eventId, Set<Hashtag> hashtags, AppUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Group group, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, List<Attachment> attachments) {
+    public SingleEvent(Long eventId, Set<Hashtag> hashtags, StandardUser owner, String name, String link, String description, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Category category, Set<EventComment> comments, String locationName, Coordinates coordinates, boolean isOnline, boolean isExternal, boolean isPrivate, boolean eventResponseRequired, int participantsLimit, List<Attachment> attachments) {
         super(eventId, hashtags, owner, name, link, description, dateTimeFrom, dateTimeTo);
         this.category = category;
         this.comments = comments;

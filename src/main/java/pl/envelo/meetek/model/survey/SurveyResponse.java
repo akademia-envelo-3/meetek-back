@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Objects;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class SurveyResponse {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private AppUser user;
+    private StandardUser user;
 
     @Override
     public String toString() {

@@ -57,22 +57,8 @@ public class SectionService {
     }
 
     @Transactional
-    public Optional<Section> saveNewSection(SectionLongDto sectionDto) {
-        Section section = new Section();
-        section.setName(sectionDto.getName());
-        section.setDescription(sectionDto.getDescription());
-        section.setActive(sectionDto.isActive());
-        section.setDescription(sectionDto.getDescription());
-        if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
-            section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
-        } else {
-            return Optional.empty();
-        }
-        section.setJoinedUsers(new HashSet<>());
-        section.setEvents(new HashSet<>());
-        section.setRecurringEvents(new HashSet<>());
-        section.setGroupId(sectionDto.getGroupId());
-        return Optional.of(sectionRepo.save(section));
+    public Section saveNewSection(Section section) {
+        return sectionRepo.save(section);
     }
 
     private Section setCountMembers(Section section) {

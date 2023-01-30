@@ -25,7 +25,7 @@ public class RequestBox {
     @JoinTable(name = "request_boxes_x_requests",
             joinColumns = @JoinColumn(name = "request_box_id"),
             inverseJoinColumns = @JoinColumn(name = "request_id"))
-    private List<Request> requests;
+    private List<CategoryRequest> requests;
 
     @Override
     public String toString() {

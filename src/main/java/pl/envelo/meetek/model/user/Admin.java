@@ -13,8 +13,10 @@ import lombok.Setter;
 @Table(name = "admins")
 public class Admin extends AppUser {
 
-    public Admin(String password) {
-        super(password, Role.ROLE_ADMIN);
+
+
+    public Admin(Long participantId, String firstname, String lastname, String mail, String password, Role role) {
+        super(participantId, firstname, lastname, mail, password, role);
     }
 
     @Override
