@@ -7,6 +7,8 @@ import lombok.Setter;
 import pl.envelo.meetek.model.user.Admin;
 import pl.envelo.meetek.model.user.AppUser;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,6 +19,12 @@ public class RequestComment extends Comment {
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Admin commentOwner;
+
+    public RequestComment(Long commentId, LocalDateTime addingDateTime, String comment, Admin commentOwner) {
+        super(commentId, addingDateTime, comment);
+        this.commentOwner = commentOwner;
+    }
+
     @Override
     public String toString() {
         return super.toString();

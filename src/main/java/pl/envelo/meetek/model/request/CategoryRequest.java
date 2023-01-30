@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.comment.RequestComment;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Objects;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -27,6 +27,13 @@ public class CategoryRequest extends Request {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public CategoryRequest(Long requestId, StandardUser requester, RequestStatus status, String name, RequestComment comment, Category category) {
+        super(requestId, requester, status);
+        this.name = name;
+        this.comment = comment;
+        this.category = category;
+    }
 
     @Override
     public String toString() {
