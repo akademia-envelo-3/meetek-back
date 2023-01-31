@@ -13,7 +13,6 @@ public interface SectionRepo extends JpaRepository<Section, Long> {
 
     List<Section> findAllByIsActiveTrueOrderByName();
 
-    //TODO
     @Query(value = """
             SELECT * FROM sections
             WHERE owner_id = ?1
