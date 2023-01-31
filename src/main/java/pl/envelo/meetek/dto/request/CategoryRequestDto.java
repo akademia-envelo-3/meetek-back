@@ -16,7 +16,7 @@ public class CategoryRequestDto {
 
     private long requestId;
     private StandardUserShortDto requester;
-    private RequestStatusDto status;
+    private String requestStatus;
     private String name;
     private CategoryDto category;
     private RequestCommentDto comment;

@@ -1,7 +1,6 @@
 package pl.envelo.meetek.model.request;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,7 +36,7 @@ public class CategoryRequest extends Request {
 
     @Override
     public String toString() {
-        return "CategoryRequest{" +
+        return super.toString() + " CategoryRequest{" +
                 "name='" + name + '\'' +
                 ", comment=" + comment +
                 ", category=" + category +

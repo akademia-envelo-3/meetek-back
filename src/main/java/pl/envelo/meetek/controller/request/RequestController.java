@@ -12,10 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
+import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
-import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
+import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.request.CategoryRequestService;
 
 import java.net.URI;
@@ -54,6 +55,7 @@ public class RequestController {
             @ApiResponse(responseCode = "400", description = "Bad request - wrong parameters or category already exists", content = @Content)})
     public ResponseEntity<String> createCategoryRequest(@RequestBody CategoryRequestDto categoryRequestDto) {
         Optional<Category> category = categoryService.getCategoryByName(categoryRequestDto.getName());
+        categoryRequestDto.setRequestStatus(RequestStatus.NOT_PROCESSED.toString());
         CategoryRequest categoryRequest = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
         if (category.isPresent()) {
             if (category.get().isActive()) {

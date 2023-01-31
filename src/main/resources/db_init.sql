@@ -74,15 +74,6 @@ insert into HASHTAGS values('3','53','true','Celebrujmy');
 insert into ATTACHMENTS values('1','www.wbijajnatenlink.pl');
 insert into ATTACHMENTS values('2','www.alekozackilink.pl');
 
-//REQUEST_STATUSES
-insert into REQUEST_STATUSES values('1','accepted');
-insert into REQUEST_STATUSES values('2','declined');
-
-//REQUEST_BOXES
-insert into REQUEST_BOXES values('1');
-insert into REQUEST_BOXES values('2');
-insert into REQUEST_BOXES values('3');
-
 //NOTIFICATION_TYPES
 insert into NOTIFICATION_TYPES values('1','DELETE');
 insert into NOTIFICATION_TYPES values('2','EDIT');
@@ -226,27 +217,15 @@ insert into USERS_X_EVENTS_RESPONSES  values('1','1','1');
 insert into USERS_X_EVENTS_RESPONSES  values('2','2','2');
 
 //REQUESTS_CATEGORY
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('1', '1', 'taniec', '1')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('2', '1', 'sport', '2')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME, COMMENT_ID) values ('3', '1', 'kółko różańcowe', '3')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('4', '2', 'programowanie')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('5', '2', 'muzyka')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('6', '1', 'kuchnia')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('7', '1', 'książki')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('8', '2', 'teatr')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('9', '1', 'kino')
-insert into REQUESTS_CATEGORY (REQUEST_ID, REQUESTER_ID, NAME) values ('10', '1', 'ogród')
-
-//REQUEST_BOXES_X_REQUESTS
-insert into REQUEST_BOXES_X_REQUESTS values('1','1');
-insert into REQUEST_BOXES_X_REQUESTS values('1','2');
-insert into REQUEST_BOXES_X_REQUESTS values('1','3');
-insert into REQUEST_BOXES_X_REQUESTS values('1','4');
-insert into REQUEST_BOXES_X_REQUESTS values('2','5');
-insert into REQUEST_BOXES_X_REQUESTS values('1','6');
-insert into REQUEST_BOXES_X_REQUESTS values('1','7');
-insert into REQUEST_BOXES_X_REQUESTS values('1','8');
-insert into REQUEST_BOXES_X_REQUESTS values('1','9');
-insert into REQUEST_BOXES_X_REQUESTS values('1','10');
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_ID) values ('1', 'ACCEPTED', '1', 'taniec', '1')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_ID) values ('2', 'ACCEPTED', '1', 'sport', '2')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_ID) values ('3', 'REJECTED', '1', 'kółko różańcowe', '3')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('4', 'ACCEPTED', '2', 'programowanie')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('5', 'NOT_PROCESSED', '2', 'muzyka')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('6', 'NOT_PROCESSED', '1', 'kuchnia')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('7', 'NOT_PROCESSED', '1', 'książki')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('8', 'NOT_PROCESSED', '2', 'teatr')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('9', 'NOT_PROCESSED', '1', 'kino')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('10', 'NOT_PROCESSED', '1', 'ogród')
 
 

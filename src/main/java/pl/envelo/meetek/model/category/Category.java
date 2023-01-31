@@ -22,6 +22,11 @@ public class Category {
     private String name;
     private boolean isActive;
 
+    public Category(String name, boolean isActive) {
+        this.name = name;
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
         return "Category{" +

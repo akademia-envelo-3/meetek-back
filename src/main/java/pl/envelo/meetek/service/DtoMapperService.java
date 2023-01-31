@@ -16,8 +16,6 @@ import pl.envelo.meetek.dto.notification.NotificationCategoryDto;
 import pl.envelo.meetek.dto.notification.NotificationDto;
 import pl.envelo.meetek.dto.notification.NotificationTypeDto;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
-import pl.envelo.meetek.dto.request.RequestBoxDto;
-import pl.envelo.meetek.dto.request.RequestStatusDto;
 import pl.envelo.meetek.dto.survey.SurveyChoiceDto;
 import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.dto.survey.SurveyResponseDto;
@@ -25,6 +23,7 @@ import pl.envelo.meetek.dto.user.AdminDto;
 import pl.envelo.meetek.dto.user.GuestDto;
 import pl.envelo.meetek.dto.user.StandardUserLongDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
+import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.coordinates.Coordinates;
@@ -39,19 +38,12 @@ import pl.envelo.meetek.model.notification.Notification;
 import pl.envelo.meetek.model.notification.NotificationCategory;
 import pl.envelo.meetek.model.notification.NotificationType;
 import pl.envelo.meetek.model.request.CategoryRequest;
-import pl.envelo.meetek.model.request.RequestBox;
-import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
 import pl.envelo.meetek.model.user.Admin;
 import pl.envelo.meetek.model.user.Guest;
 import pl.envelo.meetek.model.user.StandardUser;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.Map;
 
 @AllArgsConstructor
 @Service
@@ -143,27 +135,15 @@ public class DtoMapperService {
     }
 
     public CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
-        return modelMapper.map(categoryRequestDto, CategoryRequest.class);
+        CategoryRequest request = modelMapper.map(categoryRequestDto, CategoryRequest.class);
+        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus()));
+        return request;
     }
 
     public CategoryRequestDto mapToCategoryRequestDto(CategoryRequest categoryRequest) {
-        return modelMapper.map(categoryRequest, CategoryRequestDto.class);
-    }
-
-    public RequestBox mapToRequestBox(RequestBoxDto requestBoxDto) {
-        return modelMapper.map(requestBoxDto, RequestBox.class);
-    }
-
-    public RequestBoxDto mapToRequestBoxDto(RequestBox requestBox) {
-        return modelMapper.map(requestBox, RequestBoxDto.class);
-    }
-
-    public RequestStatus mapToRequestStatus(RequestStatusDto requestStatusDto) {
-        return modelMapper.map(requestStatusDto, RequestStatus.class);
-    }
-
-    public RequestStatusDto mapToRequestStatusDto(RequestStatus requestStatus) {
-        return modelMapper.map(requestStatus, RequestStatusDto.class);
+        CategoryRequestDto requestDto = modelMapper.map(categoryRequest, CategoryRequestDto.class);
+        requestDto.setRequestStatus(categoryRequest.getStatus().toString());
+        return requestDto;
     }
 
     public Notification mapToNotification(NotificationDto notificationDto) {
