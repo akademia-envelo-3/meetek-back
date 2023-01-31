@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
@@ -22,8 +23,8 @@ import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.event.SingleEventService;
 
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -246,6 +247,44 @@ public class SingleEventController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @PostMapping("/comment/reply")
+    @Operation(summary = "Reply to comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Comment created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> replyToComment(@RequestBody EventCommentDto eventCommentDto,@RequestParam long repliedCommentId) {
+
+        EventComment eventComment = eventCommentService.replyToComment(dtoMapperService.mapToEventComment(eventCommentDto), repliedCommentId);
+        if(eventComment == null){return ResponseEntity.badRequest().build();}
+        
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(eventComment.getCommentId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/{eventId}/comment/{commentId}")
+    @Operation(summary = "Create a new comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Comment has been created",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = EventCommentDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> addEventComment(@RequestBody EventCommentDto eventCommentDto) {
+        EventComment eventComment = eventCommentService.saveNewEventComment(dtoMapperService.mapToEventComment(eventCommentDto));
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(eventComment.getCommentId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
 }

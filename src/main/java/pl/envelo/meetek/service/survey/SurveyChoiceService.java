@@ -24,6 +24,11 @@ public class SurveyChoiceService {
         return surveyChoiceRepo.findById(surveyChoiceId);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<SurveyChoice> getSurveyChoiceByDescription(String description){
+        return surveyChoiceRepo.findByDescription(description);
+    }
+
     @Transactional
     public void deleteSurveyChoice(long surveyChoiceId){
         surveyChoiceRepo.deleteById(surveyChoiceId);

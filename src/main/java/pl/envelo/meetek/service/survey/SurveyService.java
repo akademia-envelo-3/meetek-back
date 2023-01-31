@@ -7,8 +7,6 @@ import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
 import pl.envelo.meetek.repository.survey.SurveyRepo;
-
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -18,11 +16,16 @@ import java.util.*;
 public class SurveyService {
 
     private final SurveyRepo surveyRepo;
+    private final SurveyChoiceService surveyChoiceService;
 
     public final SurveyResponseService surveyResponseService;
 
     @Transactional
     public Survey createSurvey(Survey survey) {
+        for (SurveyChoice surveyChoice : survey.getChoices()) {
+            if(surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty())
+                surveyChoiceService.createSurveyChoice(surveyChoice);
+        }
         return surveyRepo.save(survey);
     }
 
