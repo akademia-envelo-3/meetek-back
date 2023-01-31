@@ -7,6 +7,7 @@ import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.comment.EventCommentService;
+import pl.envelo.meetek.service.hashtag.HashtagService;
 import pl.envelo.meetek.service.survey.SurveyService;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class SingleEventService {
     private final SingleEventRepo singleEventRepo;
     private final SurveyService surveyService;
     private final EventCommentService eventCommentService;
+    private final HashtagService hashtagService;
 
     @Transactional(readOnly = true)
     public Optional<SingleEvent> getSingleEventById(long id) {
@@ -130,12 +132,8 @@ public class SingleEventService {
 
     public void changeCounterOfHashtag(Hashtag hashtag, boolean counterIncrease) {
         int counter = hashtag.getCountOfHashtagUsage();
-        if (!counterIncrease) {
-            counter += 1;
-        } else {
-            counter -= 1;
-        }
-        hashtag.setCountOfHashtagUsage(counter);
+        hashtag.setCountOfHashtagUsage(counter = counterIncrease ? counter++ : counter--);
+        hashtagService.editHashtag(hashtag.getHashtagId(), hashtag);
     }
 
 }
