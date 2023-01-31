@@ -15,17 +15,17 @@ public class SurveyResponseService {
     private final SurveyResponseRepo surveyResponseRepo;
 
     @Transactional
-    public void createSurveyResponse(SurveyResponse surveyResponse){
-        surveyResponseRepo.save(surveyResponse);
+    public SurveyResponse createSurveyResponse(SurveyResponse surveyResponse) {
+        return surveyResponseRepo.save(surveyResponse);
     }
 
     @Transactional(readOnly = true)
-    public Optional<SurveyResponse> getSurveyResponse(long surveyResponseId){
+    public Optional<SurveyResponse> getSurveyResponse(long surveyResponseId) {
         return surveyResponseRepo.findById(surveyResponseId);
     }
 
     @Transactional
-    public void deleteSurveyResponse(long surveyResponseId){
+    public void deleteSurveyResponse(long surveyResponseId) {
         surveyResponseRepo.deleteById(surveyResponseId);
     }
 }
