@@ -38,6 +38,12 @@ public class CategoryService {
         categoryRepo.save(categoryToBeUpdated);
     }
 
+    @Transactional
+    public void activateCategory(Category category) {
+        category.setActive(true);
+        categoryRepo.save(category);
+    }
+
     @Transactional(readOnly = true)
     public List<Category> getAllCategories() {
         return categoryRepo.findAll(Sort.by("name"));
