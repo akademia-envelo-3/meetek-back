@@ -248,4 +248,21 @@ public class SingleEventController {
         }
     }
 
+    @PostMapping("/comment/reply")
+    @Operation(summary = "Reply to comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Comment created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
+    public ResponseEntity<Void> replyToComment(@RequestBody EventCommentDto eventCommentDto,@RequestParam long repliedCommentId) {
+
+        EventComment eventComment = eventCommentService.replyToComment(dtoMapperService.mapToEventComment(eventCommentDto), repliedCommentId);
+        if(eventComment == null){return ResponseEntity.badRequest().build();}
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(eventComment.getCommentId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
 }
