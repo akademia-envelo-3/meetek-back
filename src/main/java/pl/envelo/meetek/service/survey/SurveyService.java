@@ -3,12 +3,11 @@ package pl.envelo.meetek.service.survey;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
 import pl.envelo.meetek.repository.survey.SurveyRepo;
-import pl.envelo.meetek.service.DtoMapperService;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,6 +18,8 @@ import java.util.*;
 public class SurveyService {
 
     private final SurveyRepo surveyRepo;
+
+    public final SurveyResponseService surveyResponseService;
 
     @Transactional
     public Survey createSurvey(Survey survey) {
@@ -31,6 +32,17 @@ public class SurveyService {
         surveyOptional.ifPresent(this::setSurveyFields);
 
         return surveyOptional;
+    }
+
+    @Transactional
+    public Optional<SurveyResponse> addResponse(long surveyId, SurveyResponse surveyResponse) {
+        Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
+        if (surveyOptional.isPresent()) {
+            SurveyResponse surveyResponse1 = surveyResponseService.createSurveyResponse(surveyResponse);
+            surveyOptional.get().getResponses().add(surveyResponse1);
+            return Optional.of(surveyResponse1);
+        }
+        return Optional.empty();
     }
 
     @Transactional
