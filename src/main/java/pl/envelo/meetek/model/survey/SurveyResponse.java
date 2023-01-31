@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
 import java.util.Objects;
 import java.util.Set;
@@ -12,16 +14,24 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "survey_responses")
 public class SurveyResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long responseId;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "survey_responses_x_answers",
+            joinColumns = @JoinColumn(name = "response_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id"))
     private Set<SurveyChoice> answers;
+
     @ManyToOne
-    private AppUser user;
+    @JoinColumn(name = "user_id")
+    private StandardUser user;
 
     @Override
     public String toString() {
@@ -37,11 +47,11 @@ public class SurveyResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SurveyResponse that = (SurveyResponse) o;
-        return Objects.equals(responseId, that.responseId) && Objects.equals(answers, that.answers) && Objects.equals(user, that.user);
+        return Objects.equals(responseId, that.responseId) && Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(responseId, answers, user);
+        return Objects.hash(responseId, user);
     }
 }

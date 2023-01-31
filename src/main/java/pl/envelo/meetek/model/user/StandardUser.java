@@ -1,36 +1,49 @@
 package pl.envelo.meetek.model.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.envelo.meetek.model.event.Event;
 import pl.envelo.meetek.model.event.EventResponse;
+import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.group.Group;
+import pl.envelo.meetek.model.group.Section;
 import pl.envelo.meetek.model.notification.Notification;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "standard_users")
 public class StandardUser extends AppUser {
 
-    @OneToMany
-    private Set<Event> ownedEvents;
+    @OneToMany(mappedBy = "owner")
+    private Set<SingleEvent> ownedEvents;
+
     @ManyToMany
-    private Map<Event, EventResponse> eventsWithResponse;
-    @OneToMany
-    private Set<Group> ownedGroups;
+    @JoinTable(name = "users_x_events_responses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "response_id"))
+    @MapKeyJoinColumn(name = "event_id")
+    private Map<SingleEvent, EventResponse> eventsWithResponse;
+
+    @OneToMany(mappedBy = "groupOwner")
+    private Set<Section> ownedGroups;
+
     @ManyToMany
-    private Set<Group> joinedGroups;
-    @OneToMany
+    @JoinTable(name = "sections_x_joined_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id"))
+    private Set<Section> joinedGroups;
+
+    @OneToMany(mappedBy = "recipient")
     private Set<Notification> notifications;
 
-    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<Event> ownedEvents, Map<Event, EventResponse> eventsWithResponse, Set<Group> ownedGroups, Set<Group> joinedGroups, Set<Notification> notifications) {
+    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<SingleEvent> ownedEvents, Map<SingleEvent, EventResponse> eventsWithResponse, Set<Section> ownedGroups, Set<Section> joinedGroups, Set<Notification> notifications) {
         super(participantId, firstname, lastname, mail, password, Role.ROLE_USER);
         this.ownedEvents = ownedEvents;
         this.eventsWithResponse = eventsWithResponse;
@@ -52,14 +65,12 @@ public class StandardUser extends AppUser {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StandardUser that = (StandardUser) o;
-        return Objects.equals(ownedEvents, that.ownedEvents) && Objects.equals(eventsWithResponse, that.eventsWithResponse) && Objects.equals(ownedGroups, that.ownedGroups) && Objects.equals(joinedGroups, that.joinedGroups) && Objects.equals(notifications, that.notifications);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ownedEvents, eventsWithResponse, ownedGroups, joinedGroups, notifications);
+        return super.hashCode();
     }
+
 }

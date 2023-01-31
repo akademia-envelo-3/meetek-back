@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.dto.AttachmentDto;
+import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +22,6 @@ public class EventCommentDto {
     private String comment;
     private long eventId;
     private EventCommentDto replyToComment;
-    private Set<AttachmentDto> attachments;
+    private List<AttachmentDto> attachments;
 
 }

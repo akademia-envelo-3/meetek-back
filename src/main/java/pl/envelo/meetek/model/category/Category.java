@@ -1,19 +1,19 @@
-package pl.envelo.meetek.model;
+package pl.envelo.meetek.model.category;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "categories")
 public class Category {
 
     @Id
@@ -21,6 +21,11 @@ public class Category {
     private Long categoryId;
     private String name;
     private boolean isActive;
+
+    public Category(String name, boolean isActive) {
+        this.name = name;
+        this.isActive = isActive;
+    }
 
     @Override
     public String toString() {

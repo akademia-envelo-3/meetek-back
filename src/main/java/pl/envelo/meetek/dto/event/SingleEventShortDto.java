@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.dto.CategoryDto;
-import pl.envelo.meetek.dto.HashtagDto;
+import pl.envelo.meetek.dto.category.CategoryDto;
+import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
+import pl.envelo.meetek.dto.hashtag.HashtagDto;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -21,6 +22,9 @@ public class SingleEventShortDto {
     private String name;
     private LocalDateTime dateTimeFrom;
     private CategoryDto category;
+    private CoordinatesDto coordinates;
+    private String locationName;
+    private boolean isExternal;
     private boolean isPrivate;
 
 }

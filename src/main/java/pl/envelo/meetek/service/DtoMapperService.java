@@ -3,10 +3,10 @@ package pl.envelo.meetek.service;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import pl.envelo.meetek.dto.AttachmentDto;
-import pl.envelo.meetek.dto.CategoryDto;
-import pl.envelo.meetek.dto.CoordinatesDto;
-import pl.envelo.meetek.dto.HashtagDto;
+import pl.envelo.meetek.dto.attachment.AttachmentDto;
+import pl.envelo.meetek.dto.category.CategoryDto;
+import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
+import pl.envelo.meetek.dto.hashtag.HashtagDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
 import pl.envelo.meetek.dto.comment.RequestCommentDto;
 import pl.envelo.meetek.dto.event.*;
@@ -16,8 +16,6 @@ import pl.envelo.meetek.dto.notification.NotificationCategoryDto;
 import pl.envelo.meetek.dto.notification.NotificationDto;
 import pl.envelo.meetek.dto.notification.NotificationTypeDto;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
-import pl.envelo.meetek.dto.request.RequestBoxDto;
-import pl.envelo.meetek.dto.request.RequestStatusDto;
 import pl.envelo.meetek.dto.survey.SurveyChoiceDto;
 import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.dto.survey.SurveyResponseDto;
@@ -25,10 +23,11 @@ import pl.envelo.meetek.dto.user.AdminDto;
 import pl.envelo.meetek.dto.user.GuestDto;
 import pl.envelo.meetek.dto.user.StandardUserLongDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
-import pl.envelo.meetek.model.Attachment;
-import pl.envelo.meetek.model.Category;
-import pl.envelo.meetek.model.Coordinates;
-import pl.envelo.meetek.model.Hashtag;
+import pl.envelo.meetek.model.request.RequestStatus;
+import pl.envelo.meetek.model.attachment.Attachment;
+import pl.envelo.meetek.model.category.Category;
+import pl.envelo.meetek.model.coordinates.Coordinates;
+import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.comment.RequestComment;
 import pl.envelo.meetek.model.event.EventResponse;
@@ -39,8 +38,6 @@ import pl.envelo.meetek.model.notification.Notification;
 import pl.envelo.meetek.model.notification.NotificationCategory;
 import pl.envelo.meetek.model.notification.NotificationType;
 import pl.envelo.meetek.model.request.CategoryRequest;
-import pl.envelo.meetek.model.request.RequestBox;
-import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
@@ -138,27 +135,15 @@ public class DtoMapperService {
     }
 
     public CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
-        return modelMapper.map(categoryRequestDto, CategoryRequest.class);
+        CategoryRequest request = modelMapper.map(categoryRequestDto, CategoryRequest.class);
+        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus()));
+        return request;
     }
 
     public CategoryRequestDto mapToCategoryRequestDto(CategoryRequest categoryRequest) {
-        return modelMapper.map(categoryRequest, CategoryRequestDto.class);
-    }
-
-    public RequestBox mapToRequestBox(RequestBoxDto requestBoxDto) {
-        return modelMapper.map(requestBoxDto, RequestBox.class);
-    }
-
-    public RequestBoxDto mapToRequestBoxDto(RequestBox requestBox) {
-        return modelMapper.map(requestBox, RequestBoxDto.class);
-    }
-
-    public RequestStatus mapToRequestStatus(RequestStatusDto requestStatusDto) {
-        return modelMapper.map(requestStatusDto, RequestStatus.class);
-    }
-
-    public RequestStatusDto mapToRequestStatusDto(RequestStatus requestStatus) {
-        return modelMapper.map(requestStatus, RequestStatusDto.class);
+        CategoryRequestDto requestDto = modelMapper.map(categoryRequest, CategoryRequestDto.class);
+        requestDto.setRequestStatus(categoryRequest.getStatus().toString());
+        return requestDto;
     }
 
     public Notification mapToNotification(NotificationDto notificationDto) {

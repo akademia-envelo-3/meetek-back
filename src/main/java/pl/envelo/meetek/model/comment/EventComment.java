@@ -1,29 +1,51 @@
 package pl.envelo.meetek.model.comment;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.envelo.meetek.model.Attachment;
+import lombok.Setter;
+import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.event.Event;
+import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.user.AppUser;
+import pl.envelo.meetek.model.user.StandardUser;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "event_comments")
 public class EventComment extends Comment {
 
     @ManyToOne
-    private Event event;
+    @JoinColumn(name = "owner_id")
+    private StandardUser commentOwner;
     @ManyToOne
+    @JoinColumn(name = "event_id")
+    private SingleEvent event;
+
+    @ManyToOne
+    @JoinColumn(name = "replied_comment_id")
     private EventComment replyToComment;
+
     @OneToMany
-    private Set<Attachment> attachments;
+    @JoinTable(name = "event_comments_x_attachments",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "attachment_id"))
+    private List<Attachment> attachments;
+
+    public EventComment(Long commentId, LocalDateTime addingDateTime, String comment, StandardUser commentOwner, SingleEvent event, EventComment replyToComment, List<Attachment> attachments) {
+        super(commentId, addingDateTime, comment);
+        this.commentOwner = commentOwner;
+        this.event = event;
+        this.replyToComment = replyToComment;
+        this.attachments = attachments;
+    }
 
     @Override
     public String toString() {
@@ -40,11 +62,11 @@ public class EventComment extends Comment {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         EventComment that = (EventComment) o;
-        return Objects.equals(event, that.event) && Objects.equals(replyToComment, that.replyToComment) && Objects.equals(attachments, that.attachments);
+        return Objects.equals(event, that.event) && Objects.equals(replyToComment, that.replyToComment) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), event, replyToComment, attachments);
+        return super.hashCode();
     }
 }

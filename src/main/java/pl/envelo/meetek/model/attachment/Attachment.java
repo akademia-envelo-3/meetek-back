@@ -1,30 +1,31 @@
-package pl.envelo.meetek.model.request;
+package pl.envelo.meetek.model.attachment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
-public class RequestBox {
+@Table(name = "attachments")
+public class Attachment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long requestBoxId;
-    @OneToMany
-    private Set<Request> requests;
+    private Long attachmentId;
+    private String link;
 
     @Override
     public String toString() {
-        return "RequestBox{" +
-                "requestBoxId=" + requestBoxId +
-                ", requests=" + requests +
+        return "Attachment{" +
+                "attachmentId=" + attachmentId +
+                ", link='" + link + '\'' +
                 '}';
     }
 
@@ -32,12 +33,12 @@ public class RequestBox {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestBox that = (RequestBox) o;
-        return Objects.equals(requestBoxId, that.requestBoxId) && Objects.equals(requests, that.requests);
+        Attachment that = (Attachment) o;
+        return Objects.equals(attachmentId, that.attachmentId) && Objects.equals(link, that.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestBoxId, requests);
+        return Objects.hash(attachmentId, link);
     }
 }

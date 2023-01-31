@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 import java.util.Set;
@@ -11,14 +12,20 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "recurring_events")
 public class RecurringEventSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventSetId;
+
     @OneToMany
-    private Set<Event> events;
+    @JoinTable(name = "recurring_events_x_events",
+            joinColumns = @JoinColumn(name = "event_set_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private Set<SingleEvent> events;
     private int eventFrequency;
     private int recursiveCount;
 
@@ -37,11 +44,11 @@ public class RecurringEventSet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecurringEventSet that = (RecurringEventSet) o;
-        return eventFrequency == that.eventFrequency && recursiveCount == that.recursiveCount && Objects.equals(eventSetId, that.eventSetId) && Objects.equals(events, that.events);
+        return eventFrequency == that.eventFrequency && recursiveCount == that.recursiveCount && Objects.equals(eventSetId, that.eventSetId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventSetId, events, eventFrequency, recursiveCount);
+        return Objects.hash(eventSetId, eventFrequency, recursiveCount);
     }
 }

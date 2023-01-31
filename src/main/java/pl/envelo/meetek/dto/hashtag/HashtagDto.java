@@ -1,4 +1,4 @@
-package pl.envelo.meetek.dto;
+package pl.envelo.meetek.dto.hashtag;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+public class HashtagDto {
 
-    private long categoryId;
+    private long hashtagId;
     private String name;
     private boolean isActive;
+    private int countOfHashtagUsage;
 
 }

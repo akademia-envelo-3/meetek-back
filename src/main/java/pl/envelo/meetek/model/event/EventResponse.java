@@ -1,23 +1,24 @@
 package pl.envelo.meetek.model.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "event_responses")
 public class EventResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "response_id")
     private Long eventResponseId;
     private String response;
 
@@ -41,4 +42,5 @@ public class EventResponse {
     public int hashCode() {
         return Objects.hash(eventResponseId, response);
     }
+
 }

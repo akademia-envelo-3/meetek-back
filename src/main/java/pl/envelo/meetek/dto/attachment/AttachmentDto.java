@@ -1,4 +1,4 @@
-package pl.envelo.meetek.dto;
+package pl.envelo.meetek.dto.attachment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoordinatesDto {
+public class AttachmentDto {
 
-    private long coordinatesId;
-    private float latitude;
-    private float longitude;
+    private long attachmentId;
+    private String link;
 
 }

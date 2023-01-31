@@ -1,19 +1,18 @@
-package pl.envelo.meetek.dto.request;
+package pl.envelo.meetek.dto.coordinates;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestBoxDto {
+public class CoordinatesDto {
 
-    private long requestBoxId;
-    private Set<CategoryRequestDto> requests;
+    private long coordinatesId;
+    private float latitude;
+    private float longitude;
 
 }

@@ -1,41 +1,42 @@
 package pl.envelo.meetek.model.comment;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.envelo.meetek.model.request.Request;
+import lombok.Setter;
+import pl.envelo.meetek.model.user.Admin;
+import pl.envelo.meetek.model.user.AppUser;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
+@Table(name = "request_comments")
 public class RequestComment extends Comment {
 
-    @OneToOne
-    private Request request;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Admin commentOwner;
+
+    public RequestComment(Long commentId, LocalDateTime addingDateTime, String comment, Admin commentOwner) {
+        super(commentId, addingDateTime, comment);
+        this.commentOwner = commentOwner;
+    }
 
     @Override
     public String toString() {
-        return super.toString() + " RequestComment{" +
-                "request=" + request +
-                '}';
+        return super.toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        RequestComment that = (RequestComment) o;
-        return Objects.equals(request, that.request);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), request);
+        return super.hashCode();
     }
 }
