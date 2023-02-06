@@ -11,10 +11,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
+import pl.envelo.meetek.dto.event.SingleEventCreateDto;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.comment.EventComment;
@@ -44,7 +44,7 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
+    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventCreateDto eventDto) {
         SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -255,11 +255,13 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Comment created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> replyToComment(@RequestBody EventCommentDto eventCommentDto,@RequestParam long repliedCommentId) {
+    public ResponseEntity<Void> replyToComment(@RequestBody EventCommentDto eventCommentDto, @RequestParam long repliedCommentId) {
 
         EventComment eventComment = eventCommentService.replyToComment(dtoMapperService.mapToEventComment(eventCommentDto), repliedCommentId);
-        if(eventComment == null){return ResponseEntity.badRequest().build();}
-        
+        if (eventComment == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

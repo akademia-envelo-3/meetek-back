@@ -5,13 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.category.CategoryDto;
-import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
-import pl.envelo.meetek.dto.hashtag.HashtagDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
 import pl.envelo.meetek.dto.comment.RequestCommentDto;
+import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
 import pl.envelo.meetek.dto.event.*;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
+import pl.envelo.meetek.dto.hashtag.HashtagDto;
 import pl.envelo.meetek.dto.notification.NotificationCategoryDto;
 import pl.envelo.meetek.dto.notification.NotificationDto;
 import pl.envelo.meetek.dto.notification.NotificationTypeDto;
@@ -23,21 +23,21 @@ import pl.envelo.meetek.dto.user.AdminDto;
 import pl.envelo.meetek.dto.user.GuestDto;
 import pl.envelo.meetek.dto.user.StandardUserLongDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
-import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.category.Category;
-import pl.envelo.meetek.model.coordinates.Coordinates;
-import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.comment.RequestComment;
+import pl.envelo.meetek.model.coordinates.Coordinates;
 import pl.envelo.meetek.model.event.EventResponse;
 import pl.envelo.meetek.model.event.RecurringEventSet;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.group.Section;
+import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.notification.Notification;
 import pl.envelo.meetek.model.notification.NotificationCategory;
 import pl.envelo.meetek.model.notification.NotificationType;
 import pl.envelo.meetek.model.request.CategoryRequest;
+import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
@@ -220,6 +220,14 @@ public class DtoMapperService {
 
     public SingleEventGuestDto mapToSingleEventGuestDto(SingleEvent singleEvent) {
         return modelMapper.map(singleEvent, SingleEventGuestDto.class);
+    }
+
+    public SingleEventCreateDto mapToSingleEventCreateDto(SingleEvent singleEvent) {
+        return modelMapper.map(singleEvent, SingleEventCreateDto.class);
+    }
+
+    public SingleEvent mapToSingleEvent(SingleEventCreateDto singleEventCreateDto) {
+        return modelMapper.map(singleEventCreateDto, SingleEvent.class);
     }
 
     public EventComment mapToEventComment(EventCommentDto eventCommentDto) {
