@@ -9,6 +9,7 @@ import pl.envelo.meetek.dto.comment.EventCommentDto;
 import pl.envelo.meetek.dto.comment.RequestCommentDto;
 import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
 import pl.envelo.meetek.dto.event.*;
+import pl.envelo.meetek.dto.group.SectionCreateDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.dto.hashtag.HashtagDto;
@@ -184,6 +185,14 @@ public class DtoMapperService {
 
     public SectionShortDto mapToSectionShortDto(Section section) {
         return modelMapper.map(section, SectionShortDto.class);
+    }
+
+    public SectionCreateDto mapToSectionCreateDto(Section section) {
+        return modelMapper.map(section, SectionCreateDto.class);
+    }
+
+    public Section mapToSection(SectionCreateDto sectionCreateDto) {
+        return modelMapper.map(sectionCreateDto, Section.class);
     }
 
     public EventResponse mapToEventResponse(EventResponseDto eventResponseDto) {

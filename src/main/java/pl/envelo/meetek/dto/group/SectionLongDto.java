@@ -21,9 +21,6 @@ public class SectionLongDto {
     private String description;
     private boolean isActive;
     private int membersCount;
-    private Set<StandardUserShortDto> joinedUsers;
-    private Set<SingleEventShortDto> events;
-    private Set<RecurringEventSetDto> recurringEvents;
     private StandardUserShortDto groupOwner;
 
 }
