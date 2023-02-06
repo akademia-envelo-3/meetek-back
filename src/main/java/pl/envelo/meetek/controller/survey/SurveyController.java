@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.survey.SurveyDto;
-import pl.envelo.meetek.dto.survey.SurveyResponseDto;
+import pl.envelo.meetek.dto.survey.SurveyResponseCreateDto;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyResponse;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.survey.SurveyResponseService;
 import pl.envelo.meetek.service.survey.SurveyService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.Optional;
@@ -30,6 +32,7 @@ public class SurveyController {
     private SurveyService surveyService;
 
     private SurveyResponseService surveyResponseService;
+    private StandardUserService standardUserService;
     private DtoMapperService dtoMapperService;
 
     //testowo - do usunięcia
@@ -44,8 +47,10 @@ public class SurveyController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Response created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
-    public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestBody SurveyResponseDto surveyResponseDto) {
-        Optional<SurveyResponse> surveyResponse = surveyService.addResponse(surveyId, dtoMapperService.mapToSurveyResponse(surveyResponseDto));
+    public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestParam long userId, @RequestBody SurveyResponseCreateDto surveyResponseCreateDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+
+        Optional<SurveyResponse> surveyResponse = surveyService.addResponse(surveyId, standardUserOptional, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
         if (surveyResponse.isPresent()) {
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()

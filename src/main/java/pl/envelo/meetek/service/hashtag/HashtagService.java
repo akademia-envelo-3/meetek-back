@@ -23,6 +23,8 @@ public class HashtagService {
 
     @Transactional
     public Hashtag saveNewHashtag(Hashtag hashtag) {
+        hashtag.setActive(true);
+        hashtag.setCountOfHashtagUsage(0);
         return hashtagRepo.save(hashtag);
     }
 

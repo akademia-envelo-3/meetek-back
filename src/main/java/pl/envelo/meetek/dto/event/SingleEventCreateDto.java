@@ -7,7 +7,8 @@ import lombok.Setter;
 import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.category.CategoryDto;
 import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
-import pl.envelo.meetek.dto.hashtag.HashtagDto;
+import pl.envelo.meetek.dto.hashtag.HashtagCreateDto;
+import pl.envelo.meetek.dto.survey.SurveyCreateDto;
 import pl.envelo.meetek.dto.survey.SurveyDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
 
@@ -21,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class SingleEventCreateDto {
 
-    private Set<HashtagDto> hashtags;
+    private Set<HashtagCreateDto> hashtags;
     private StandardUserShortDto owner;
     private String name;
     private String link;
@@ -38,6 +39,6 @@ public class SingleEventCreateDto {
     private boolean isResponseRequired;
     private int participantsLimit;
     private List<AttachmentDto> attachments;
-    private Set<SurveyDto> surveys;
+    private Set<SurveyCreateDto> surveys;
 
 }
