@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.envelo.meetek.dto.attachment.AttachmentDto;
 import pl.envelo.meetek.dto.category.CategoryDto;
+import pl.envelo.meetek.dto.comment.EventCommentCreateDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
 import pl.envelo.meetek.dto.comment.RequestCommentDto;
 import pl.envelo.meetek.dto.coordinates.CoordinatesDto;
@@ -245,6 +246,14 @@ public class DtoMapperService {
 
     public EventCommentDto mapToEventCommentDto(EventComment eventComment) {
         return modelMapper.map(eventComment, EventCommentDto.class);
+    }
+
+    public EventComment mapToEventComment(EventCommentCreateDto eventCommentCreateDto) {
+        return modelMapper.map(eventCommentCreateDto, EventComment.class);
+    }
+
+    public EventCommentCreateDto mapToEventCommentCreateDto(EventComment eventComment) {
+        return modelMapper.map(eventComment, EventCommentCreateDto.class);
     }
 
     public RequestComment mapToRequestComment(RequestCommentDto requestCommentDto) {
