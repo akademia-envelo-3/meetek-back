@@ -48,8 +48,11 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventCreateDto eventDto) {
-        SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
+    public ResponseEntity<Void> saveNewEvent(@RequestParam long userId, @RequestBody SingleEventCreateDto eventDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){return ResponseEntity.notFound().build();}
+
+        SingleEvent entity = singleEventService.saveNewSingleEvent(standardUserOptional.get(),dtoMapperService.mapToSingleEvent(eventDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
