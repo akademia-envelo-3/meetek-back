@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.dto.group.SectionCreateDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.group.SectionService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.List;
@@ -29,6 +32,7 @@ import java.util.Optional;
 public class SectionController {
 
     private final SectionService sectionService;
+    private final StandardUserService standardUserService;
     private final DtoMapperService dtoMapperService;
 
     @GetMapping()
@@ -64,18 +68,17 @@ public class SectionController {
     @Operation(summary = "Edit section")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "section edited",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionLongDto.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionCreateDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
             @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
-    public ResponseEntity<Void> editSection(@PathVariable long sectionId, @RequestBody SectionLongDto sectionDto) {
-        if (sectionDto.getGroupId() != sectionId) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> editSection(
+            @PathVariable long sectionId, @RequestParam(required = false) boolean isActive, @RequestBody SectionCreateDto sectionCreateDto) {
         Optional<Section> section = sectionService.getSectionById(sectionId);
         if (section.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            sectionService.editSection(section.get(), sectionDto);
+            section.get().setActive(isActive);
+            sectionService.editSection(section.get(), dtoMapperService.mapToSection(sectionCreateDto));
             return ResponseEntity.ok().build();
         }
     }
@@ -103,8 +106,12 @@ public class SectionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
-    public ResponseEntity<Void> saveNewSection(@RequestBody SectionLongDto sectionDto) {
-        Section section = sectionService.saveNewSection(dtoMapperService.mapToSection(sectionDto));
+    public ResponseEntity<Void> saveNewSection(@RequestParam long userId, @RequestBody SectionCreateDto sectionCreateDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Section section = sectionService.saveNewSection(standardUserOptional.get(), dtoMapperService.mapToSection(sectionCreateDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

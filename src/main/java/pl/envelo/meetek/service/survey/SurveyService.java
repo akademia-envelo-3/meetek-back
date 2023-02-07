@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.survey.Survey;
 import pl.envelo.meetek.model.survey.SurveyChoice;
 import pl.envelo.meetek.model.survey.SurveyResponse;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.repository.survey.SurveyRepo;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,12 +39,14 @@ public class SurveyService {
     }
 
     @Transactional
-    public Optional<SurveyResponse> addResponse(long surveyId, SurveyResponse surveyResponse) {
+    public Optional<SurveyResponse> addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
         Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
+
         if (surveyOptional.isPresent()) {
-            SurveyResponse surveyResponse1 = surveyResponseService.createSurveyResponse(surveyResponse);
-            surveyOptional.get().getResponses().add(surveyResponse1);
-            return Optional.of(surveyResponse1);
+            surveyResponseBody.setUser(standardUser);
+            SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
+            surveyOptional.get().getResponses().add(surveyResponse);
+            return Optional.of(surveyResponse);
         }
         return Optional.empty();
     }

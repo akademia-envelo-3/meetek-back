@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.survey.Survey;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.repository.event.SingleEventRepo;
 import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.hashtag.HashtagService;
@@ -37,7 +38,8 @@ public class SingleEventService {
     }
 
     @Transactional
-    public SingleEvent saveNewSingleEvent(SingleEvent singleEvent) {
+    public SingleEvent saveNewSingleEvent(StandardUser standardUser, SingleEvent singleEvent) {
+        singleEvent.setOwner(standardUser);
         return singleEventRepo.save(singleEvent);
     }
 
@@ -139,7 +141,7 @@ public class SingleEventService {
     public void changeCounterOfHashtag(Hashtag hashtag, boolean counterIncrease) {
         int counter = hashtag.getCountOfHashtagUsage();
         hashtag.setCountOfHashtagUsage(counterIncrease ? counter++ : counter--);
-        hashtagService.editHashtag(hashtag.getHashtagId(), hashtag);
+        hashtagService.saveHashtag(hashtag);
     }
 
 }

@@ -22,14 +22,16 @@ public class HashtagService {
     }
 
     @Transactional
-    public Hashtag saveNewHashtag(Hashtag hashtag) {
+    public Hashtag saveHashtag(Hashtag hashtag) {
+        hashtag.setActive(true);
+        hashtag.setCountOfHashtagUsage(0);
         return hashtagRepo.save(hashtag);
     }
 
     @Transactional
-    public Hashtag editHashtag(long hashtagId, Hashtag hashtag) {
-        hashtag.setHashtagId(hashtagId);
-        return hashtagRepo.save(hashtag);
+    public Hashtag editHashtag(Hashtag hashtagToUpdate, Hashtag hashtagBody) {
+        hashtagToUpdate.setName(hashtagBody.getName());
+        return hashtagRepo.save(hashtagToUpdate);
     }
 
     @Transactional(readOnly = true)

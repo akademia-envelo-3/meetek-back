@@ -11,17 +11,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.dto.comment.EventCommentCreateDto;
 import pl.envelo.meetek.dto.comment.EventCommentDto;
+import pl.envelo.meetek.dto.event.SingleEventCreateDto;
 import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.event.SingleEventService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.List;
@@ -36,6 +39,7 @@ public class SingleEventController {
 
     private final SingleEventService singleEventService;
     private final EventCommentService eventCommentService;
+    private final StandardUserService standardUserService;
     private final DtoMapperService dtoMapperService;
 
 
@@ -44,8 +48,11 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> saveNewEvent(@RequestBody SingleEventShortDto eventDto) {
-        SingleEvent entity = singleEventService.saveNewSingleEvent(dtoMapperService.mapToSingleEvent(eventDto));
+    public ResponseEntity<Void> saveNewEvent(@RequestParam long userId, @RequestBody SingleEventCreateDto eventDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){return ResponseEntity.notFound().build();}
+
+        SingleEvent entity = singleEventService.saveNewSingleEvent(standardUserOptional.get(),dtoMapperService.mapToSingleEvent(eventDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -249,36 +256,24 @@ public class SingleEventController {
         }
     }
 
-
-    @PostMapping("/comment/reply")
-    @Operation(summary = "Reply to comment")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Comment created", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> replyToComment(@RequestBody EventCommentDto eventCommentDto,@RequestParam long repliedCommentId) {
-
-        EventComment eventComment = eventCommentService.replyToComment(dtoMapperService.mapToEventComment(eventCommentDto), repliedCommentId);
-        if(eventComment == null){return ResponseEntity.badRequest().build();}
-        
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(eventComment.getCommentId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
-
-    @PostMapping("/{eventId}/comment/{commentId}")
+    @PostMapping("/{eventId}/comments")
     @Operation(summary = "Create a new comment")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Comment has been created",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = EventCommentDto.class))}),
+                            schema = @Schema(implementation = EventCommentCreateDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> addEventComment(@RequestBody EventCommentDto eventCommentDto) {
-        EventComment eventComment = eventCommentService.saveNewEventComment(dtoMapperService.mapToEventComment(eventCommentDto));
-
+    public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long replyCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        Optional<SingleEvent> singleEventOptional = singleEventService.getSingleEventById(eventId);
+        if(standardUserOptional.isEmpty() || singleEventOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        EventComment eventComment = eventCommentService.saveNewEventComment(standardUserOptional.get(), singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
+        if (eventComment == null) {
+            return ResponseEntity.badRequest().build();
+        }
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

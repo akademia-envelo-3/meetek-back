@@ -3,12 +3,13 @@ package pl.envelo.meetek.service.group;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.envelo.meetek.dto.group.SectionCreateDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.model.group.Section;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.repository.group.SectionRepo;
 import pl.envelo.meetek.service.user.StandardUserService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,16 +39,10 @@ public class SectionService {
     }
 
     @Transactional
-    public Section editSection(Section section, SectionLongDto sectionDto) {
-        section.setName(sectionDto.getName());
-        section.setDescription(sectionDto.getDescription());
-        section.setActive(sectionDto.isActive());
-        if (sectionDto.getGroupOwner().getParticipantId() != sectionDto.getGroupOwner().getParticipantId()) {
-            if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
-                section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
-            }
-        }
-        return sectionRepo.save(section);
+    public Section editSection(Section sectionToUpdate, Section sectionBody) {
+        sectionToUpdate.setName(sectionBody.getName());
+        sectionToUpdate.setDescription(sectionBody.getDescription());
+        return sectionRepo.save(sectionToUpdate);
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +52,10 @@ public class SectionService {
     }
 
     @Transactional
-    public Section saveNewSection(Section section) {
+    public Section saveNewSection(StandardUser standardUser, Section section) {
+
+        section.setGroupOwner(standardUser);
+        section.setActive(true);
         return sectionRepo.save(section);
     }
 
