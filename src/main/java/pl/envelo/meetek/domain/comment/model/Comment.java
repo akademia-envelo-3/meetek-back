@@ -28,7 +28,7 @@ public abstract class Comment {
 
     @NotNull(message = "Field must not be null")
     @NotBlank(message = "Field must not be blank")
-    @Size(min = 10, max = 200, message = "Field must be between {min} and {max} characters")
+    @Size(min = 10, max = 2000, message = "Field must be between {min} and {max} characters")
     private String comment;
 
     @Override
