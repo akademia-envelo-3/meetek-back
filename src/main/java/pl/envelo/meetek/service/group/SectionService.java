@@ -39,15 +39,10 @@ public class SectionService {
     }
 
     @Transactional
-    public Section editSection(Section section, SectionCreateDto sectionCreateDto) {
-        section.setName(sectionCreateDto.getName());
-        section.setDescription(sectionCreateDto.getDescription());
-//        if (sectionDto.getGroupOwner().getParticipantId() != sectionDto.getGroupOwner().getParticipantId()) {
-//            if (standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).isPresent()) {
-//                section.setGroupOwner(standardUserService.getStandardUserById(sectionDto.getGroupOwner().getParticipantId()).get());
-//            }
-//        }
-        return sectionRepo.save(section);
+    public Section editSection(Section sectionToUpdate, Section sectionBody) {
+        sectionToUpdate.setName(sectionBody.getName());
+        sectionToUpdate.setDescription(sectionBody.getDescription());
+        return sectionRepo.save(sectionToUpdate);
     }
 
     @Transactional(readOnly = true)
@@ -57,13 +52,10 @@ public class SectionService {
     }
 
     @Transactional
-    public Section saveNewSection(long userId, Section section) {
+    public Section saveNewSection(StandardUser standardUser, Section section) {
 
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if(standardUserOptional.isPresent()){
-            section.setGroupOwner(standardUserOptional.get());
-            section.setActive(true);
-        }
+        section.setGroupOwner(standardUser);
+        section.setActive(true);
         return sectionRepo.save(section);
     }
 

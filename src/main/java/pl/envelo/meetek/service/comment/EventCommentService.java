@@ -26,24 +26,21 @@ public class EventCommentService {
     }
 
     @Transactional
-    public EventComment saveNewEventComment(long userId, Optional<SingleEvent> singleEvent, Long commentId,EventComment eventComment) {
+    public EventComment saveNewEventComment(StandardUser standardUser, SingleEvent singleEvent, Long commentId, EventComment eventComment) {
 
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if(commentId != null) {
+        if (commentId != null) {
             Optional<EventComment> eventCommentOptional = eventCommentRepo.findById(commentId);
-            if (eventCommentOptional.isPresent() && singleEvent.isPresent()) {
-                if (eventCommentOptional.get().getEvent().equals(singleEvent.get())) {
+            if (eventCommentOptional.isPresent()) {
+                if (eventCommentOptional.get().getEvent().equals(singleEvent)) {
                     eventComment.setReplyToComment(eventCommentOptional.get());
                 }
             }
         }
-        if(singleEvent.isPresent()){
-            eventComment.setAddingDateTime(LocalDateTime.now());
-            eventComment.setEvent(singleEvent.get());
-            standardUserOptional.ifPresent(eventComment::setCommentOwner);
-            return eventCommentRepo.save(eventComment);
-        }
-        return null;
+        eventComment.setAddingDateTime(LocalDateTime.now());
+        eventComment.setEvent(singleEvent);
+        eventComment.setCommentOwner(standardUser);
+        return eventCommentRepo.save(eventComment);
+
     }
 
     @Transactional

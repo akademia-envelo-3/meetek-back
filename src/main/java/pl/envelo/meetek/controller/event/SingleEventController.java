@@ -20,9 +20,11 @@ import pl.envelo.meetek.dto.event.SingleEventLongDto;
 import pl.envelo.meetek.dto.event.SingleEventShortDto;
 import pl.envelo.meetek.model.comment.EventComment;
 import pl.envelo.meetek.model.event.SingleEvent;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.comment.EventCommentService;
 import pl.envelo.meetek.service.event.SingleEventService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.List;
@@ -37,6 +39,7 @@ public class SingleEventController {
 
     private final SingleEventService singleEventService;
     private final EventCommentService eventCommentService;
+    private final StandardUserService standardUserService;
     private final DtoMapperService dtoMapperService;
 
 
@@ -259,9 +262,12 @@ public class SingleEventController {
                             schema = @Schema(implementation = EventCommentCreateDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
     public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long replyCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
-
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
         Optional<SingleEvent> singleEventOptional = singleEventService.getSingleEventById(eventId);
-        EventComment eventComment = eventCommentService.saveNewEventComment(userId, singleEventOptional, replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
+        if(standardUserOptional.isEmpty() || singleEventOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        EventComment eventComment = eventCommentService.saveNewEventComment(standardUserOptional.get(), singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
         if (eventComment == null) {
             return ResponseEntity.badRequest().build();
         }

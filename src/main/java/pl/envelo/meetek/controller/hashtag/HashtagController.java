@@ -54,7 +54,7 @@ public class HashtagController {
             @ApiResponse(responseCode = "201", description = "Hashtag created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
     public ResponseEntity<Void> saveNewHashtag(@RequestBody HashtagCreateDto hashtagCreateDto) {
-        Hashtag hashtag = hashtagService.saveNewHashtag(dtoMapperService.mapToHashtag(hashtagCreateDto));
+        Hashtag hashtag = hashtagService.saveHashtag(dtoMapperService.mapToHashtag(hashtagCreateDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -74,8 +74,9 @@ public class HashtagController {
         if (hashtag.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Hashtag updatedHashtag = dtoMapperService.mapToHashtag(hashtagCreateDto);
-        hashtagService.editHashtag(hashtagId, updatedHashtag);
+        Hashtag hashtagBody = dtoMapperService.mapToHashtag(hashtagCreateDto);
+        hashtagService.editHashtag(hashtag.get(), hashtagBody);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

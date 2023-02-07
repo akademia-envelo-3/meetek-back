@@ -8,7 +8,7 @@ import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
 import pl.envelo.meetek.repository.request.CategoryRequestRepo;
-import pl.envelo.meetek.service.category.CategoryService;
+import pl.envelo.meetek.service.attachment.category.CategoryService;
 import pl.envelo.meetek.service.comment.RequestCommentService;
 
 import java.util.List;

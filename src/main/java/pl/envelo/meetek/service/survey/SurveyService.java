@@ -39,14 +39,14 @@ public class SurveyService {
     }
 
     @Transactional
-    public Optional<SurveyResponse> addResponse(long surveyId, Optional<StandardUser> user, SurveyResponse surveyResponse) {
+    public Optional<SurveyResponse> addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
         Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
 
         if (surveyOptional.isPresent()) {
-            SurveyResponse surveyResponse1 = surveyResponseService.createSurveyResponse(surveyResponse);
-            surveyOptional.get().getResponses().add(surveyResponse1);
-            user.ifPresent(surveyResponse1::setUser);
-            return Optional.of(surveyResponse1);
+            surveyResponseBody.setUser(standardUser);
+            SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
+            surveyOptional.get().getResponses().add(surveyResponse);
+            return Optional.of(surveyResponse);
         }
         return Optional.empty();
     }

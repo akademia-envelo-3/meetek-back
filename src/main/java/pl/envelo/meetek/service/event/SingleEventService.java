@@ -139,7 +139,7 @@ public class SingleEventService {
     public void changeCounterOfHashtag(Hashtag hashtag, boolean counterIncrease) {
         int counter = hashtag.getCountOfHashtagUsage();
         hashtag.setCountOfHashtagUsage(counterIncrease ? counter++ : counter--);
-        hashtagService.editHashtag(hashtag.getHashtagId(), hashtag);
+        hashtagService.saveHashtag(hashtag);
     }
 
 }

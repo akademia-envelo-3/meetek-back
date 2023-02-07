@@ -20,7 +20,7 @@ import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.request.CategoryRequest;
-import pl.envelo.meetek.service.category.CategoryService;
+import pl.envelo.meetek.service.attachment.category.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.hashtag.HashtagService;
 import pl.envelo.meetek.service.event.SingleEventService;

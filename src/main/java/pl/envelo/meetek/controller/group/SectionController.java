@@ -16,8 +16,10 @@ import pl.envelo.meetek.dto.group.SectionCreateDto;
 import pl.envelo.meetek.dto.group.SectionLongDto;
 import pl.envelo.meetek.dto.group.SectionShortDto;
 import pl.envelo.meetek.model.group.Section;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.group.SectionService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class SectionController {
 
     private final SectionService sectionService;
+    private final StandardUserService standardUserService;
     private final DtoMapperService dtoMapperService;
 
     @GetMapping()
@@ -75,7 +78,7 @@ public class SectionController {
             return ResponseEntity.notFound().build();
         } else {
             section.get().setActive(isActive);
-            sectionService.editSection(section.get(), sectionCreateDto);
+            sectionService.editSection(section.get(), dtoMapperService.mapToSection(sectionCreateDto));
             return ResponseEntity.ok().build();
         }
     }
@@ -104,7 +107,11 @@ public class SectionController {
             @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> saveNewSection(@RequestParam long userId, @RequestBody SectionCreateDto sectionCreateDto) {
-        Section section = sectionService.saveNewSection(userId, dtoMapperService.mapToSection(sectionCreateDto));
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Section section = sectionService.saveNewSection(standardUserOptional.get(), dtoMapperService.mapToSection(sectionCreateDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

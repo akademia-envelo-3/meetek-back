@@ -24,7 +24,6 @@ import pl.envelo.meetek.dto.request.CategoryRequestDto;
 import pl.envelo.meetek.dto.survey.*;
 import pl.envelo.meetek.dto.user.AdminDto;
 import pl.envelo.meetek.dto.user.GuestDto;
-import pl.envelo.meetek.dto.user.StandardUserLongDto;
 import pl.envelo.meetek.dto.user.StandardUserShortDto;
 import pl.envelo.meetek.model.attachment.Attachment;
 import pl.envelo.meetek.model.category.Category;
@@ -101,13 +100,6 @@ public class DtoMapperService {
         return modelMapper.map(guestDto, Guest.class);
     }
 
-    public StandardUserLongDto maptoStandardUserLongDto(StandardUser standardUser) {
-        return modelMapper.map(standardUser, StandardUserLongDto.class);
-    }
-
-    public StandardUser mapToStandardUser(StandardUserLongDto standardUserLongDto) {
-        return modelMapper.map(standardUserLongDto, StandardUser.class);
-    }
 
     public StandardUserShortDto mapToStandardUserShortDto(StandardUser standardUser) {
         return modelMapper.map(standardUser, StandardUserShortDto.class);
