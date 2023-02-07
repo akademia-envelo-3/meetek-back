@@ -11,13 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.dto.request.CategoryRequestCreateDto;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
 import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.attachment.category.CategoryService;
 import pl.envelo.meetek.service.request.CategoryRequestService;
+import pl.envelo.meetek.service.user.StandardUserService;
 
 import java.net.URI;
 import java.util.Optional;
@@ -30,6 +33,7 @@ public class RequestController {
 
     private final CategoryRequestService categoryRequestService;
     private final CategoryService categoryService;
+    private final StandardUserService standardUserService;
     private final DtoMapperService dtoMapperService;
 
     @GetMapping("/{categoryRequestId}")
@@ -53,10 +57,13 @@ public class RequestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Category request created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request - wrong parameters or category already exists", content = @Content)})
-    public ResponseEntity<String> createCategoryRequest(@RequestBody CategoryRequestDto categoryRequestDto) {
-        Optional<Category> category = categoryService.getCategoryByName(categoryRequestDto.getName());
-        categoryRequestDto.setRequestStatus(RequestStatus.NOT_PROCESSED.toString());
-        CategoryRequest categoryRequest = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
+    public ResponseEntity<String> createCategoryRequest(@RequestParam long userId, @RequestBody CategoryRequestCreateDto categoryRequestCreateDto) {
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");}
+
+        Optional<Category> category = categoryService.getCategoryByName(categoryRequestCreateDto.getName());
+        CategoryRequest categoryRequest = dtoMapperService.mapToCategoryRequest(categoryRequestCreateDto);
+        categoryRequest.setCategory(null);
         if (category.isPresent()) {
             if (category.get().isActive()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category already exists");
@@ -64,11 +71,11 @@ public class RequestController {
                 categoryRequest.setCategory(category.get());
             }
         }
-        categoryRequest = categoryRequestService.createCategoryRequest(categoryRequest);
+        CategoryRequest request = categoryRequestService.createCategoryRequest(standardUserOptional.get(), categoryRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(categoryRequest.getRequestId())
+                .buildAndExpand(request.getRequestId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }

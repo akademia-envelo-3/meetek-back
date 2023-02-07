@@ -7,6 +7,8 @@ import pl.envelo.meetek.model.comment.RequestComment;
 import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
+import pl.envelo.meetek.model.user.Admin;
+import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.repository.request.CategoryRequestRepo;
 import pl.envelo.meetek.service.attachment.category.CategoryService;
 import pl.envelo.meetek.service.comment.RequestCommentService;
@@ -33,14 +35,17 @@ public class CategoryRequestService {
     }
 
     @Transactional
-    public CategoryRequest createCategoryRequest(CategoryRequest categoryRequest) {
+    public CategoryRequest createCategoryRequest(StandardUser standardUser, CategoryRequest categoryRequest) {
+        categoryRequest.setRequester(standardUser);
+        categoryRequest.setStatus(RequestStatus.NOT_PROCESSED);
         return categoryRequestRepo.save(categoryRequest);
     }
 
     @Transactional
-    public void replyToRequest(CategoryRequest request) {
+    public void replyToRequest(Admin admin, CategoryRequest request) {
         if (request.getStatus() == RequestStatus.REJECTED) {
             RequestComment requestComment = requestCommentService.createRequestComment(request.getComment());
+            requestComment.setCommentOwner(admin);
             request.setComment(requestComment);
         } else if (request.getStatus() == RequestStatus.ACCEPTED) {
             if (request.getCategory() == null) {

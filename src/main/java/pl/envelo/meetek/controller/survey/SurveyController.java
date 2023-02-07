@@ -47,9 +47,8 @@ public class SurveyController {
     public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestParam long userId, @RequestBody SurveyResponseCreateDto surveyResponseCreateDto) {
 
         Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if (standardUserOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (standardUserOptional.isEmpty()) {return ResponseEntity.notFound().build();}
+
         StandardUser standardUser = standardUserOptional.get();
         Optional<SurveyResponse> surveyResponse = surveyService.addResponse(surveyId, standardUser, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
 
