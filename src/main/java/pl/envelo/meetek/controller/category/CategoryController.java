@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.category.CategoryDto;
 import pl.envelo.meetek.model.category.Category;
-import pl.envelo.meetek.service.attachment.category.CategoryService;
+import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
 
 import java.net.URI;

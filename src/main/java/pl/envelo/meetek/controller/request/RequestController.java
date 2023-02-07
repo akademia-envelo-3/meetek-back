@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.dto.request.CategoryRequestCreateDto;
 import pl.envelo.meetek.dto.request.CategoryRequestDto;
-import pl.envelo.meetek.model.request.RequestStatus;
 import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.request.CategoryRequest;
 import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.service.DtoMapperService;
-import pl.envelo.meetek.service.attachment.category.CategoryService;
+import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.request.CategoryRequestService;
 import pl.envelo.meetek.service.user.StandardUserService;
 
@@ -71,11 +70,11 @@ public class RequestController {
                 categoryRequest.setCategory(category.get());
             }
         }
-        CategoryRequest request = categoryRequestService.createCategoryRequest(standardUserOptional.get(), categoryRequest);
+        categoryRequest = categoryRequestService.createCategoryRequest(standardUserOptional.get(), categoryRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(request.getRequestId())
+                .buildAndExpand(categoryRequest.getRequestId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }

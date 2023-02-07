@@ -10,9 +10,10 @@ import pl.envelo.meetek.model.request.CategoryRequest;
 import pl.envelo.meetek.model.user.Admin;
 import pl.envelo.meetek.model.user.StandardUser;
 import pl.envelo.meetek.repository.request.CategoryRequestRepo;
-import pl.envelo.meetek.service.attachment.category.CategoryService;
+import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.comment.RequestCommentService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,19 +43,21 @@ public class CategoryRequestService {
     }
 
     @Transactional
-    public void replyToRequest(Admin admin, CategoryRequest request) {
-        if (request.getStatus() == RequestStatus.REJECTED) {
-            RequestComment requestComment = requestCommentService.createRequestComment(request.getComment());
+    public void replyToRequest(Admin admin, CategoryRequest categoryRequestToUpdate ,CategoryRequest requestBody) {
+        if (requestBody.getStatus() == RequestStatus.REJECTED) {
+            RequestComment requestComment = requestCommentService.createRequestComment(requestBody.getComment());
             requestComment.setCommentOwner(admin);
-            request.setComment(requestComment);
-        } else if (request.getStatus() == RequestStatus.ACCEPTED) {
-            if (request.getCategory() == null) {
-                categoryService.saveNewCategory(new Category(request.getName(), true));
+            requestComment.setAddingDateTime(LocalDateTime.now());
+            categoryRequestToUpdate.setComment(requestComment);
+        } else if (requestBody.getStatus() == RequestStatus.ACCEPTED) {
+            if (categoryRequestToUpdate.getCategory() == null) {
+                categoryService.saveNewCategory(new Category(requestBody.getName(), true));
             } else {
-                categoryService.activateCategory(request.getCategory());
+                categoryService.activateCategory(categoryRequestToUpdate.getCategory());
             }
         }
-        categoryRequestRepo.save(request);
+        categoryRequestToUpdate.setStatus(requestBody.getStatus());
+        categoryRequestRepo.save(categoryRequestToUpdate);
     }
 
 }

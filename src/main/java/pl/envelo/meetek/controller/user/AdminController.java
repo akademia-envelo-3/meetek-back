@@ -20,11 +20,13 @@ import pl.envelo.meetek.model.category.Category;
 import pl.envelo.meetek.model.hashtag.Hashtag;
 import pl.envelo.meetek.model.event.SingleEvent;
 import pl.envelo.meetek.model.request.CategoryRequest;
-import pl.envelo.meetek.service.attachment.category.CategoryService;
+import pl.envelo.meetek.model.user.Admin;
+import pl.envelo.meetek.service.category.CategoryService;
 import pl.envelo.meetek.service.DtoMapperService;
 import pl.envelo.meetek.service.hashtag.HashtagService;
 import pl.envelo.meetek.service.event.SingleEventService;
 import pl.envelo.meetek.service.request.CategoryRequestService;
+import pl.envelo.meetek.service.user.AdminService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +43,7 @@ public class AdminController {
     private final CategoryService categoryService;
     private final HashtagService hashtagService;
     private final CategoryRequestService categoryRequestService;
+    private final AdminService adminService;
     private DtoMapperService dtoMapperService;
 
     @GetMapping("/past-events")
@@ -141,8 +144,12 @@ public class AdminController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryRequestDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid categoryRequestId format / incorrect requestStatus / in case of rejection - empty comment", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category request not found", content = @Content)})
-    public ResponseEntity<?> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestBody CategoryRequestDto categoryRequestDto) {
+    public ResponseEntity<?> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
         Optional<CategoryRequest> categoryRequest = categoryRequestService.getCategoryRequestById(categoryRequestId);
+        Optional<Admin> adminOptional = adminService.getById(userId);
+        if (adminOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
         if (categoryRequest.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category request not found");
         }
@@ -161,8 +168,8 @@ public class AdminController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment cannot be empty");
             }
         }
-        CategoryRequest convertedRequest = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
-        categoryRequestService.replyToRequest(convertedRequest);
+        CategoryRequest convertedRequestBody = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
+        categoryRequestService.replyToRequest(adminOptional.get(),categoryRequest.get() ,convertedRequestBody);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

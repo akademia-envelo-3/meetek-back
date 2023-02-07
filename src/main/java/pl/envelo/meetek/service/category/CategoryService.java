@@ -1,4 +1,4 @@
-package pl.envelo.meetek.service.attachment.category;
+package pl.envelo.meetek.service.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;

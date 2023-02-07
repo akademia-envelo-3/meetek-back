@@ -72,7 +72,7 @@ public class SectionController {
             @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
             @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
     public ResponseEntity<Void> editSection(
-            @RequestParam long sectionId, @RequestParam(required = false) boolean isActive, @RequestBody SectionCreateDto sectionCreateDto) {
+            @PathVariable long sectionId, @RequestParam(required = false) boolean isActive, @RequestBody SectionCreateDto sectionCreateDto) {
         Optional<Section> section = sectionService.getSectionById(sectionId);
         if (section.isEmpty()) {
             return ResponseEntity.notFound().build();

@@ -47,7 +47,6 @@ public class HashtagController {
         return ResponseEntity.notFound().build();
 
     }
-// TODO
     @PostMapping
     @Operation(summary = "Create a new hashtag")
     @ApiResponses(value = {
