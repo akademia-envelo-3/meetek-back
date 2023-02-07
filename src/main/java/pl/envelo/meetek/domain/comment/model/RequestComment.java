@@ -1,6 +1,10 @@
 package pl.envelo.meetek.domain.comment.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "request_comments")
 public class RequestComment extends Comment {
 
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Admin commentOwner;

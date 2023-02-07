@@ -1,6 +1,7 @@
 package pl.envelo.meetek.domain.request;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public abstract class Request {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long requestId;
 
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "requester_id")
     private StandardUser requester;
