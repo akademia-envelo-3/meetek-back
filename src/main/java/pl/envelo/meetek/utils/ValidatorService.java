@@ -1,6 +1,5 @@
 package pl.envelo.meetek.utils;
 
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
