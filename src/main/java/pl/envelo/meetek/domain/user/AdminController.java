@@ -124,12 +124,9 @@ public class AdminController {
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryRequestDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No category request found", content = @Content)})
     public ResponseEntity<List<CategoryRequestDto>> getAllNotProcessedCategoryRequests() {
-        List<CategoryRequest> requests = categoryRequestService.getAllNotProcessedRequests();
-        List<CategoryRequestDto> requestsDto = requests.stream()
-                .map(dtoMapperService::mapToCategoryRequestDto)
-                .toList();
-        HttpStatus status = requestsDto.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(requestsDto, status);
+        List<CategoryRequestDto> requests = categoryRequestService.getAllNotProcessedRequests();
+        HttpStatus status = requests.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(requests, status);
     }
 
     @PostMapping("/category-requests/{categoryRequestId}")

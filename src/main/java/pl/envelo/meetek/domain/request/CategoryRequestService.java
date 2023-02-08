@@ -28,9 +28,12 @@ public class CategoryRequestService {
     private final CategoryRequestValidator categoryRequestValidator;
     private final DtoMapperService mapperService;
 
-    @Transactional(readOnly = true) //TODO - used in AdminController
-    public List<CategoryRequest> getAllNotProcessedRequests() {
-        return categoryRequestRepo.findAllByStatus(RequestStatus.NOT_PROCESSED);
+    @Transactional(readOnly = true)
+    public List<CategoryRequestDto> getAllNotProcessedRequests() {
+        List<CategoryRequest> categoryRequests = categoryRequestRepo.findAllByStatus(RequestStatus.NOT_PROCESSED);
+        return categoryRequests.stream()
+                .map(mapperService::mapToCategoryRequestDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
