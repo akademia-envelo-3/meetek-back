@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.envelo.meetek.domain.category.CategoryDto;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
-import pl.envelo.meetek.domain.request.CategoryRequestDto;
-import pl.envelo.meetek.domain.request.RequestStatus;
-import pl.envelo.meetek.domain.category.Category;
+import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
+import pl.envelo.meetek.domain.request.model.RequestStatus;
 import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
-import pl.envelo.meetek.domain.request.CategoryRequest;
+import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.utils.DtoMapperService;
@@ -141,31 +140,31 @@ public class AdminController {
             @ApiResponse(responseCode = "400", description = "Invalid categoryRequestId format / incorrect requestStatus / in case of rejection - empty comment", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category request not found", content = @Content)})
     public ResponseEntity<?> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
-        Optional<CategoryRequest> categoryRequest = categoryRequestService.getCategoryRequestById(categoryRequestId);
-        Optional<Admin> adminOptional = adminService.getById(userId);
-        if (adminOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-        if (categoryRequest.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category request not found");
-        }
-        if (categoryRequest.get().getStatus() != RequestStatus.NOT_PROCESSED) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category request has already been processed");
-        }
-        Optional<RequestStatus> convertedStatus = Arrays.stream(RequestStatus.values())
-                .filter(s -> s.toString().equals(categoryRequestDto.getRequestStatus()))
-                .findFirst();
-        if (convertedStatus.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong status, values accepted: " + RequestStatus.ACCEPTED + ", " + RequestStatus.REJECTED);
-        }
-        RequestStatus requestStatus = convertedStatus.get();
-        if (requestStatus == RequestStatus.REJECTED) {
-            if (categoryRequestDto.getComment() == null || categoryRequestDto.getComment().getComment().isBlank()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment cannot be empty");
-            }
-        }
-        CategoryRequest convertedRequestBody = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
-        categoryRequestService.replyToRequest(adminOptional.get(),categoryRequest.get() ,convertedRequestBody);
+//        Optional<CategoryRequest> categoryRequest = categoryRequestService.getCategoryRequestById(categoryRequestId);
+//        Optional<Admin> adminOptional = adminService.getById(userId);
+//        if (adminOptional.isEmpty()){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+//        }
+//        if (categoryRequest.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category request not found");
+//        }
+//        if (categoryRequest.get().getStatus() != RequestStatus.NOT_PROCESSED) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category request has already been processed");
+//        }
+//        Optional<RequestStatus> convertedStatus = Arrays.stream(RequestStatus.values())
+//                .filter(s -> s.toString().equals(categoryRequestDto.getRequestStatus()))
+//                .findFirst();
+//        if (convertedStatus.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong status, values accepted: " + RequestStatus.ACCEPTED + ", " + RequestStatus.REJECTED);
+//        }
+//        RequestStatus requestStatus = convertedStatus.get();
+//        if (requestStatus == RequestStatus.REJECTED) {
+//            if (categoryRequestDto.getComment() == null || categoryRequestDto.getComment().getComment().isBlank()) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment cannot be empty");
+//            }
+//        }
+//        CategoryRequest convertedRequestBody = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
+//        categoryRequestService.replyToRequest(adminOptional.get(),categoryRequest.get() ,convertedRequestBody);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,9 +22,9 @@ public class CategoryService {
         return mapperService.mapToCategoryDto(category);
     }
 
-    @Transactional(readOnly = true) //TODO - used in RequestController
-    public Optional<Category> getCategoryByName(String name) {
-        return categoryRepo.findByName(name);
+    @Transactional(readOnly = true)
+    public Category getCategoryByName(String name) {
+        return categoryValidator.validateNotActiveDuplicate(name);
     }
 
     @Transactional

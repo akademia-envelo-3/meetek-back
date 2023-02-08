@@ -44,4 +44,16 @@ public class CategoryValidator extends ValidatorService<Category> {
         }
     }
 
+    public Category validateNotActiveDuplicate(String name) {
+        Optional<Category> category = categoryRepo.findByName(name);
+        if (category.isPresent()) {
+            if (category.get().isActive()) {
+                throw new DuplicateException("Category with name " + name + " already exists");
+            } else {
+                return category.get();
+            }
+        }
+        return null;
+    }
+
 }
