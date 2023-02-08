@@ -1,10 +1,15 @@
 package pl.envelo.meetek.domain.event.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 
@@ -24,19 +29,34 @@ public abstract class Event {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long eventId;
 
+    @Size(max = 100, message = "Can't add more than {max} hashtags.")
     @ManyToMany
     @JoinTable(name = "events_x_hashtags",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<Hashtag> hashtags;
 
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private StandardUser owner;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 2, max = 200, message = "Field must be between {min} and {max} characters")
     private String name;
+    @NotBlank(message = "Field must not be blank")
+    @URL(message = "Field must be URL")
+    @Size(min = 10, max = 255, message = "Field must be between {min} and {max} characters")
     private String link;
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 20, max = 4000, message = "Field must be between {min} and {max} characters")
     private String description;
+
+    @NotNull(message = "Field must not be null")
+    @Future(message = "Event must start in future")
     private LocalDateTime dateTimeFrom;
+    @NotNull(message = "Field must not be null")
+    @Future(message = "Event must end in future")
     private LocalDateTime dateTimeTo;
 
     @Override

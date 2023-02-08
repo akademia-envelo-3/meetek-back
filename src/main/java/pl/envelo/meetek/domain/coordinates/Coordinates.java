@@ -19,7 +19,9 @@ public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long coordinatesId;
+
     private float latitude;
+
     private float longitude;
 
     @Override

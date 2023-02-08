@@ -1,6 +1,9 @@
 package pl.envelo.meetek.domain.hashtag;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,9 @@ public class Hashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long hashtagId;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 2, max = 50, message = "Field must be between {min} and {max} characters")
     private String name;
     private boolean isActive;
 

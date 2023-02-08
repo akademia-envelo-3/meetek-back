@@ -1,6 +1,8 @@
 package pl.envelo.meetek.domain.comment.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,17 +21,18 @@ import java.util.Objects;
 @Table(name = "event_comments")
 public class EventComment extends Comment {
 
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private StandardUser commentOwner;
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "event_id")
     private SingleEvent event;
-
     @ManyToOne
     @JoinColumn(name = "replied_comment_id")
     private EventComment replyToComment;
-
+    @Size(max = 10, message = "Can't add more than {max} attachments")
     @OneToMany
     @JoinTable(name = "event_comments_x_attachments",
             joinColumns = @JoinColumn(name = "comment_id"),
