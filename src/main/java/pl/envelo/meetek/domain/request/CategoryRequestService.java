@@ -48,7 +48,7 @@ public class CategoryRequestService {
             categoryRequestToUpdate.setComment(requestComment);
         } else if (requestBody.getStatus() == RequestStatus.ACCEPTED) {
             if (categoryRequestToUpdate.getCategory() == null) {
-                categoryService.saveNewCategory(new Category(requestBody.getName(), true));
+                //categoryService.createCategory(new Category(requestBody.getName(), true));
             } else {
                 categoryService.activateCategory(categoryRequestToUpdate.getCategory());
             }

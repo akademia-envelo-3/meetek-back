@@ -13,13 +13,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorBody> handleFoundException(NotFoundException ex) {
         ErrorBody errorBody = new ErrorBody(ex.getMessage());
-        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorBody> handleArgumentNotFoundException(ArgumentNotValidException ex) {
         ErrorBody errorBody =   new ErrorBody(ex.getMessage());
         errorBody.setValidationErrors(ex.getViolations());
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorBody> handleDuplicateException(DuplicateException ex) {
+        ErrorBody errorBody = new ErrorBody(ex.getMessage());
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,44 +13,62 @@ import java.util.Optional;
 @Service
 public class CategoryService {
 
-    final private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
+    private final CategoryValidator categoryValidator;
+    private final DtoMapperService mapperService;
 
     @Transactional(readOnly = true)
-    public Optional<Category> getCategoryById(long id) {
-        return categoryRepo.findById(id);
+    public CategoryDto getCategoryById(long categoryId) {
+        Category category = categoryValidator.validateExists(categoryId);
+        return mapperService.mapToCategoryDto(category);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //TODO - used in RequestController
     public Optional<Category> getCategoryByName(String name) {
         return categoryRepo.findByName(name);
     }
 
     @Transactional
-    public Category saveNewCategory(Category category) {
-        return categoryRepo.save(category);
+    public CategoryDto createCategory(CategoryDto categoryDto) {
+        Category category = mapperService.mapToCategory(categoryDto);
+        categoryValidator.validateInput(category);
+        categoryValidator.validateNotDuplicate(category.getName());
+        category = categoryRepo.save(category);
+        return mapperService.mapToCategoryDto(category);
     }
 
     @Transactional
-    public void editCategory(Category categoryToBeUpdated, Category updatedCategory) {
-        categoryToBeUpdated.setName(updatedCategory.getName());
-        categoryToBeUpdated.setActive(updatedCategory.isActive());
-        categoryRepo.save(categoryToBeUpdated);
+    public void editCategory(long categoryId, CategoryDto categoryDto) {
+        Category category = categoryValidator.validateExists(categoryId);
+        Category categoryFromDto = mapperService.mapToCategory(categoryDto);
+        categoryValidator.validateInput(categoryFromDto);
+        categoryValidator.validateNotDuplicate(category, categoryFromDto.getName());
+        updateFields(category, categoryFromDto);
+        categoryRepo.save(category);
     }
 
-    @Transactional
+    @Transactional //TODO - used in CategoryRequestService
     public void activateCategory(Category category) {
         category.setActive(true);
         categoryRepo.save(category);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //TODO - used in AdminController
     public List<Category> getAllCategories() {
         return categoryRepo.findAll(Sort.by("name"));
     }
 
     @Transactional(readOnly = true)
-    public List<Category> getAllActiveCategories() {
-        return categoryRepo.findAllByIsActiveTrueOrderByName();
+    public List<CategoryDto> getAllActiveCategories() {
+        List<Category> categories = categoryRepo.findAllByIsActiveTrueOrderByName();
+        return categories.stream()
+                .map(mapperService::mapToCategoryDto)
+                .toList();
+    }
+
+    private void updateFields(Category category, Category categoryFromDto) {
+        category.setName(categoryFromDto.getName());
+        category.setActive(categoryFromDto.isActive());
     }
 
 }
