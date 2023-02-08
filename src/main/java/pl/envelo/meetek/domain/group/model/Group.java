@@ -1,6 +1,9 @@
 package pl.envelo.meetek.domain.group.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +24,13 @@ public abstract class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long groupId;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 2, max = 50, message = "Field must be between {min} and {max} characters")
     private String name;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 20, max = 2000, message = "Field must be between {min} and {max} characters")
     private String description;
     private boolean isActive;
 

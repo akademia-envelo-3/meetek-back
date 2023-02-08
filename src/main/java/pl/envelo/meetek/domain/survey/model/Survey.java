@@ -1,6 +1,9 @@
 package pl.envelo.meetek.domain.survey.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +27,9 @@ public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long surveyId;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 10, max = 200, message = "Field must be between {min} and {max} characters")
     private String question;
 
     @ManyToMany
@@ -31,8 +37,12 @@ public class Survey {
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "choice_id"))
     private List<SurveyChoice> choices;
+
+    @NotNull(message = "Field must not be null")
+    @Size(max = 10, message = "Can't be more than {max} choices")
     private int maxChoicesNumber;
 
+    @NotNull(message = "Field must not be null")
     @ManyToOne
     @JoinColumn(name = "event_id")
     private SingleEvent event;

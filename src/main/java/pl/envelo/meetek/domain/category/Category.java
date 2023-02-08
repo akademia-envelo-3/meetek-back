@@ -1,6 +1,9 @@
 package pl.envelo.meetek.domain.category;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +22,11 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long categoryId;
+    @NotNull(message = "Field must not be null")
+    @NotBlank(message = "Field must not be blank")
+    @Size(min = 2, max = 50, message = "Field must be between {min} and {max} characters")
     private String name;
+
     private boolean isActive;
 
     public Category(String name, boolean isActive) {
