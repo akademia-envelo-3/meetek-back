@@ -98,12 +98,9 @@ public class AdminController {
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
     public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
-        List<CategoryDto> dtoCategories = categories.stream()
-                .map(dtoMapperService::mapToCategoryDto)
-                .toList();
-        HttpStatus status = dtoCategories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(dtoCategories, status);
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        HttpStatus status = categories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(categories, status);
     }
 
     @GetMapping("/hashtags")

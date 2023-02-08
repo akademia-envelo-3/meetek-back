@@ -53,9 +53,12 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
-    @Transactional(readOnly = true) //TODO - used in AdminController
-    public List<Category> getAllCategories() {
-        return categoryRepo.findAll(Sort.by("name"));
+    @Transactional(readOnly = true)
+    public List<CategoryDto> getAllCategories() {
+        List<Category> categories = categoryRepo.findAll(Sort.by("name"));
+        return categories.stream()
+                .map(mapperService::mapToCategoryDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
