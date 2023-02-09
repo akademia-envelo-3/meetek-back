@@ -18,6 +18,7 @@ public class CategoryValidator extends ValidatorService<Category> {
         this.categoryRepo = categoryRepo;
     }
 
+    @Override
     public Category validateExists(long id) {
         Optional<Category> category = categoryRepo.findById(id);
         if (category.isEmpty()) {

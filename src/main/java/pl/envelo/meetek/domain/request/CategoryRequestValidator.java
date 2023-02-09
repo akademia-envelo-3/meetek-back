@@ -22,6 +22,7 @@ public class CategoryRequestValidator extends ValidatorService<CategoryRequest> 
         this.categoryRequestRepo = categoryRequestRepo;
     }
 
+    @Override
     public CategoryRequest validateExists(long id) {
         Optional<CategoryRequest> categoryRequest = categoryRequestRepo.findById(id);
         if (categoryRequest.isEmpty()) {

@@ -15,4 +15,9 @@ public class RequestCommentValidator extends ValidatorService<RequestComment> {
         this.requestCommentRepo = requestCommentRepo;
     }
 
+    @Override
+    public RequestComment validateExists(long id) {
+        return null;
+    }
+
 }
