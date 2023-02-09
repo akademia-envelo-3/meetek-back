@@ -44,11 +44,7 @@ public class SurveyController {
             @ApiResponse(responseCode = "201", description = "Response created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
     public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestParam long userId, @RequestBody SurveyResponseCreateDto surveyResponseCreateDto) {
-
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if (standardUserOptional.isEmpty()) {return ResponseEntity.notFound().build();}
-
-        StandardUser standardUser = standardUserOptional.get();
+        StandardUser standardUser = standardUserService.getStandardUserById(userId);
         Optional<SurveyResponse> surveyResponse = surveyService.addResponse(surveyId, standardUser, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
 
         if (surveyResponse.isPresent()) {

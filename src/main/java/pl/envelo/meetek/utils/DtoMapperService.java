@@ -19,10 +19,10 @@ import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.hashtag.HashtagCreateDto;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.notification.model.*;
-import pl.envelo.meetek.domain.request.CategoryRequest;
-import pl.envelo.meetek.domain.request.CategoryRequestCreateDto;
-import pl.envelo.meetek.domain.request.CategoryRequestDto;
-import pl.envelo.meetek.domain.request.RequestStatus;
+import pl.envelo.meetek.domain.request.model.CategoryRequest;
+import pl.envelo.meetek.domain.request.model.CategoryRequestCreateDto;
+import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
+import pl.envelo.meetek.domain.request.model.RequestStatus;
 import pl.envelo.meetek.domain.survey.model.*;
 import pl.envelo.meetek.domain.user.model.*;
 
@@ -80,12 +80,12 @@ public class DtoMapperService {
     }
 
 
-    public StandardUserShortDto mapToStandardUserShortDto(StandardUser standardUser) {
-        return modelMapper.map(standardUser, StandardUserShortDto.class);
+    public StandardUserDto mapToStandardUserShortDto(StandardUser standardUser) {
+        return modelMapper.map(standardUser, StandardUserDto.class);
     }
 
-    public StandardUser mapToStandardUser(StandardUserShortDto standardUserShortDto) {
-        return modelMapper.map(standardUserShortDto, StandardUser.class);
+    public StandardUser mapToStandardUser(StandardUserDto standardUserDto) {
+        return modelMapper.map(standardUserDto, StandardUser.class);
     }
 
     public Survey mapToSurvey(SurveyDto surveyDto) {
@@ -122,7 +122,7 @@ public class DtoMapperService {
 
     public CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
         CategoryRequest request = modelMapper.map(categoryRequestDto, CategoryRequest.class);
-        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus()));
+        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus().toUpperCase()));
         return request;
     }
 
