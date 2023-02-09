@@ -25,7 +25,6 @@ import pl.envelo.meetek.domain.event.SingleEventService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -133,13 +132,8 @@ public class AdminController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryRequestDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid categoryRequestId format / incorrect requestStatus / in case of rejection - empty comment", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category request not found", content = @Content)})
-    public ResponseEntity<?> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
-        Optional<Admin> adminOptional = adminService.getById(userId);
-        if (adminOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-        Admin admin = adminOptional.get();
-
+    public ResponseEntity<Void> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
+        Admin admin = adminService.getById(userId);
         categoryRequestService.replyToRequest(categoryRequestId, admin, categoryRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
