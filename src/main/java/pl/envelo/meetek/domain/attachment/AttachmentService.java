@@ -4,21 +4,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @AllArgsConstructor
 @Service
 public class AttachmentService {
 
     private final AttachmentRepo attachmentRepo;
+    private final AttachmentValidator attachmentValidator;
 
     @Transactional
-    public Attachment saveAttachment(Attachment attachment) {
+    public Attachment createAttachment(Attachment attachment) {
+        attachmentValidator.validateInput(attachment);
         return attachmentRepo.save(attachment);
     }
     @Transactional(readOnly = true)
-    public Optional<Attachment> getAttachmentById(long attachmentId) {
-        return attachmentRepo.findById(attachmentId);
+    public Attachment getAttachmentById(long attachmentId) {
+        return attachmentValidator.validateExists(attachmentId);
     }
     @Transactional
     public void deleteAttachmentById(long attachmentId) {
