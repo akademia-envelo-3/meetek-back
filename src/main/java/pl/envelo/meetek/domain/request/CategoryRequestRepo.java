@@ -12,4 +12,6 @@ public interface CategoryRequestRepo extends JpaRepository<CategoryRequest, Long
 
     List<CategoryRequest> findAllByStatus(RequestStatus status);
 
+    List<CategoryRequest> findAllByStatusAndName(RequestStatus status, String name);
+
 }

@@ -54,24 +54,46 @@ public class CategoryRequestService {
 
     @Transactional
     public void replyToRequest(long categoryRequestId, Admin admin, CategoryRequestDto categoryRequestDto) {
+        CategoryRequest request = validateRequest(categoryRequestId);
+        CategoryRequest requestFromDto = validateRequestDto(categoryRequestDto);
+
+        if (requestFromDto.getStatus() == RequestStatus.ACCEPTED) {
+            acceptRequest(request, requestFromDto);
+        } else if (requestFromDto.getStatus() == RequestStatus.REJECTED) {
+            rejectRequest(admin, request, requestFromDto);
+        }
+    }
+
+    private CategoryRequest validateRequest(long categoryRequestId) {
         CategoryRequest request = categoryRequestValidator.validateExists(categoryRequestId);
         categoryRequestValidator.validateNotProcessed(request);
+        return request;
+    }
+
+    private CategoryRequest validateRequestDto(CategoryRequestDto categoryRequestDto) {
         categoryRequestValidator.validateRequestStatus(categoryRequestDto.getRequestStatus());
         CategoryRequest requestFromDto = mapperService.mapToCategoryRequest(categoryRequestDto);
         categoryRequestValidator.validateRejection(requestFromDto);
+        return requestFromDto;
+    }
 
-        if (requestFromDto.getStatus() == RequestStatus.REJECTED) {
-            request.setComment(requestCommentService.createRequestComment(admin, requestFromDto.getComment().getComment()));
-        } else if (requestFromDto.getStatus() == RequestStatus.ACCEPTED) {
-            if (request.getCategory() != null) {
-                categoryService.activateCategory(request.getCategory());
-            } else {
-                categoryService.createOrActivateCategory(request.getName());
-            }
-        }
+    private void acceptRequest(CategoryRequest request, CategoryRequest requestFromDto) {
+        categoryService.createOrActivateCategory(request);
+        List<CategoryRequest> requests = getAllNotProcessedRequestsByName(request.getName());
+        requests.forEach(categoryRequest -> {
+            categoryRequest.setStatus(requestFromDto.getStatus());
+            categoryRequestRepo.save(categoryRequest);
+        });
+    }
 
+    private void rejectRequest(Admin admin, CategoryRequest request, CategoryRequest requestFromDto) {
+        request.setComment(requestCommentService.createRequestComment(admin, requestFromDto.getComment().getComment()));
         request.setStatus(requestFromDto.getStatus());
         categoryRequestRepo.save(request);
+    }
+
+    private List<CategoryRequest> getAllNotProcessedRequestsByName(String name) {
+        return categoryRequestRepo.findAllByStatusAndName(RequestStatus.NOT_PROCESSED, name);
     }
 
 }

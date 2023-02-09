@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
@@ -37,16 +38,12 @@ public class CategoryService {
     }
 
     @Transactional
-    public void createOrActivateCategory(String name) {
-        Category category = new Category(name, true);
-        categoryValidator.validateInput(category);
-        Category validatedCategory = categoryValidator.validateNotActiveDuplicate(category.getName());
-        if (validatedCategory == null) {
-            categoryRepo.save(category);
+    public void createOrActivateCategory(CategoryRequest request) {
+        if (request.getCategory() == null) {
+            createCategory(request.getName());
         } else {
-            activateCategory(validatedCategory);
+            activateCategory(request.getCategory());
         }
-        categoryRepo.save(category);
     }
 
     @Transactional
@@ -56,12 +53,6 @@ public class CategoryService {
         categoryValidator.validateInput(categoryFromDto);
         categoryValidator.validateNotDuplicate(category, categoryFromDto.getName());
         updateFields(category, categoryFromDto);
-        categoryRepo.save(category);
-    }
-
-    @Transactional
-    public void activateCategory(Category category) {
-        category.setActive(true);
         categoryRepo.save(category);
     }
 
@@ -79,6 +70,17 @@ public class CategoryService {
         return categories.stream()
                 .map(mapperService::mapToCategoryDto)
                 .toList();
+    }
+
+    private void createCategory(String name) {
+        Category category = new Category(name, true);
+        categoryValidator.validateInput(category);
+        categoryRepo.save(category);
+    }
+
+    private void activateCategory(Category category) {
+        category.setActive(true);
+        categoryRepo.save(category);
     }
 
     private void updateFields(Category category, Category categoryFromDto) {
