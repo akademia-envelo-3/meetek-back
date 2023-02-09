@@ -9,9 +9,8 @@ insert into STANDARD_USERS values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail
 //CATEGORIES
 insert into CATEGORIES values('1', 'true', 'sport');
 insert into CATEGORIES values('2', 'true', 'kulinaria');
-insert into CATEGORIES values('3', 'false', 'meteopaci');
+insert into CATEGORIES values('3', 'true', 'programowanie');
 insert into CATEGORIES values('4', 'false', 'taniec');
-insert into CATEGORIES values('5', 'false', 'teatr');
 
 //COORDINATES
 insert into COORDINATES values('1', '154541.2132', '484454545.23');
@@ -223,15 +222,10 @@ insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_I
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_ID) values ('3', 'REJECTED', '1', 'kółko różańcowe', '3')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('4', 'ACCEPTED', '2', 'programowanie')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('5', 'NOT_PROCESSED', '2', 'muzyka')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('6', 'NOT_PROCESSED', '1', 'kulinaria')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('7', 'NOT_PROCESSED', '1', 'k')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('8', 'NOT_PROCESSED', '2', 'teatr', '5')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('6', 'NOT_PROCESSED', '1', 'kuchnia')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('7', 'NOT_PROCESSED', '1', 'książki')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('8', 'NOT_PROCESSED', '2', 'teatr')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('9', 'NOT_PROCESSED', '1', 'kino')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('10', 'NOT_PROCESSED', '1', 'taniec', '4')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('11', 'NOT_PROCESSED', '1', 'fani rocka')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('12', 'NOT_PROCESSED', '1', 'fani rocka')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('13', 'NOT_PROCESSED', '1', 'meteopaci', '3')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('14', 'NOT_PROCESSED', '1', 'meteopaci', '3')
-
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('10', 'NOT_PROCESSED', '1', 'ogród')
 
 

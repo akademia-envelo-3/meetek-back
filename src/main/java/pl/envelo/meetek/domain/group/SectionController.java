@@ -105,8 +105,11 @@ public class SectionController {
             @ApiResponse(responseCode = "201", description = "Section  created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> saveNewSection(@RequestParam long userId, @RequestBody SectionCreateDto sectionCreateDto) {
-        StandardUser standardUser = standardUserService.getStandardUserById(userId);
-        Section section = sectionService.saveNewSection(standardUser, dtoMapperService.mapToSection(sectionCreateDto));
+        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        if(standardUserOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Section section = sectionService.saveNewSection(standardUserOptional.get(), dtoMapperService.mapToSection(sectionCreateDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

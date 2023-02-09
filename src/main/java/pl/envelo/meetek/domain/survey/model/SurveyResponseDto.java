@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.domain.user.model.StandardUserDto;
+import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
 
 import java.util.Set;
 
@@ -16,6 +16,6 @@ public class SurveyResponseDto {
 
     private long responseId;
     private Set<SurveyChoiceDto> answers;
-    private StandardUserDto user;
+    private StandardUserShortDto user;
 
 }

@@ -18,11 +18,10 @@ public class CategoryValidator extends ValidatorService<Category> {
         this.categoryRepo = categoryRepo;
     }
 
-    @Override
     public Category validateExists(long id) {
         Optional<Category> category = categoryRepo.findById(id);
         if (category.isEmpty()) {
-            throw new NotFoundException("Category with id " + id + " not found");
+            throw new NotFoundException("Category with id " + id);
         }
         return category.get();
     }
@@ -43,18 +42,6 @@ public class CategoryValidator extends ValidatorService<Category> {
         if (categoryFromDto.isPresent() && !category.getName().equals(name)) {
             throw new DuplicateException("Category with name " + name + " already exists");
         }
-    }
-
-    public Category validateNotActiveDuplicate(String name) {
-        Optional<Category> category = categoryRepo.findByName(name);
-        if (category.isPresent()) {
-            if (category.get().isActive()) {
-                throw new DuplicateException("Category with name " + name + " already exists");
-            } else {
-                return category.get();
-            }
-        }
-        return null;
     }
 
 }

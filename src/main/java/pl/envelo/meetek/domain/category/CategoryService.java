@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,9 +23,9 @@ public class CategoryService {
         return mapperService.mapToCategoryDto(category);
     }
 
-    @Transactional(readOnly = true)
-    public Category getCategoryByName(String name) {
-        return categoryValidator.validateNotActiveDuplicate(name);
+    @Transactional(readOnly = true) //TODO - used in RequestController
+    public Optional<Category> getCategoryByName(String name) {
+        return categoryRepo.findByName(name);
     }
 
     @Transactional
@@ -38,15 +38,6 @@ public class CategoryService {
     }
 
     @Transactional
-    public void createOrActivateCategory(CategoryRequest request) {
-        if (request.getCategory() == null) {
-            createCategory(request.getName());
-        } else {
-            activateCategory(request.getCategory());
-        }
-    }
-
-    @Transactional
     public void editCategory(long categoryId, CategoryDto categoryDto) {
         Category category = categoryValidator.validateExists(categoryId);
         Category categoryFromDto = mapperService.mapToCategory(categoryDto);
@@ -56,12 +47,15 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
-    @Transactional(readOnly = true)
-    public List<CategoryDto> getAllCategories() {
-        List<Category> categories = categoryRepo.findAll(Sort.by("name"));
-        return categories.stream()
-                .map(mapperService::mapToCategoryDto)
-                .toList();
+    @Transactional //TODO - used in CategoryRequestService
+    public void activateCategory(Category category) {
+        category.setActive(true);
+        categoryRepo.save(category);
+    }
+
+    @Transactional(readOnly = true) //TODO - used in AdminController
+    public List<Category> getAllCategories() {
+        return categoryRepo.findAll(Sort.by("name"));
     }
 
     @Transactional(readOnly = true)
@@ -70,17 +64,6 @@ public class CategoryService {
         return categories.stream()
                 .map(mapperService::mapToCategoryDto)
                 .toList();
-    }
-
-    private void createCategory(String name) {
-        Category category = new Category(name, true);
-        categoryValidator.validateInput(category);
-        categoryRepo.save(category);
-    }
-
-    private void activateCategory(Category category) {
-        category.setActive(true);
-        categoryRepo.save(category);
     }
 
     private void updateFields(Category category, Category categoryFromDto) {

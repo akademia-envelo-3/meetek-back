@@ -1,4 +1,4 @@
-package pl.envelo.meetek.domain.request.model;
+package pl.envelo.meetek.domain.request;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

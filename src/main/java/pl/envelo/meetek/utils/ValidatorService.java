@@ -12,7 +12,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Service
-public abstract class ValidatorService<T> {
+public class ValidatorService<T> {
 
     private final Validator validator;
 
@@ -26,7 +26,5 @@ public abstract class ValidatorService<T> {
             throw new ArgumentNotValidException("Not valid data provided", messages);
         }
     }
-
-    public abstract T validateExists(long id);
 
 }

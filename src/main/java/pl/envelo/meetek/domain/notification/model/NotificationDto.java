@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.domain.user.model.StandardUserDto;
+import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,7 +20,7 @@ public class NotificationDto {
     private boolean isImportant;
     private NotificationCategory category;
     private Set<NotificationType> notificationTypes;
-    private StandardUserDto recipient;
+    private StandardUserShortDto recipient;
     private LocalDateTime addingDateTime;
     private long resourceId;
 

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.envelo.meetek.domain.user.model.StandardUserDto;
+import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
 
 @Getter
 @Setter
@@ -17,6 +17,6 @@ public class SectionLongDto {
     private String description;
     private boolean isActive;
     private int membersCount;
-    private StandardUserDto groupOwner;
+    private StandardUserShortDto groupOwner;
 
 }
