@@ -22,7 +22,7 @@ public class CategoryValidator extends ValidatorService<Category> {
     public Category validateExists(long id) {
         Optional<Category> category = categoryRepo.findById(id);
         if (category.isEmpty()) {
-            throw new NotFoundException("Category with id " + id);
+            throw new NotFoundException("Category with id " + id + " not found");
         }
         return category.get();
     }

@@ -26,7 +26,7 @@ public class CategoryRequestValidator extends ValidatorService<CategoryRequest> 
     public CategoryRequest validateExists(long id) {
         Optional<CategoryRequest> categoryRequest = categoryRequestRepo.findById(id);
         if (categoryRequest.isEmpty()) {
-            throw new NotFoundException("Category request with id " + id);
+            throw new NotFoundException("Category request with id " + id + " not found");
         }
         return categoryRequest.get();
     }

@@ -22,7 +22,7 @@ public class RequestCommentValidator extends ValidatorService<RequestComment> {
     public RequestComment validateExists(long id) {
         Optional<RequestComment> categoryRequest = requestCommentRepo.findById(id);
         if (categoryRequest.isEmpty()) {
-            throw new NotFoundException("Request comment with id " + id);
+            throw new NotFoundException("Request comment with id " + id + " not found");
         }
         return categoryRequest.get();
     }
