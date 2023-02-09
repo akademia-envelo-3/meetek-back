@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.comment.model.RequestComment;
+import pl.envelo.meetek.domain.comment.model.RequestCommentDto;
 import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -27,9 +27,11 @@ public class RequestCommentService {
         requestCommentValidator.validateInput(requestComment);
         return requestCommentRepo.save(requestComment);
     }
+
     @Transactional(readOnly = true)
-    public Optional<RequestComment> getRequestCommentById(long requestCommentId) {
-        return requestCommentRepo.findById(requestCommentId);
+    public RequestCommentDto getRequestCommentById(long requestCommentId) {
+        RequestComment requestComment = requestCommentValidator.validateExists(requestCommentId);
+        return mapperService.mapToRequestCommentDto(requestComment);
     }
 
 }
