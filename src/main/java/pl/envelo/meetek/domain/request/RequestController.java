@@ -17,7 +17,6 @@ import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.domain.user.StandardUserService;
 
 import java.net.URI;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -46,12 +45,7 @@ public class RequestController {
             @ApiResponse(responseCode = "201", description = "Category request created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request - wrong parameters or category already exists", content = @Content)})
     public ResponseEntity<String> createCategoryRequest(@RequestParam long userId, @RequestBody CategoryRequestCreateDto categoryRequestCreateDto) {
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if (standardUserOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-        StandardUser standardUser = standardUserOptional.get();
-
+        StandardUser standardUser = standardUserService.getStandardUserById(userId);
         CategoryRequestDto categoryRequestDto = categoryRequestService.createCategoryRequest(standardUser, categoryRequestCreateDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -80,12 +80,12 @@ public class DtoMapperService {
     }
 
 
-    public StandardUserShortDto mapToStandardUserShortDto(StandardUser standardUser) {
-        return modelMapper.map(standardUser, StandardUserShortDto.class);
+    public StandardUserDto mapToStandardUserShortDto(StandardUser standardUser) {
+        return modelMapper.map(standardUser, StandardUserDto.class);
     }
 
-    public StandardUser mapToStandardUser(StandardUserShortDto standardUserShortDto) {
-        return modelMapper.map(standardUserShortDto, StandardUser.class);
+    public StandardUser mapToStandardUser(StandardUserDto standardUserDto) {
+        return modelMapper.map(standardUserDto, StandardUser.class);
     }
 
     public Survey mapToSurvey(SurveyDto surveyDto) {

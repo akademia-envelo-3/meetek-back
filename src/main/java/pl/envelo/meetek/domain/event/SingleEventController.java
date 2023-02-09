@@ -48,10 +48,8 @@ public class SingleEventController {
             @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
     public ResponseEntity<Void> saveNewEvent(@RequestParam long userId, @RequestBody SingleEventCreateDto eventDto) {
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if(standardUserOptional.isEmpty()){return ResponseEntity.notFound().build();}
-
-        SingleEvent entity = singleEventService.saveNewSingleEvent(standardUserOptional.get(),dtoMapperService.mapToSingleEvent(eventDto));
+        StandardUser standardUser = standardUserService.getStandardUserById(userId);
+        SingleEvent entity = singleEventService.saveNewSingleEvent(standardUser, dtoMapperService.mapToSingleEvent(eventDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -264,12 +262,12 @@ public class SingleEventController {
                             schema = @Schema(implementation = EventCommentCreateDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
     public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long replyCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
+        StandardUser standardUser = standardUserService.getStandardUserById(userId);
         Optional<SingleEvent> singleEventOptional = singleEventService.getSingleEventById(eventId);
-        if(standardUserOptional.isEmpty() || singleEventOptional.isEmpty()){
+        if(singleEventOptional.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        EventComment eventComment = eventCommentService.saveNewEventComment(standardUserOptional.get(), singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
+        EventComment eventComment = eventCommentService.saveNewEventComment(standardUser, singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
         if (eventComment == null) {
             return ResponseEntity.badRequest().build();
         }

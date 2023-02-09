@@ -9,7 +9,7 @@ import pl.envelo.meetek.domain.category.CategoryDto;
 import pl.envelo.meetek.domain.coordinates.CoordinatesDto;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.survey.model.SurveyCreateDto;
-import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
+import pl.envelo.meetek.domain.user.model.StandardUserDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,14 +22,14 @@ import java.util.Set;
 public class SingleEventCreateDto {
 
     private Set<HashtagDto> hashtags;
-    private StandardUserShortDto owner;
+    private StandardUserDto owner;
     private String name;
     private String link;
     private String description;
     private LocalDateTime dateTimeFrom;
     private LocalDateTime dateTimeTo;
     private CategoryDto category;
-    private Set<StandardUserShortDto> invitedUsers;
+    private Set<StandardUserDto> invitedUsers;
     private String locationName;
     private CoordinatesDto coordinates;
     private Boolean isOnline;
