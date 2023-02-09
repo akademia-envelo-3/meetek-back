@@ -122,7 +122,7 @@ public class DtoMapperService {
 
     public CategoryRequest mapToCategoryRequest(CategoryRequestDto categoryRequestDto) {
         CategoryRequest request = modelMapper.map(categoryRequestDto, CategoryRequest.class);
-        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus()));
+        request.setStatus(RequestStatus.valueOf(categoryRequestDto.getRequestStatus().toUpperCase()));
         return request;
     }
 

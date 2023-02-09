@@ -37,6 +37,19 @@ public class CategoryService {
     }
 
     @Transactional
+    public void createOrActivateCategory(String name) {
+        Category category = new Category(name, true);
+        categoryValidator.validateInput(category);
+        Category validatedCategory = categoryValidator.validateNotActiveDuplicate(category.getName());
+        if (validatedCategory == null) {
+            categoryRepo.save(category);
+        } else {
+            activateCategory(validatedCategory);
+        }
+        categoryRepo.save(category);
+    }
+
+    @Transactional
     public void editCategory(long categoryId, CategoryDto categoryDto) {
         Category category = categoryValidator.validateExists(categoryId);
         Category categoryFromDto = mapperService.mapToCategory(categoryDto);
@@ -46,7 +59,7 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
-    @Transactional //TODO - used in CategoryRequestService
+    @Transactional
     public void activateCategory(Category category) {
         category.setActive(true);
         categoryRepo.save(category);

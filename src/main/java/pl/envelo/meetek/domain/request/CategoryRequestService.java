@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.category.Category;
-import pl.envelo.meetek.domain.comment.model.RequestComment;
 import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.domain.request.model.CategoryRequestCreateDto;
 import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
@@ -15,7 +14,6 @@ import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.domain.comment.RequestCommentService;
 import pl.envelo.meetek.utils.DtoMapperService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -54,22 +52,26 @@ public class CategoryRequestService {
         return mapperService.mapToCategoryRequestDto(categoryRequest);
     }
 
-    @Transactional //TODO - used in AdminController
-    public void replyToRequest(Admin admin, CategoryRequest categoryRequestToUpdate ,CategoryRequest requestBody) {
-        if (requestBody.getStatus() == RequestStatus.REJECTED) {
-            RequestComment requestComment = requestCommentService.createRequestComment(requestBody.getComment());
-            requestComment.setCommentOwner(admin);
-            requestComment.setAddingDateTime(LocalDateTime.now());
-            categoryRequestToUpdate.setComment(requestComment);
-        } else if (requestBody.getStatus() == RequestStatus.ACCEPTED) {
-            if (categoryRequestToUpdate.getCategory() == null) {
-                //categoryService.createCategory(new Category(requestBody.getName(), true));
+    @Transactional
+    public void replyToRequest(long categoryRequestId, Admin admin, CategoryRequestDto categoryRequestDto) {
+        CategoryRequest request = categoryRequestValidator.validateExists(categoryRequestId);
+        categoryRequestValidator.validateNotProcessed(request);
+        categoryRequestValidator.validateRequestStatus(categoryRequestDto.getRequestStatus());
+        CategoryRequest requestFromDto = mapperService.mapToCategoryRequest(categoryRequestDto);
+        categoryRequestValidator.validateRejection(requestFromDto);
+
+        if (requestFromDto.getStatus() == RequestStatus.REJECTED) {
+            request.setComment(requestCommentService.createRequestComment(admin, requestFromDto.getComment().getComment()));
+        } else if (requestFromDto.getStatus() == RequestStatus.ACCEPTED) {
+            if (request.getCategory() != null) {
+                categoryService.activateCategory(request.getCategory());
             } else {
-                categoryService.activateCategory(categoryRequestToUpdate.getCategory());
+                categoryService.createOrActivateCategory(request.getName());
             }
         }
-        categoryRequestToUpdate.setStatus(requestBody.getStatus());
-        categoryRequestRepo.save(categoryRequestToUpdate);
+
+        request.setStatus(requestFromDto.getStatus());
+        categoryRequestRepo.save(request);
     }
 
 }

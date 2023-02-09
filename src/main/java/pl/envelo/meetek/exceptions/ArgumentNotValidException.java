@@ -3,6 +3,7 @@ package pl.envelo.meetek.exceptions;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Getter
@@ -10,6 +11,11 @@ import java.util.Map;
 public class ArgumentNotValidException extends RuntimeException {
 
     private Map<String, String> violations;
+
+    public ArgumentNotValidException(String message) {
+        super(message);
+        violations = Collections.emptyMap();
+    }
 
     public ArgumentNotValidException(String message, Map<String, String> violations) {
         super(message);

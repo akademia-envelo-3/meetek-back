@@ -15,10 +15,8 @@ import pl.envelo.meetek.domain.category.CategoryDto;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
-import pl.envelo.meetek.domain.request.model.RequestStatus;
 import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
-import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.utils.DtoMapperService;
@@ -26,7 +24,6 @@ import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.event.SingleEventService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,18 +87,6 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/categories")
-    @Operation(summary = "Get all categories")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        List<CategoryDto> categories = categoryService.getAllCategories();
-        HttpStatus status = categories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(categories, status);
-    }
-
     @GetMapping("/hashtags")
     @Operation(summary = "Get all hashtags")
     @ApiResponses(value = {
@@ -117,6 +102,18 @@ public class AdminController {
         return new ResponseEntity<>(dtoHashtags, status);
     }
 
+    @GetMapping("/categories")
+    @Operation(summary = "Get all categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results returned",
+                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class)))}),
+            @ApiResponse(responseCode = "204", description = "No category found", content = @Content)})
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        HttpStatus status = categories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(categories, status);
+    }
+
     @GetMapping("/category-requests")
     @Operation(summary = "Get all not processed category requests")
     @ApiResponses(value = {
@@ -130,38 +127,20 @@ public class AdminController {
     }
 
     @PostMapping("/category-requests/{categoryRequestId}")
-    @Operation(summary = "Reply to a category request")
+    @Operation(summary = "Reply to category request")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Category request found",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CategoryRequestDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid categoryRequestId format / incorrect requestStatus / in case of rejection - empty comment", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category request not found", content = @Content)})
     public ResponseEntity<?> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
-//        Optional<CategoryRequest> categoryRequest = categoryRequestService.getCategoryRequestById(categoryRequestId);
-//        Optional<Admin> adminOptional = adminService.getById(userId);
-//        if (adminOptional.isEmpty()){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-//        }
-//        if (categoryRequest.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category request not found");
-//        }
-//        if (categoryRequest.get().getStatus() != RequestStatus.NOT_PROCESSED) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category request has already been processed");
-//        }
-//        Optional<RequestStatus> convertedStatus = Arrays.stream(RequestStatus.values())
-//                .filter(s -> s.toString().equals(categoryRequestDto.getRequestStatus()))
-//                .findFirst();
-//        if (convertedStatus.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong status, values accepted: " + RequestStatus.ACCEPTED + ", " + RequestStatus.REJECTED);
-//        }
-//        RequestStatus requestStatus = convertedStatus.get();
-//        if (requestStatus == RequestStatus.REJECTED) {
-//            if (categoryRequestDto.getComment() == null || categoryRequestDto.getComment().getComment().isBlank()) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment cannot be empty");
-//            }
-//        }
-//        CategoryRequest convertedRequestBody = dtoMapperService.mapToCategoryRequest(categoryRequestDto);
-//        categoryRequestService.replyToRequest(adminOptional.get(),categoryRequest.get() ,convertedRequestBody);
+        Optional<Admin> adminOptional = adminService.getById(userId);
+        if (adminOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        Admin admin = adminOptional.get();
+
+        categoryRequestService.replyToRequest(categoryRequestId, admin, categoryRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
