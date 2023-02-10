@@ -11,7 +11,7 @@ import pl.envelo.meetek.domain.comment.model.*;
 import pl.envelo.meetek.domain.coordinates.Coordinates;
 import pl.envelo.meetek.domain.coordinates.CoordinatesDto;
 import pl.envelo.meetek.domain.event.model.*;
-import pl.envelo.meetek.domain.group.SectionCreateDto;
+import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.Section;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
 import pl.envelo.meetek.domain.group.model.SectionShortDto;

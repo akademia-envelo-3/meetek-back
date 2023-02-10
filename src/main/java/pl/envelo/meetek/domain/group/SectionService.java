@@ -4,56 +4,77 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.group.model.Section;
+import pl.envelo.meetek.domain.group.model.SectionCreateDto;
+import pl.envelo.meetek.domain.group.model.SectionLongDto;
+import pl.envelo.meetek.domain.group.model.SectionShortDto;
 import pl.envelo.meetek.domain.user.model.StandardUser;
-import pl.envelo.meetek.domain.user.StandardUserService;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class SectionService {
 
     private final SectionRepo sectionRepo;
-    private final StandardUserService standardUserService;
+    private final SectionValidator sectionValidator;
+    private final DtoMapperService mapperService;
 
     @Transactional(readOnly = true)
-    public List<Section> getAllActiveSections() {
+    public SectionLongDto getSectionById(long id) {
+        Section section = sectionValidator.validateExists(id);
+        Section sectionWithMembersCount = setCountMembers(section);
+        return mapperService.mapToSectionLongDto(sectionWithMembersCount);
+    }
+
+    @Transactional
+    public SectionShortDto createSection(StandardUser user, SectionCreateDto sectionDto) {
+        Section section = mapperService.mapToSection(sectionDto);
+        sectionValidator.validateNotActiveDuplicate(section.getName());
+        section.setGroupOwner(user);
+        section.setIsActive(true);
+        sectionValidator.validateInput(section);
+        section = sectionRepo.save(section);
+        return mapperService.mapToSectionShortDto(section);
+    }
+
+    @Transactional
+    public void editSection(long sectionId, SectionLongDto sectionDto, StandardUser requester) {
+        Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateUserAuthorized(section, requester);
+        Section sectionFromDto = mapperService.mapToSection(sectionDto);
+        sectionValidator.validateNotActiveDuplicate(section, sectionFromDto.getName());
+        sectionFromDto.setGroupOwner(sectionValidator.validateOwner(section, sectionFromDto.getGroupOwner()));
+        updateFields(section, sectionFromDto);
+        sectionValidator.validateInput(section);
+        sectionRepo.save(section);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SectionShortDto> getAllActiveSections() {
         List<Section> sections = sectionRepo.findAllByIsActiveTrueOrderByName();
-        return setCountMembers(sections);
+        List<Section> sectionsWithMembersCount = setCountMembers(sections);
+        return sectionsWithMembersCount.stream()
+                .map(mapperService::mapToSectionShortDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<Section> getOwnedSectionsByUserId(long userId) {
-        List<Section> sections = sectionRepo.findAllOwnedSections(userId);
-        return setCountMembers(sections);
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<Section> getSectionById(long id) {
-        Optional<Section> section = sectionRepo.findById(id);
-        return section.map(this::setCountMembers);
-    }
-
-    @Transactional
-    public Section editSection(Section sectionToUpdate, Section sectionBody) {
-        sectionToUpdate.setName(sectionBody.getName());
-        sectionToUpdate.setDescription(sectionBody.getDescription());
-        return sectionRepo.save(sectionToUpdate);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Section> getAllJoinedSections(long userId) {
+    public List<SectionShortDto> getAllJoinedSections(long userId) {
         List<Section> sections = sectionRepo.findAllJoinedSections(userId);
-        return setCountMembers(sections);
+        List<Section> sectionsWithMembersCount = setCountMembers(sections);
+        return sectionsWithMembersCount.stream()
+                .map(mapperService::mapToSectionShortDto)
+                .toList();
     }
 
-    @Transactional
-    public Section saveNewSection(StandardUser standardUser, Section section) {
-
-        section.setGroupOwner(standardUser);
-        section.setActive(true);
-        return sectionRepo.save(section);
+    @Transactional(readOnly = true)
+    public List<SectionShortDto> getAllOwnedSectionsByUserId(long userId) {
+        List<Section> sections = sectionRepo.findAllOwnedSections(userId);
+        List<Section> sectionsWithMembersCount = setCountMembers(sections);
+        return sectionsWithMembersCount.stream()
+                .map(mapperService::mapToSectionShortDto)
+                .toList();
     }
 
     private Section setCountMembers(Section section) {
@@ -63,6 +84,12 @@ public class SectionService {
 
     private List<Section> setCountMembers(List<Section> sections) {
         return sections.stream().map(this::setCountMembers).toList();
+    }
+
+    private void updateFields(Section section, Section sectionFromDto) {
+        section.setGroupOwner(sectionFromDto.getGroupOwner());
+        section.setName(sectionFromDto.getName());
+        section.setDescription(sectionFromDto.getDescription());
     }
 
 }

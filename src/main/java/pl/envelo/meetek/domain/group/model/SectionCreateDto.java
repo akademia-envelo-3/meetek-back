@@ -1,5 +1,4 @@
-package pl.envelo.meetek.domain.group;
-
+package pl.envelo.meetek.domain.group.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

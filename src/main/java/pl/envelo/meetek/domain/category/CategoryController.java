@@ -32,8 +32,8 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "Invalid categoryId format", content = @Content),
             @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
     public ResponseEntity<CategoryDto> getCategory(@PathVariable long categoryId) {
-        CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
-        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+        CategoryDto category = categoryService.getCategoryById(categoryId);
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @PostMapping

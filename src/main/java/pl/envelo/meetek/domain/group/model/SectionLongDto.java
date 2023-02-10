@@ -15,7 +15,7 @@ public class SectionLongDto {
     private long groupId;
     private String name;
     private String description;
-    private boolean isActive;
+    private Boolean isActive;
     private int membersCount;
     private StandardUserDto groupOwner;
 

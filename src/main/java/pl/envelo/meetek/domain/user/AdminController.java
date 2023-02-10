@@ -16,7 +16,6 @@ import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
 import pl.envelo.meetek.domain.hashtag.Hashtag;
-import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.utils.DtoMapperService;
@@ -25,7 +24,6 @@ import pl.envelo.meetek.domain.event.SingleEventService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -40,50 +38,28 @@ public class AdminController {
     private final AdminService adminService;
     private DtoMapperService dtoMapperService;
 
-    @GetMapping("/past-events")
+    @GetMapping("/events/past")
     @Operation(summary = "Get all events that started before current dateTime")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found events",
+            @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No events found", content = @Content)})
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllEventsBeforeToday() {
-
-        List<SingleEvent> pastEvents;
-        List<SingleEventShortDto> pastEventsShortDto;
-
-        pastEvents = singleEventService.getAllEventsBeforeToday();
-
-        pastEventsShortDto = pastEvents.stream().map(singleEvent -> dtoMapperService.
-                mapToSingleEventShortDto(singleEvent)).collect(Collectors.toList());
-
-        if (pastEvents.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(pastEventsShortDto, HttpStatus.OK);
-        }
+        List<SingleEventShortDto> events = singleEventService.getAllEventsBeforeToday();
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
-    @GetMapping("/future-events")
+    @GetMapping("/events/future")
     @Operation(summary = "Get all events that started after current dateTime")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found events",
+            @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No events found", content = @Content)})
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllEventsAfterToday() {
-
-        List<SingleEvent> futureEvents;
-        List<SingleEventShortDto> futureEventsShortDto;
-
-        futureEvents = singleEventService.getAllEventsAfterToday();
-
-        futureEventsShortDto = futureEvents.stream().map(singleEvent -> dtoMapperService.
-                mapToSingleEventShortDto(singleEvent)).collect(Collectors.toList());
-
-        if (futureEvents.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(futureEventsShortDto, HttpStatus.OK);
-        }
+        List<SingleEventShortDto> events = singleEventService.getAllEventsAfterToday();
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/hashtags")
