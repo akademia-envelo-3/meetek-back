@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.domain.comment.model.EventCommentCreateDto;
 import pl.envelo.meetek.domain.comment.model.EventCommentDto;
-import pl.envelo.meetek.domain.comment.model.EventComment;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.event.model.SingleEventCreateDto;
 import pl.envelo.meetek.domain.event.model.SingleEventLongDto;
@@ -235,42 +234,33 @@ public class SingleEventController {
     }
 
     @GetMapping("/{eventId}/comments/{commentId}")
-    @Operation(summary = "Get a comment by its ID")
+    @Operation(summary = "Get comment by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found a comment",
+            @ApiResponse(responseCode = "200", description = "Comment found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = EventCommentDto.class)))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, invalid Id supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "event or comment not found", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Event or comment not found", content = @Content)})
     public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
-
-        Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
-        if (eventCommentOptional.isPresent()) {
-            EventComment eventComment = eventCommentOptional.get();
-            EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        EventCommentDto eventComment = eventCommentService.getEventCommentById(commentId);
+        return new ResponseEntity<>(eventComment, HttpStatus.OK);
     }
 
     @PostMapping("/{eventId}/comments")
-    @Operation(summary = "Create a new comment")
+    @Operation(summary = "Create new comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Comment has been created",
+            @ApiResponse(responseCode = "201", description = "Comment created",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = EventCommentCreateDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long replyCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters wrong", content = @Content)})
+    public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long commentedCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
         StandardUser standardUser = standardUserService.getStandardUserById(userId);
         Optional<SingleEvent> singleEventOptional = singleEventService.getSingleEventById(eventId);
         if(singleEventOptional.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        EventComment eventComment = eventCommentService.saveNewEventComment(standardUser, singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
-        if (eventComment == null) {
-            return ResponseEntity.badRequest().build();
-        }
+        SingleEvent singleEvent = singleEventOptional.get();
+        EventCommentDto eventComment = eventCommentService.createEventComment(standardUser, singleEvent, commentedCommentId, eventCommentCreateDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
