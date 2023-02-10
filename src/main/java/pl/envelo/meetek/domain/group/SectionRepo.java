@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface SectionRepo extends JpaRepository<Section, Long> {
 
+    Optional<Section> findByName(String name);
+
     List<Section> findAllByIsActiveTrueOrderByName();
 
     @Query(value = """
