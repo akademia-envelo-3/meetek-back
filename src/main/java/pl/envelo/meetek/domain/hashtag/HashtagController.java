@@ -16,7 +16,6 @@ import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -35,14 +34,11 @@ public class HashtagController {
             @ApiResponse(responseCode = "400", description = "Invaild hashtagId format", content = @Content),
             @ApiResponse(responseCode = "404", description = "Hashtag not found", content = @Content)})
     public ResponseEntity<HashtagDto> getHashtag(@PathVariable long hashtagId) {
-        Optional<Hashtag> hashtag = hashtagService.getHashtagById(hashtagId);
-        if (hashtag.isPresent()) {
-            HashtagDto hashtagDto = dtoMapperService.mapToHashtagDto(hashtag.get());
-            return new ResponseEntity<>(hashtagDto, HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
-
+        Hashtag hashtag = hashtagService.getHashtagById(hashtagId);
+        HashtagDto hashtagDto = dtoMapperService.mapToHashtagDto(hashtag);
+        return new ResponseEntity<>(hashtagDto, HttpStatus.OK);
     }
+
     @PostMapping
     @Operation(summary = "Create a new hashtag")
     @ApiResponses(value = {
@@ -65,12 +61,9 @@ public class HashtagController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content),
             @ApiResponse(responseCode = "404", description = "Hashtag not found", content = @Content)})
     public ResponseEntity<Void> editHashtag(@PathVariable long hashtagId, @RequestBody HashtagCreateDto hashtagCreateDto) {
-        Optional<Hashtag> hashtag = hashtagService.getHashtagById(hashtagId);
-        if (hashtag.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        Hashtag hashtag = hashtagService.getHashtagById(hashtagId);
         Hashtag hashtagBody = dtoMapperService.mapToHashtag(hashtagCreateDto);
-        hashtagService.editHashtag(hashtag.get(), hashtagBody);
+        hashtagService.editHashtag(hashtag, hashtagBody);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

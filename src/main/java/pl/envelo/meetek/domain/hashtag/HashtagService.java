@@ -6,21 +6,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class HashtagService {
 
     private final HashtagRepo hashtagRepo;
+    private final HashtagValidator hashtagValidator;
 
     @Transactional(readOnly = true)
-    public Optional<Hashtag> getHashtagById(long id) {
-        return hashtagRepo.findById(id);
+    public Hashtag getHashtagById(long id) {
+        return hashtagValidator.validateExists(id);
     }
 
     @Transactional
     public Hashtag saveHashtag(Hashtag hashtag) {
+        hashtagValidator.validateNotDuplicate(hashtag.getName());
+        hashtagValidator.validateInput(hashtag);
         hashtag.setActive(true);
         hashtag.setCountOfHashtagUsage(0);
         return hashtagRepo.save(hashtag);
@@ -28,6 +30,8 @@ public class HashtagService {
 
     @Transactional
     public Hashtag editHashtag(Hashtag hashtagToUpdate, Hashtag hashtagBody) {
+        hashtagValidator.validateInput(hashtagBody);
+        hashtagValidator.validateNotDuplicate(hashtagBody.getName());
         hashtagToUpdate.setName(hashtagBody.getName());
         return hashtagRepo.save(hashtagToUpdate);
     }
