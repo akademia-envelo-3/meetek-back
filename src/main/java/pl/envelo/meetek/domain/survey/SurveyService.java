@@ -3,10 +3,9 @@ package pl.envelo.meetek.domain.survey;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.envelo.meetek.domain.survey.model.Survey;
-import pl.envelo.meetek.domain.survey.model.SurveyChoice;
-import pl.envelo.meetek.domain.survey.model.SurveyResponse;
+import pl.envelo.meetek.domain.survey.model.*;
 import pl.envelo.meetek.domain.user.model.StandardUser;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,41 +17,45 @@ public class SurveyService {
 
     private final SurveyRepo surveyRepo;
     private final SurveyChoiceService surveyChoiceService;
-
     public final SurveyResponseService surveyResponseService;
+    private final SurveyValidator surveyValidator;
+    private final DtoMapperService dtoMapperService;
 
     @Transactional
-    public Survey createSurvey(Survey survey) {
+    public Survey createSurvey(SurveyDto surveyDto) {
+        Survey survey = dtoMapperService.mapToSurvey(surveyDto);
         for (SurveyChoice surveyChoice : survey.getChoices()) {
-            if(surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty())
+            if (surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty()) {
+                surveyValidator.validateInputComponent(surveyChoice);
                 surveyChoiceService.createSurveyChoice(surveyChoice);
+            }
         }
+        surveyValidator.validateInput(survey);
         return surveyRepo.save(survey);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Survey> getSurvey(long surveyId) {
-        Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
-        surveyOptional.ifPresent(this::setSurveyFields);
-
-        return surveyOptional;
+    public SurveyDto getSurvey(long surveyId) {
+        return dtoMapperService.mapToSurveyDto(surveyValidator.validateExists(surveyId));
     }
 
     @Transactional
-    public Optional<SurveyResponse> addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
-        Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
+    public SurveyResponse addResponse(long surveyId, StandardUser standardUser, SurveyResponseCreateDto surveyResponseBody) {
+        SurveyResponse surveyResponse = dtoMapperService.mapToSurveyResponse(surveyResponseBody);
+        Survey survey = surveyValidator.validateExists(surveyId);
+        surveyResponse.setUser(standardUser);
+        surveyValidator.validateInputComponent(surveyResponseBody);
+        surveyValidator.validateUserResponsed(survey, standardUser);
+        surveyValidator.validateUserRightResponsesQty(survey, surveyResponse);
+        surveyResponseService.createSurveyResponse(surveyResponse);
+        survey.getResponses().add(surveyResponse);
+        return surveyResponse;
 
-        if (surveyOptional.isPresent()) {
-            surveyResponseBody.setUser(standardUser);
-            SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
-            surveyOptional.get().getResponses().add(surveyResponse);
-            return Optional.of(surveyResponse);
-        }
-        return Optional.empty();
     }
 
     @Transactional
     public void deleteSurvey(long surveyId) {
+        surveyValidator.validateExists(surveyId);
         surveyRepo.deleteById(surveyId);
     }
 
