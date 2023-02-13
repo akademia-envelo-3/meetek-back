@@ -10,16 +10,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.envelo.meetek.domain.survey.model.SurveyDto;
-import pl.envelo.meetek.domain.survey.model.SurveyResponseCreateDto;
 import pl.envelo.meetek.domain.survey.model.Survey;
+import pl.envelo.meetek.domain.survey.model.SurveyDto;
 import pl.envelo.meetek.domain.survey.model.SurveyResponse;
+import pl.envelo.meetek.domain.survey.model.SurveyResponseCreateDto;
+import pl.envelo.meetek.domain.user.StandardUserService;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.utils.DtoMapperService;
-import pl.envelo.meetek.domain.user.StandardUserService;
 
 import java.net.URI;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -34,8 +33,8 @@ public class SurveyController {
     //testowo - do usunięcia
     @GetMapping
     public SurveyDto getSurvey(@RequestParam Long id) {
-        Optional<Survey> surveyOptional = surveyService.getSurvey(id);
-        return surveyOptional.map(dtoMapperService::mapToSurveyDto).orElse(null);
+        Survey survey = surveyService.getSurvey(id);
+        return dtoMapperService.mapToSurveyDto(survey);
     }
 
     @PostMapping("/{surveyId}")
@@ -45,17 +44,14 @@ public class SurveyController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
     public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestParam long userId, @RequestBody SurveyResponseCreateDto surveyResponseCreateDto) {
         StandardUser standardUser = standardUserService.getStandardUserById(userId);
-        Optional<SurveyResponse> surveyResponse = surveyService.addResponse(surveyId, standardUser, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
+        SurveyResponse surveyResponse = surveyService.addResponse(surveyId, standardUser, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(surveyResponse.getResponseId())
+                .toUri();
+        return ResponseEntity.created(location).build();
 
-        if (surveyResponse.isPresent()) {
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(surveyResponse.get().getResponseId())
-                    .toUri();
-            return ResponseEntity.created(location).build();
-        }
-        return ResponseEntity.badRequest().build();
     }
 
 }

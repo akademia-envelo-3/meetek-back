@@ -18,41 +18,40 @@ public class SurveyService {
 
     private final SurveyRepo surveyRepo;
     private final SurveyChoiceService surveyChoiceService;
-
     public final SurveyResponseService surveyResponseService;
+    private final SurveyValidator surveyValidator;
 
     @Transactional
     public Survey createSurvey(Survey survey) {
         for (SurveyChoice surveyChoice : survey.getChoices()) {
-            if(surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty())
+            if (surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty()) {
+                surveyValidator.validateChoiceInput(surveyChoice);
                 surveyChoiceService.createSurveyChoice(surveyChoice);
+            }
         }
+        surveyValidator.validateInput(survey);
         return surveyRepo.save(survey);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Survey> getSurvey(long surveyId) {
-        Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
-        surveyOptional.ifPresent(this::setSurveyFields);
-
-        return surveyOptional;
+    public Survey getSurvey(long surveyId) {
+        return surveyValidator.validateExists(surveyId);
     }
 
     @Transactional
-    public Optional<SurveyResponse> addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
-        Optional<Survey> surveyOptional = surveyRepo.findById(surveyId);
+    public SurveyResponse addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
+        Survey survey = surveyValidator.validateExists(surveyId);
+        surveyResponseBody.setUser(standardUser);
+        surveyValidator.validateResponseInput(surveyResponseBody);
+        SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
+        survey.getResponses().add(surveyResponse);
+        return surveyResponse;
 
-        if (surveyOptional.isPresent()) {
-            surveyResponseBody.setUser(standardUser);
-            SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
-            surveyOptional.get().getResponses().add(surveyResponse);
-            return Optional.of(surveyResponse);
-        }
-        return Optional.empty();
     }
 
     @Transactional
     public void deleteSurvey(long surveyId) {
+        surveyValidator.validateExists(surveyId);
         surveyRepo.deleteById(surveyId);
     }
 

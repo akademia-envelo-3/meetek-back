@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 public abstract class ValidatorService<T> {
 
-    private final Validator validator;
+    protected final Validator validator;
 
     public void validateInput(T t) {
         Set<ConstraintViolation<T>> violations = validator.validate(t);
