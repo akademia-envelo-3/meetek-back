@@ -1,6 +1,7 @@
 package pl.envelo.meetek.domain.event;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
@@ -95,6 +96,10 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             """,
             nativeQuery = true)
     List<SingleEvent> findFutureOwnedByUser(LocalDateTime currentDateTimeFrom, long userId);
+
+    @Modifying
+    @Query(value = "update events SET owner_id = ?2 where event_id = ?1", nativeQuery = true)
+    void updateOwner(long eventId, long ownerId );
 
 }
 
