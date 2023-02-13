@@ -17,10 +17,10 @@ insert into CATEGORIES values('5', 'false', 'teatr');
 insert into COORDINATES values('1', '154541.2132', '484454545.23');
 
 //SECTIONS
-insert into SECTIONS values('1', 'first section', 'true', 'first section', '1');
-insert into SECTIONS values('2', 'second section', 'false', 'second section', '1');
-insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
-insert into SECTIONS values('4', 'fourth section', 'true', 'fourth section', '4');
+insert into SECTIONS values('1', 'first section 1234567890987654321', 'true', 'first section 1234567890987654321', '1');
+insert into SECTIONS values('2', 'second section 1234567890987654321', 'false', 'second section 1234567890987654321', '1');
+insert into SECTIONS values('3', 'third section 1234567890987654321', 'true', 'third section 1234567890987654321', '3');
+insert into SECTIONS values('4', 'fourth section 1234567890987654321', 'true', 'fourth section 1234567890987654321', '4');
 
 //SECTIONS_X_JOINED_USERS
 insert into SECTIONS_X_JOINED_USERS values('1', '2');
