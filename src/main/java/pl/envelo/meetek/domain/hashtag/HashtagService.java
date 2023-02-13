@@ -56,4 +56,13 @@ public class HashtagService {
                 .toList();
     }
 
+    @Transactional
+    public void changeCounterOfHashtag(long hashtagId, boolean counterIncrease) {
+        Hashtag hashtag = hashtagValidator.validateExists(hashtagId);
+        int counter = hashtag.getCountOfHashtagUsage();
+        hashtag.setCountOfHashtagUsage(counterIncrease ? ++counter : --counter);
+        hashtagRepo.save(hashtag);
+    }
+
+
 }

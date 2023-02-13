@@ -7,7 +7,6 @@ import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.event.model.SingleEventCreateDto;
 import pl.envelo.meetek.domain.event.model.SingleEventLongDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
-import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.survey.SurveyService;
 import pl.envelo.meetek.domain.survey.model.Survey;
@@ -142,13 +141,6 @@ public class SingleEventService {
     public List<SingleEventShortDto> findAllFutureOwnedByUser(long userId) {
         List<SingleEvent> events = eventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional
-    public void changeCounterOfHashtag(HashtagDto hashtag, boolean counterIncrease) {
-        int counter = hashtag.getCountOfHashtagUsage();
-        hashtag.setCountOfHashtagUsage(counterIncrease ? ++counter : --counter);
-        hashtagService.createHashtag(mapperService.mapToHashtagCreateDto(hashtag));
     }
 
 }

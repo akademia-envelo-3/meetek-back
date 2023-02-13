@@ -46,6 +46,7 @@ public class SurveyService {
         surveyResponse.setUser(standardUser);
         surveyValidator.validateInputComponent(surveyResponseBody);
         surveyValidator.validateUserResponsed(survey, standardUser);
+        surveyValidator.validateUserRightResponsesQty(survey, surveyResponse);
         surveyResponseService.createSurveyResponse(surveyResponse);
         survey.getResponses().add(surveyResponse);
         return surveyResponse;

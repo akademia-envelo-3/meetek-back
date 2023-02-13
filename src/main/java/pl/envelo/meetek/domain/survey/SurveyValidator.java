@@ -5,6 +5,7 @@ import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 import pl.envelo.meetek.domain.survey.model.Survey;
 import pl.envelo.meetek.domain.survey.model.SurveyChoice;
+import pl.envelo.meetek.domain.survey.model.SurveyResponse;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.exceptions.ArgumentNotValidException;
 import pl.envelo.meetek.exceptions.DuplicateException;
@@ -27,7 +28,7 @@ public class SurveyValidator extends ValidatorService<Survey> {
         this.surveyChoiceRepo = surveyChoiceRepo;
     }
 
-    public <U> void validateInputComponent(U t){
+    public <U> void validateInputComponent(U t) {
         Set<ConstraintViolation<U>> violations = validator.validate(t);
         if (!violations.isEmpty()) {
             Map<String, String> messages = new HashMap<>();
@@ -69,4 +70,11 @@ public class SurveyValidator extends ValidatorService<Survey> {
                     throw new DuplicateException("User already responsed to this survey");
                 });
     }
+
+    public void validateUserRightResponsesQty(Survey survey, SurveyResponse surveyResponse) {
+        if (survey.getMaxChoicesNumber() < surveyResponse.getAnswers().size()) {
+            throw new ArgumentNotValidException("Wrong number of answers");
+        }
+    }
+
 }
