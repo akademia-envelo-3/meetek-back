@@ -28,6 +28,21 @@ public class SurveyValidator extends ValidatorService<Survey> {
         this.surveyChoiceRepo = surveyChoiceRepo;
     }
 
+    @Override
+    public void validateInput(Survey survey) {
+        Set<ConstraintViolation<Survey>> violations = validator.validate(survey);
+        boolean isMoreThanChoices = survey.getChoices().size() < survey.getMaxChoicesNumber();
+        if (!violations.isEmpty() || isMoreThanChoices) {
+            Map<String, String> messages = new HashMap<>();
+            for (ConstraintViolation<Survey> violation : violations) {
+                messages.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+            if(isMoreThanChoices)
+                messages.put("maxChoicesNumber", "Max choices number is more than choices provided");
+            throw new ArgumentNotValidException("Not valid data provided", messages);
+        }
+    }
+
     public <U> void validateInputComponent(U t) {
         Set<ConstraintViolation<U>> violations = validator.validate(t);
         if (!violations.isEmpty()) {
