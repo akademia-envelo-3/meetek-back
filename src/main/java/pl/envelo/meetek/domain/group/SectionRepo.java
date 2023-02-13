@@ -1,6 +1,7 @@
 package pl.envelo.meetek.domain.group;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.envelo.meetek.domain.group.model.Section;
@@ -33,5 +34,9 @@ public interface SectionRepo extends JpaRepository<Section, Long> {
             """,
             nativeQuery = true)
     List<Section> findAllJoinedSections(long userId);
+
+    @Modifying
+    @Query(value = "update sections SET owner_id = ?2 where group_id = ?1", nativeQuery = true)
+    void updateOwner(long groupId, long ownerId );
 
 }
