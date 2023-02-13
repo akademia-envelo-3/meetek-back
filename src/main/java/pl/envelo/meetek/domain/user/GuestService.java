@@ -4,23 +4,29 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.user.model.Guest;
-
-import java.util.Optional;
+import pl.envelo.meetek.domain.user.model.GuestDto;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 @AllArgsConstructor
 @Service
 public class GuestService {
 
     private final GuestRepo guestRepo;
+    private final GuestValidator guestValidator;
+    private final DtoMapperService mapperService;
 
     @Transactional(readOnly = true)
-    public Optional<Guest> getGuestById(long guestId) {
-        return guestRepo.findById(guestId);
+    public GuestDto getGuestById(long guestId) {
+        Guest guest = guestValidator.validateExists(guestId);
+        return mapperService.mapToGuestDto(guest);
     }
 
     @Transactional
-    public Guest createGuest(Guest guest) {
-        return guestRepo.save(guest);
+    public GuestDto createGuest(GuestDto guestDto) {
+        Guest guest = mapperService.mapToGuest(guestDto);
+        guestValidator.validateInput(guest);
+        guest = guestRepo.save(guest);
+        return mapperService.mapToGuestDto(guest);
     }
 
     @Transactional

@@ -40,14 +40,17 @@ public abstract class Event {
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private StandardUser owner;
+
     @NotNull(message = "Field must not be null")
     @NotBlank(message = "Field must not be blank")
     @Size(min = 2, max = 200, message = "Field must be between {min} and {max} characters")
     private String name;
+
     @NotBlank(message = "Field must not be blank")
     @URL(message = "Field must be URL")
-    @Size(min = 10, max = 255, message = "Field must be between {min} and {max} characters")
+    @Size(max = 2048, message = "Field can contain max {max} characters")
     private String link;
+
     @NotBlank(message = "Field must not be blank")
     @Size(min = 20, max = 4000, message = "Field must be between {min} and {max} characters")
     private String description;
@@ -55,6 +58,7 @@ public abstract class Event {
     @NotNull(message = "Field must not be null")
     @Future(message = "Event must start in future")
     private LocalDateTime dateTimeFrom;
+
     @NotNull(message = "Field must not be null")
     @Future(message = "Event must end in future")
     private LocalDateTime dateTimeTo;

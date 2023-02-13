@@ -5,17 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 
-import java.util.Optional;
-
 @AllArgsConstructor
 @Service
 public class StandardUserService {
 
-    private final StandardUserRepo standardUserRepo;
+    private final StandardUserValidator standardUserValidator;
 
     @Transactional(readOnly = true)
-    public Optional<StandardUser> getStandardUserById(long id){
-        return standardUserRepo.findById(id);
+    public StandardUser getStandardUserById(long userId){
+        return standardUserValidator.validateExists(userId);
     }
 
 }

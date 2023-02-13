@@ -1,5 +1,4 @@
-package pl.envelo.meetek.domain.group;
-
+package pl.envelo.meetek.domain.request.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,11 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class SectionCreateDto {
+@AllArgsConstructor
+public class CategoryRequestCreateDto {
 
     private String name;
-    private String description;
 
 }

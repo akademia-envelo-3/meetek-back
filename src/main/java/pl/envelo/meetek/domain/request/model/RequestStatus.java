@@ -1,4 +1,4 @@
-package pl.envelo.meetek.domain.request;
+package pl.envelo.meetek.domain.request.model;
 
 public enum RequestStatus {
 

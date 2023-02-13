@@ -70,8 +70,6 @@ public class SingleEvent extends Event {
     private boolean isExternal;
     private boolean isPrivate;
     private boolean isResponseRequired;
-
-
     private int participantsLimit;
 
     @Size(max = 50, message = "Can't add more than {max} attachments")

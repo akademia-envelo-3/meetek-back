@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.domain.attachment.AttachmentDto;
-import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
+import pl.envelo.meetek.domain.user.model.StandardUserDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 public class EventCommentDto {
 
     private long commentId;
-    private StandardUserShortDto commentOwner;
+    private StandardUserDto commentOwner;
     private LocalDateTime addingDateTime;
     private String comment;
     private long eventId;

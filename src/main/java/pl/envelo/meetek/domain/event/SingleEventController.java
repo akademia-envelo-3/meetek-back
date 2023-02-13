@@ -15,20 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.envelo.meetek.domain.comment.model.EventCommentCreateDto;
 import pl.envelo.meetek.domain.comment.model.EventCommentDto;
-import pl.envelo.meetek.domain.comment.model.EventComment;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.event.model.SingleEventCreateDto;
 import pl.envelo.meetek.domain.event.model.SingleEventLongDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.user.model.StandardUser;
-import pl.envelo.meetek.utils.DtoMapperService;
 import pl.envelo.meetek.domain.comment.EventCommentService;
 import pl.envelo.meetek.domain.user.StandardUserService;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -39,23 +35,19 @@ public class SingleEventController {
     private final SingleEventService singleEventService;
     private final EventCommentService eventCommentService;
     private final StandardUserService standardUserService;
-    private final DtoMapperService dtoMapperService;
-
 
     @PostMapping
-    @Operation(summary = "Create a new event")
+    @Operation(summary = "Create new event")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event created", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> saveNewEvent(@RequestParam long userId, @RequestBody SingleEventCreateDto eventDto) {
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        if(standardUserOptional.isEmpty()){return ResponseEntity.notFound().build();}
-
-        SingleEvent entity = singleEventService.saveNewSingleEvent(standardUserOptional.get(),dtoMapperService.mapToSingleEvent(eventDto));
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> createEvent(@RequestParam long userId, @RequestBody SingleEventCreateDto eventDto) {
+        StandardUser user = standardUserService.getStandardUserById(userId);
+        SingleEventShortDto event = singleEventService.createEvent(user, eventDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(entity.getEventId())
+                .buildAndExpand(event.getEventId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
@@ -67,30 +59,20 @@ public class SingleEventController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong eventId", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
     public ResponseEntity<Void> deleteEvent(@PathVariable long eventId) {
-
-        if (singleEventService.getSingleEventById(eventId).isPresent()) {
-            singleEventService.deleteById(eventId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        singleEventService.deleteById(eventId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{eventId}")
-    @Operation(summary = "Get an event by its id")
+    @Operation(summary = "Get event by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the event",
+            @ApiResponse(responseCode = "200", description = "Event found",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventLongDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
     public ResponseEntity<SingleEventLongDto> getEvent(@PathVariable long eventId) {
-        Optional<SingleEvent> eventOptional = singleEventService.getSingleEventById(eventId);
-        if (eventOptional.isPresent()) {
-            SingleEvent event = eventOptional.get();
-            SingleEventLongDto dto = dtoMapperService.mapToSingleEventLongDto(event);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        SingleEventLongDto event = singleEventService.getEventById(eventId);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @GetMapping("/future")
@@ -98,27 +80,15 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllPublicFutureNotAcceptedEvents(
-            @RequestParam long userId,
-            @Parameter(description = "To get events for few days set number of days")
-            @RequestParam(required = false) Integer days) {
-
-        List<SingleEvent> events;
-        List<SingleEventShortDto> eventShortDtos;
-
-        events = singleEventService.getAllPublicFutureNotAcceptedEvents(userId, days);
-
-        eventShortDtos = events.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .collect(Collectors.toList());
-
-        if (!events.isEmpty()) {
-            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<SingleEventShortDto>> getAllPublicFutureNotAcceptedEvents(@RequestParam long userId,
+                                                                                         @Parameter(description = "To get events for few days set number of days")
+                                                                                         @RequestParam(required = false) Integer days) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.getAllPublicFutureNotAcceptedEvents(validatedUser.getParticipantId(), days);
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/future/accepted")
@@ -126,27 +96,15 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = " Events not found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(
-            @RequestParam long userId,
-            @Parameter(description = "To get events for few days set number of days")
-            @RequestParam(required = false) Integer days) {
-
-        List<SingleEvent> events;
-        List<SingleEventShortDto> eventShortDtos;
-
-        events = singleEventService.getAllFutureAcceptedEvents(userId, days);
-
-        eventShortDtos = events.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .collect(Collectors.toList());
-
-        if (!events.isEmpty()) {
-            return new ResponseEntity<>(eventShortDtos, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(@RequestParam long userId,
+                                                                                @Parameter(description = "To get events for few days set number of days")
+                                                                                @RequestParam(required = false) Integer days) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.getAllFutureAcceptedEvents(validatedUser.getParticipantId(), days);
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/future/owned")
@@ -154,61 +112,41 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getFutureOwnedByUser(
-            @RequestParam long userId) {
-
-        List<SingleEvent> futureOwnedEvents;
-        List<SingleEventShortDto> futureOwnedEventShortDtos;
-
-        futureOwnedEvents = singleEventService.findAllFutureOwnedByUser(userId);
-
-        futureOwnedEventShortDtos = futureOwnedEvents.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .collect(Collectors.toList());
-
-        if (!futureOwnedEvents.isEmpty()) {
-            return new ResponseEntity<>(futureOwnedEventShortDtos, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<SingleEventShortDto>> getFutureOwnedByUser(@RequestParam long userId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.findAllFutureOwnedByUser(validatedUser.getParticipantId());
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/past")
     @Operation(summary = "Get all public past events where the user with given ID didn't confirm his participation")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Results returned",
+            @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No events found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllPublicPastNotAcceptedEvents(@RequestParam long userId) {
-        List<SingleEvent> events = singleEventService.getAllPublicPastNotAcceptedEvents(userId);
-        List<SingleEventShortDto> dtoEvents = events.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .toList();
-        if (dtoEvents.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.getAllPublicPastNotAcceptedEvents(validatedUser.getParticipantId());
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/past/accepted")
     @Operation(summary = "Get all past events where the user with given ID confirmed his participation")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Results returned",
+            @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No events found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getAllPastAcceptedEvents(@RequestParam long userId) {
-        List<SingleEvent> events = singleEventService.getAllPastAcceptedEvents(userId);
-        List<SingleEventShortDto> dtoEvents = events.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .toList();
-        if (dtoEvents.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(dtoEvents, HttpStatus.OK);
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.getAllPastAcceptedEvents(validatedUser.getParticipantId());
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/past/owned")
@@ -216,63 +154,39 @@ public class SingleEventController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getPastOwnedByUser(@RequestParam long userId) {
-
-        List<SingleEvent> pastOwnedEvents;
-        List<SingleEventShortDto> pastOwnedEventShortDtos;
-
-        pastOwnedEvents = singleEventService.findAllPastOwnedByUser(userId);
-
-        pastOwnedEventShortDtos = pastOwnedEvents.stream()
-                .map(dtoMapperService::mapToSingleEventShortDto)
-                .collect(Collectors.toList());
-
-        if (!pastOwnedEvents.isEmpty()) {
-            return new ResponseEntity<>(pastOwnedEventShortDtos, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        List<SingleEventShortDto> events = singleEventService.findAllPastOwnedByUser(validatedUser.getParticipantId());
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
     @GetMapping("/{eventId}/comments/{commentId}")
-    @Operation(summary = "Get a comment by its ID")
+    @Operation(summary = "Get comment by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found a comment",
+            @ApiResponse(responseCode = "200", description = "Comment found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = EventCommentDto.class)))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, invalid Id supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "event or comment not found", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Event or comment not found", content = @Content)})
     public ResponseEntity<EventCommentDto> getEventComment(@PathVariable long commentId) {
-
-        Optional<EventComment> eventCommentOptional = eventCommentService.getEventCommentById(commentId);
-        if (eventCommentOptional.isPresent()) {
-            EventComment eventComment = eventCommentOptional.get();
-            EventCommentDto dto = dtoMapperService.mapToEventCommentDto(eventComment);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        EventCommentDto comment = eventCommentService.getEventCommentById(commentId);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @PostMapping("/{eventId}/comments")
-    @Operation(summary = "Create a new comment")
+    @Operation(summary = "Create new comment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Comment has been created",
+            @ApiResponse(responseCode = "201", description = "Comment created",
                     content = {@Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = EventCommentCreateDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Bad request, parameters are wrong", content = @Content)})
-    public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long replyCommentId, @RequestBody EventCommentCreateDto eventCommentCreateDto) {
-        Optional<StandardUser> standardUserOptional = standardUserService.getStandardUserById(userId);
-        Optional<SingleEvent> singleEventOptional = singleEventService.getSingleEventById(eventId);
-        if(standardUserOptional.isEmpty() || singleEventOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        EventComment eventComment = eventCommentService.saveNewEventComment(standardUserOptional.get(), singleEventOptional.get(), replyCommentId, dtoMapperService.mapToEventComment(eventCommentCreateDto));
-        if (eventComment == null) {
-            return ResponseEntity.badRequest().build();
-        }
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters wrong", content = @Content)})
+    public ResponseEntity<Void> addEventComment(@PathVariable long eventId, @RequestParam long userId, @RequestParam(required = false) Long commentedCommentId, @RequestBody EventCommentCreateDto eventCommentDto) {
+        StandardUser user = standardUserService.getStandardUserById(userId);
+        SingleEvent event = singleEventService.getEventByIdNotDto(eventId);
+        EventCommentDto eventComment = eventCommentService.createEventComment(user, event, commentedCommentId, eventCommentDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

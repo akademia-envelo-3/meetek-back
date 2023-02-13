@@ -4,52 +4,88 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.envelo.meetek.domain.request.model.CategoryRequest;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class CategoryService {
 
-    final private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
+    private final CategoryValidator categoryValidator;
+    private final DtoMapperService mapperService;
 
     @Transactional(readOnly = true)
-    public Optional<Category> getCategoryById(long id) {
-        return categoryRepo.findById(id);
+    public CategoryDto getCategoryById(long categoryId) {
+        Category category = categoryValidator.validateExists(categoryId);
+        return mapperService.mapToCategoryDto(category);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Category> getCategoryByName(String name) {
-        return categoryRepo.findByName(name);
+    public Category getCategoryByName(String name) {
+        return categoryValidator.validateNotActiveDuplicate(name);
     }
 
     @Transactional
-    public Category saveNewCategory(Category category) {
-        return categoryRepo.save(category);
+    public CategoryDto createCategory(CategoryDto categoryDto) {
+        Category category = mapperService.mapToCategory(categoryDto);
+        categoryValidator.validateInput(category);
+        categoryValidator.validateNotDuplicate(category.getName());
+        category = categoryRepo.save(category);
+        return mapperService.mapToCategoryDto(category);
     }
 
     @Transactional
-    public void editCategory(Category categoryToBeUpdated, Category updatedCategory) {
-        categoryToBeUpdated.setName(updatedCategory.getName());
-        categoryToBeUpdated.setActive(updatedCategory.isActive());
-        categoryRepo.save(categoryToBeUpdated);
+    public void createOrActivateCategory(CategoryRequest request) {
+        if (request.getCategory() == null) {
+            createCategory(request.getName());
+        } else {
+            activateCategory(request.getCategory());
+        }
     }
 
     @Transactional
-    public void activateCategory(Category category) {
-        category.setActive(true);
+    public void editCategory(long categoryId, CategoryDto categoryDto) {
+        Category category = categoryValidator.validateExists(categoryId);
+        Category categoryFromDto = mapperService.mapToCategory(categoryDto);
+        categoryValidator.validateInput(categoryFromDto);
+        categoryValidator.validateNotDuplicate(category, categoryFromDto.getName());
+        updateFields(category, categoryFromDto);
         categoryRepo.save(category);
     }
 
     @Transactional(readOnly = true)
-    public List<Category> getAllCategories() {
-        return categoryRepo.findAll(Sort.by("name"));
+    public List<CategoryDto> getAllCategories() {
+        List<Category> categories = categoryRepo.findAll(Sort.by("name"));
+        return categories.stream()
+                .map(mapperService::mapToCategoryDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<Category> getAllActiveCategories() {
-        return categoryRepo.findAllByIsActiveTrueOrderByName();
+    public List<CategoryDto> getAllActiveCategories() {
+        List<Category> categories = categoryRepo.findAllByIsActiveTrueOrderByName();
+        return categories.stream()
+                .map(mapperService::mapToCategoryDto)
+                .toList();
+    }
+
+    private void createCategory(String name) {
+        Category category = new Category(name, true);
+        categoryValidator.validateInput(category);
+        categoryRepo.save(category);
+    }
+
+    private void activateCategory(Category category) {
+        category.setActive(true);
+        categoryRepo.save(category);
+    }
+
+    private void updateFields(Category category, Category categoryFromDto) {
+        category.setName(categoryFromDto.getName());
+        category.setActive(categoryFromDto.isActive());
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 import pl.envelo.meetek.domain.category.CategoryDto;
 import pl.envelo.meetek.domain.coordinates.CoordinatesDto;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
-import pl.envelo.meetek.domain.user.model.StandardUserShortDto;
+import pl.envelo.meetek.domain.user.model.StandardUserDto;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,7 +20,7 @@ public class SingleEventLongDto {
 
     private long eventId;
     private Set<HashtagDto> hashtags;
-    private StandardUserShortDto owner;
+    private StandardUserDto owner;
     private String name;
     private String link;
     private String description;

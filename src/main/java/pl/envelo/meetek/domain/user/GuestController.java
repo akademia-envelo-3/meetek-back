@@ -13,37 +13,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.envelo.meetek.domain.user.model.AdminDto;
 import pl.envelo.meetek.domain.user.model.GuestDto;
-import pl.envelo.meetek.domain.user.model.Guest;
-import pl.envelo.meetek.utils.DtoMapperService;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
 @Tag(name = "Guest")
-@RequestMapping("/${app.prefix}/${app.version}/guest")
+@RequestMapping("/${app.prefix}/${app.version}/guests")
 public class GuestController {
 
     private final GuestService guestService;
-    private final DtoMapperService dtoMapperService;
 
     @GetMapping("/{guestId}")
-    @Operation(summary = "Get an guest by its id")
+    @Operation(summary = "Get guest by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the guest",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = AdminDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Guest found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GuestDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Guest not found", content = @Content)})
-    public ResponseEntity getGuest(@PathVariable long guestId) {
-        Optional<Guest> guest = guestService.getGuestById(guestId);
-        if (guest.isPresent()) {
-            GuestDto guestDto = dtoMapperService.mapToGuestDto(guest.get());
-
-            return new ResponseEntity(guestDto, HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<GuestDto> getGuest(@PathVariable long guestId) {
+        GuestDto guest = guestService.getGuestById(guestId);
+        return new ResponseEntity<>(guest, HttpStatus.OK);
     }
 
 }
