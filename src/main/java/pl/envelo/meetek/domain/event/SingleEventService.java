@@ -143,4 +143,11 @@ public class SingleEventService {
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
+    @Transactional
+    public void setEventOwnerByAdmin(long newOwnerId, long eventId) {
+        SingleEvent singleEvent = eventValidator.validateExists(eventId);
+        StandardUser newOwner = eventValidator.validateOwnerForAdmin(singleEvent, newOwnerId);
+        eventRepo.updateOwner(singleEvent.getEventId(), newOwner.getParticipantId());
+    }
+
 }

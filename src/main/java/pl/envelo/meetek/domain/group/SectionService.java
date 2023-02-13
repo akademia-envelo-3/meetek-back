@@ -77,6 +77,13 @@ public class SectionService {
                 .toList();
     }
 
+    @Transactional
+    public void setSectionOwnerByAdmin(long newOwnerId, long sectionId) {
+        Section section = sectionValidator.validateExists(sectionId);
+        StandardUser newOwner = sectionValidator.validateOwnerForAdmin(section, newOwnerId);
+        sectionRepo.updateOwner(section.getGroupId(), newOwner.getParticipantId());
+    }
+
     private Section setCountMembers(Section section) {
         section.setMembersCount(section.getJoinedUsers().size());
         return section;

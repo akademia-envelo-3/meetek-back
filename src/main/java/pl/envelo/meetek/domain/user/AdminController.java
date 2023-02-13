@@ -15,6 +15,7 @@ import pl.envelo.meetek.domain.category.CategoryDto;
 import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.domain.event.SingleEventService;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
+import pl.envelo.meetek.domain.group.SectionService;
 import pl.envelo.meetek.domain.hashtag.HashtagDto;
 import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
@@ -30,7 +31,8 @@ import java.util.List;
 @RequestMapping("/${app.prefix}/${app.version}/admin")
 public class AdminController {
 
-    private SingleEventService singleEventService;
+    private final SingleEventService singleEventService;
+    private final SectionService sectionService;
     private final CategoryService categoryService;
     private final HashtagService hashtagService;
     private final CategoryRequestService categoryRequestService;
@@ -106,6 +108,30 @@ public class AdminController {
     public ResponseEntity<Void> replyToCategoryRequest(@PathVariable long categoryRequestId, @RequestParam long userId, @RequestBody CategoryRequestDto categoryRequestDto) {
         Admin admin = adminService.getById(userId);
         categoryRequestService.replyToRequest(categoryRequestId, admin, categoryRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/events/{eventId}")
+    @Operation(summary = "Edit owner of event")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Event owner changed", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid eventId or newOwnerId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Event not found", content = @Content)})
+    public ResponseEntity<Void> editEventOwner(@PathVariable long eventId, @RequestParam long adminId, @RequestParam long newOwnerId) {
+        Admin validateAdmin = adminService.getById(adminId);
+        singleEventService.setEventOwnerByAdmin(newOwnerId, eventId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/sections/{sectionId}")
+    @Operation(summary = "Edit owner of section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section owner changed", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId or newOwnerId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+    public ResponseEntity<Void> editSectionOwner(@PathVariable long sectionId, @RequestParam long adminId, @RequestParam long newOwnerId) {
+        Admin validateAdmin = adminService.getById(adminId);
+        sectionService.setSectionOwnerByAdmin(newOwnerId, sectionId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
