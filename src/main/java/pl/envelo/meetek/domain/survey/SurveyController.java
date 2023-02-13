@@ -10,13 +10,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.envelo.meetek.domain.survey.model.Survey;
 import pl.envelo.meetek.domain.survey.model.SurveyDto;
 import pl.envelo.meetek.domain.survey.model.SurveyResponse;
 import pl.envelo.meetek.domain.survey.model.SurveyResponseCreateDto;
 import pl.envelo.meetek.domain.user.StandardUserService;
 import pl.envelo.meetek.domain.user.model.StandardUser;
-import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.net.URI;
 
@@ -28,13 +26,11 @@ public class SurveyController {
 
     private SurveyService surveyService;
     private StandardUserService standardUserService;
-    private DtoMapperService dtoMapperService;
 
     //testowo - do usunięcia
     @GetMapping
     public SurveyDto getSurvey(@RequestParam Long id) {
-        Survey survey = surveyService.getSurvey(id);
-        return dtoMapperService.mapToSurveyDto(survey);
+        return surveyService.getSurvey(id);
     }
 
     @PostMapping("/{surveyId}")
@@ -44,7 +40,7 @@ public class SurveyController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong paramets", content = @Content)})
     public ResponseEntity<Void> addResponse(@PathVariable long surveyId, @RequestParam long userId, @RequestBody SurveyResponseCreateDto surveyResponseCreateDto) {
         StandardUser standardUser = standardUserService.getStandardUserById(userId);
-        SurveyResponse surveyResponse = surveyService.addResponse(surveyId, standardUser, dtoMapperService.mapToSurveyResponse(surveyResponseCreateDto));
+        SurveyResponse surveyResponse = surveyService.addResponse(surveyId, standardUser, surveyResponseCreateDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

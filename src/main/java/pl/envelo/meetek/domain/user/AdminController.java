@@ -12,16 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.envelo.meetek.domain.category.CategoryDto;
-import pl.envelo.meetek.domain.hashtag.HashtagDto;
-import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
-import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
-import pl.envelo.meetek.domain.hashtag.Hashtag;
-import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.domain.category.CategoryService;
-import pl.envelo.meetek.utils.DtoMapperService;
-import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.event.SingleEventService;
+import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
+import pl.envelo.meetek.domain.hashtag.HashtagDto;
+import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
+import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
+import pl.envelo.meetek.domain.user.model.Admin;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class AdminController {
     private final HashtagService hashtagService;
     private final CategoryRequestService categoryRequestService;
     private final AdminService adminService;
-    private DtoMapperService dtoMapperService;
 
     @GetMapping("/events/past")
     @Operation(summary = "Get all events that started before current dateTime")
@@ -69,12 +67,9 @@ public class AdminController {
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = HashtagDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No hashtag found", content = @Content)})
     public ResponseEntity<List<HashtagDto>> getAllHashtags() {
-        List<Hashtag> hashtags = hashtagService.getAllHashtags();
-        List<HashtagDto> dtoHashtags = hashtags.stream()
-                .map(dtoMapperService::mapToHashtagDto)
-                .toList();
-        HttpStatus status = dtoHashtags.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(dtoHashtags, status);
+        List<HashtagDto> hashtags = hashtagService.getAllHashtags();
+        HttpStatus status = hashtags.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(hashtags, status);
     }
 
     @GetMapping("/categories")

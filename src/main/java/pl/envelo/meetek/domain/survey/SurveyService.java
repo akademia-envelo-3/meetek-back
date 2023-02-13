@@ -3,10 +3,9 @@ package pl.envelo.meetek.domain.survey;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.envelo.meetek.domain.survey.model.Survey;
-import pl.envelo.meetek.domain.survey.model.SurveyChoice;
-import pl.envelo.meetek.domain.survey.model.SurveyResponse;
+import pl.envelo.meetek.domain.survey.model.*;
 import pl.envelo.meetek.domain.user.model.StandardUser;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,12 +19,14 @@ public class SurveyService {
     private final SurveyChoiceService surveyChoiceService;
     public final SurveyResponseService surveyResponseService;
     private final SurveyValidator surveyValidator;
+    private final DtoMapperService dtoMapperService;
 
     @Transactional
-    public Survey createSurvey(Survey survey) {
+    public Survey createSurvey(SurveyDto surveyDto) {
+        Survey survey = dtoMapperService.mapToSurvey(surveyDto);
         for (SurveyChoice surveyChoice : survey.getChoices()) {
             if (surveyChoiceService.getSurveyChoiceByDescription(surveyChoice.getDescription()).isEmpty()) {
-                surveyValidator.validateChoiceInput(surveyChoice);
+                surveyValidator.validateInputComponent(surveyChoice);
                 surveyChoiceService.createSurveyChoice(surveyChoice);
             }
         }
@@ -34,16 +35,18 @@ public class SurveyService {
     }
 
     @Transactional(readOnly = true)
-    public Survey getSurvey(long surveyId) {
-        return surveyValidator.validateExists(surveyId);
+    public SurveyDto getSurvey(long surveyId) {
+        return dtoMapperService.mapToSurveyDto(surveyValidator.validateExists(surveyId));
     }
 
     @Transactional
-    public SurveyResponse addResponse(long surveyId, StandardUser standardUser, SurveyResponse surveyResponseBody) {
+    public SurveyResponse addResponse(long surveyId, StandardUser standardUser, SurveyResponseCreateDto surveyResponseBody) {
+        SurveyResponse surveyResponse = dtoMapperService.mapToSurveyResponse(surveyResponseBody);
         Survey survey = surveyValidator.validateExists(surveyId);
-        surveyResponseBody.setUser(standardUser);
-        surveyValidator.validateResponseInput(surveyResponseBody);
-        SurveyResponse surveyResponse = surveyResponseService.createSurveyResponse(surveyResponseBody);
+        surveyResponse.setUser(standardUser);
+        surveyValidator.validateInputComponent(surveyResponseBody);
+        surveyValidator.validateUserResponsed(survey, standardUser);
+        surveyResponseService.createSurveyResponse(surveyResponse);
         survey.getResponses().add(surveyResponse);
         return surveyResponse;
 

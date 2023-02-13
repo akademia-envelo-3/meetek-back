@@ -5,7 +5,7 @@ import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 import pl.envelo.meetek.domain.survey.model.Survey;
 import pl.envelo.meetek.domain.survey.model.SurveyChoice;
-import pl.envelo.meetek.domain.survey.model.SurveyResponse;
+import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.exceptions.ArgumentNotValidException;
 import pl.envelo.meetek.exceptions.DuplicateException;
 import pl.envelo.meetek.exceptions.NotFoundException;
@@ -27,22 +27,11 @@ public class SurveyValidator extends ValidatorService<Survey> {
         this.surveyChoiceRepo = surveyChoiceRepo;
     }
 
-    public void validateChoiceInput(SurveyChoice t) {
-        Set<ConstraintViolation<SurveyChoice>> violations = validator.validate(t);
+    public <U> void validateInputComponent(U t){
+        Set<ConstraintViolation<U>> violations = validator.validate(t);
         if (!violations.isEmpty()) {
             Map<String, String> messages = new HashMap<>();
-            for (ConstraintViolation<SurveyChoice> violation : violations) {
-                messages.put(violation.getPropertyPath().toString(), violation.getMessage());
-            }
-            throw new ArgumentNotValidException("Not valid data provided", messages);
-        }
-    }
-
-    public void validateResponseInput(SurveyResponse t) {
-        Set<ConstraintViolation<SurveyResponse>> violations = validator.validate(t);
-        if (!violations.isEmpty()) {
-            Map<String, String> messages = new HashMap<>();
-            for (ConstraintViolation<SurveyResponse> violation : violations) {
+            for (ConstraintViolation<U> violation : violations) {
                 messages.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
             throw new ArgumentNotValidException("Not valid data provided", messages);
@@ -72,4 +61,12 @@ public class SurveyValidator extends ValidatorService<Survey> {
         });
     }
 
+    public void validateUserResponsed(Survey survey, StandardUser standardUser) {
+        survey.getResponses().stream()
+                .filter(surveyResponse -> surveyResponse.getUser().equals(standardUser))
+                .findAny()
+                .ifPresent(surveyResponse -> {
+                    throw new DuplicateException("User already responsed to this survey");
+                });
+    }
 }
