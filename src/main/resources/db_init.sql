@@ -32,9 +32,9 @@ insert into SECTIONS_X_JOINED_USERS values('5', '3');
 insert into SECTIONS_X_JOINED_USERS values('5', '1');
 
 //EVENT_RESPONSES
-INSERT INTO EVENT_RESPONSES VALUES (1 , 'Accepted');
-INSERT INTO EVENT_RESPONSES VALUES (2 , 'Rejected');
-INSERT INTO EVENT_RESPONSES VALUES (3 , 'Undecided');
+INSERT INTO EVENT_RESPONSES VALUES (1 , 'ACCEPTED');
+INSERT INTO EVENT_RESPONSES VALUES (2 , 'REJECTED');
+INSERT INTO EVENT_RESPONSES VALUES (3 , 'UNDECIDED');
 
 //EVENTS
 insert into EVENTS values('1', '2024-12-30 18:47:52.69', '2023-12-30 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1');
@@ -45,8 +45,6 @@ insert into EVENTS values('5', '2021-03-28 14:47:52.69', '2022-03-28 16:47:52.69
 insert into EVENTS values('6', '2021-02-28 13:47:52.69', '2022-02-28 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
 insert into EVENTS values('7', '2021-01-28 12:47:52.69', '2022-01-28 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
 insert into EVENTS values('8', '2021-01-28 12:47:52.69', '2022-01-28 14:47:52.69', '8 event', 'link', '8 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
---SELECT * FROM EVENTS_X_USERS_RESPONSES WHERE USER_ID = 1;
---SELECT EVENT_ID, DATE_TIME_FROM  FROM EVENTS;
 
 //SECTIONS_X_EVENTS
 insert into SECTIONS_X_EVENTS values('1', '1');

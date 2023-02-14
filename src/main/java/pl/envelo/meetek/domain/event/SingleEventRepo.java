@@ -17,22 +17,22 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
     List<SingleEvent> findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime dateTime);
 
     @Query(value = """
-            SELECT * FROM events 
-            WHERE is_private IS FALSE 
-            AND date_time_from >= ?1 
-            AND event_id 
-            NOT IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2) 
+            SELECT * FROM events
+            WHERE is_private IS FALSE
+            AND date_time_from >= ?1
+            AND event_id
+            NOT IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2)
             ORDER BY date_time_from ASC
             """,
             nativeQuery = true)
     List<SingleEvent> findAllPublicFutureNotRespondedByUser(LocalDateTime currentDateTime, long userId);
 
     @Query(value = """
-            SELECT * FROM events 
-            WHERE is_private IS FALSE 
-            AND date_time_from <= ?1 
-            AND event_id 
-            NOT IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2) 
+            SELECT * FROM events
+            WHERE is_private IS FALSE
+            AND date_time_from <= ?1
+            AND event_id
+            NOT IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2)
             ORDER BY date_time_from DESC
             """,
             nativeQuery = true)
@@ -42,22 +42,27 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
             SELECT * FROM events
             WHERE date_time_from >= ?1
             AND event_id
-            IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2 AND response_id = ?3)
-            ORDER BY date_time_from ASC 
+            IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES
+            LEFT JOIN EVENT_RESPONSES
+            ON EVENTS_X_USERS_RESPONSES.response_id = EVENT_RESPONSES.response_id
+            WHERE user_id = ?2 AND response LIKE ?3)
+            ORDER BY date_time_from ASC
             """,
             nativeQuery = true)
-    List<SingleEvent> findAllFutureWithResponseByUser(LocalDateTime currentDateTime, long userId, long responseId);
+    List<SingleEvent> findAllFutureWithResponseByUser(LocalDateTime currentDateTime, long userId, String response);
 
     @Query(value = """
-            SELECT * FROM events 
-            WHERE is_private IS FALSE 
-            AND date_time_from <= ?1 
-            AND event_id 
-            IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES WHERE user_id = ?2 AND response_id = ?3) 
+            SELECT * FROM events
+            WHERE date_time_from <= ?1
+            AND event_id
+            IN (SELECT event_id FROM EVENTS_X_USERS_RESPONSES
+            LEFT JOIN EVENT_RESPONSES
+            ON EVENTS_X_USERS_RESPONSES.response_id = EVENT_RESPONSES.response_id
+            WHERE user_id = ?2 AND response LIKE ?3)
             ORDER BY date_time_from DESC
             """,
             nativeQuery = true)
-    List<SingleEvent> findAllPastWithResponseByUser(LocalDateTime currentDateTime, long userId, long responseId);
+    List<SingleEvent> findAllPastWithResponseByUser(LocalDateTime currentDateTime, long userId, String response);
 
     @Query(value = """
             SELECT * FROM events
@@ -68,10 +73,10 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
     List<SingleEvent> findFutureOwnedByUser(LocalDateTime currentDateTimeFrom, long userId);
 
     @Query(value = """
-            SELECT * FROM events 
+            SELECT * FROM events
             WHERE date_time_from <= ?1
             AND owner_id = ?2
-            ORDER BY date_time_from DESC 
+            ORDER BY date_time_from DESC
             """,
             nativeQuery = true)
     List<SingleEvent> findPastOwnedByUser(LocalDateTime currentDateTimeFrom, long userId);
