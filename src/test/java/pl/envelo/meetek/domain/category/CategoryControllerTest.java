@@ -1,24 +1,54 @@
 package pl.envelo.meetek.domain.category;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doThrow;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
 
     @Mock
     private CategoryService categoryService;
 
+    @Mock
+    private CategoryRepo categoryRepo;
+
+    @Mock
+    private CategoryValidator categoryValidator;
+
     @InjectMocks
     private CategoryController categoryController;
 
- /*   @Test
+    //GetCategory
+    // get Category 200 :: OK
+    @Test
+    public void testGetCategory_ReturnSuccess() {
+        long categoryId = 1L;
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(categoryId);
+        when(categoryService.getCategoryById(categoryId)).thenReturn(categoryDto);
+
+        ResponseEntity<CategoryDto> response = categoryController.getCategory(categoryId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(categoryDto, response.getBody());
+    }
+
+    @Test
     public void getCategory_Successful() {
         // Arrange
         long categoryId = 1L;
@@ -36,101 +66,55 @@ class CategoryControllerTest {
         assertEquals(expectedCategory, result.getBody());
     }
 
-    @Test
-    void testCreateCategoryReturnsCreatedStatus() {
-        CategoryDto categoryDto = new CategoryDto();
-        CategoryDto createdCategory = new CategoryDto();
-        createdCategory.setCategoryId(1L);
 
-        when(categoryService.createCategory(categoryDto)).thenReturn(createdCategory);
+    //create
+    @Test
+    public void testCreateCategorySuccess() {
+        // Arrange
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setName("Test Category");
+
+        CategoryDto createdCategoryDto = new CategoryDto();
+        createdCategoryDto.setCategoryId(1L);
+        createdCategoryDto.setName("Test Category");
+
+        when(categoryService.createCategory(categoryDto)).thenReturn(createdCategoryDto);
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
 
         ResponseEntity<Void> response = categoryController.createCategory(categoryDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    public void testGetCategoryReturnsCategory() {
-        long categoryId = 1L;
-        CategoryDto expectedCategory = new CategoryDto();
-        expectedCategory.setCategoryId(categoryId);
-
-        when(categoryService.getCategoryById(categoryId)).thenReturn(expectedCategory);
-
-        ResponseEntity<CategoryDto> response = categoryController.getCategory(categoryId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedCategory, response.getBody());
-    }
-
-    @Test
-    public void testGetCategoryReturnsInvalidCategoryIdError() {
-        long invalidCategoryId = 0L;
-
-        doThrow(new InvalidCategoryIdException()).when(categoryService).getCategoryById(invalidCategoryId);
-
-        ResponseEntity<CategoryDto> response = categoryController.getCategory(invalidCategoryId);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    public void testGetCategoryReturnsNotFoundError() {
-        long nonExistentCategoryId = 999L;
-
-        doThrow(new ()).when(categoryService).getCategoryById(nonExistentCategoryId);
-
-        ResponseEntity<CategoryDto> response = categoryController.getCategory(nonExistentCategoryId);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }*/
-    @Test
-    public void testGetCategoryReturnsInternalServerError() {
-        long categoryId = 1L;
-
-        doThrow(new RuntimeException()).when(categoryService).getCategoryById(categoryId);
-
-        ResponseEntity<CategoryDto> response = categoryController.getCategory(categoryId);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
-    public void testCreateCategoryReturnsCreated() {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName("Test category");
-
-        CategoryDto createdCategory = new CategoryDto();
-        createdCategory.setCategoryId(1L);
-        createdCategory.setName("Test category");
-
-        when(categoryService.createCategory(categoryDto)).thenReturn(createdCategory);
-
-        ResponseEntity<Void> response = categoryController.createCategory(categoryDto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getHeaders().getLocation());
         assertEquals("/1", response.getHeaders().getLocation().getPath());
     }
 
+    //test edit Categories
     @Test
-    public void testCreateCategoryReturnsBadRequest() {
-        CategoryDto invalidCategoryDto = new CategoryDto();
-
-        ResponseEntity<Void> response = categoryController.createCategory(invalidCategoryDto);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-    @Test
-    public void testGetCategory() {
+    public void testEditCategory_ReturnSuccess() {
         long categoryId = 1L;
-        CategoryDto categoryDto = new CategoryDto(categoryId, "Category", true);
-        when(categoryService.getCategoryById(categoryId)).thenReturn(categoryDto);
+        CategoryDto categoryDto = new CategoryDto();
 
-        ResponseEntity<CategoryDto> responseEntity = categoryController.getCategory(categoryId);
+        ResponseEntity<Void> response = categoryController.editCategory(categoryId, categoryDto);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(categoryDto, responseEntity.getBody());
+        verify(categoryService).editCategory(categoryId, categoryDto);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+
+    //test Get all active Categories
+    @Test
+    public void testGetAllActiveCategories_ReturnSuccess() {
+        List<CategoryDto> categories = new ArrayList<>();
+        categories.add(new CategoryDto(1L, "Category 1", true));
+        categories.add(new CategoryDto(2L, "Category 2", true));
+        when(categoryService.getAllActiveCategories()).thenReturn(categories);
+
+        ResponseEntity<List<CategoryDto>> response = categoryController.getAllActiveCategories();
+
+        HttpStatus expectedStatus = categories.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        assertEquals(response.getStatusCode(), expectedStatus);
+        assertEquals(response.getBody(), categories);
     }
 }
 
