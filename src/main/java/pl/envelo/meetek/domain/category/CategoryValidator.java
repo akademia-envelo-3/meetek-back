@@ -27,7 +27,7 @@ public class CategoryValidator extends ValidatorService<Category> {
         return category.get();
     }
 
-    public Category validateNotDuplicate(String name) {
+    public void validateNotDuplicate(String name) {
         Optional<Category> category = categoryRepo.findByName(name);
         if (category.isPresent()) {
             if (category.get().isActive()) {
@@ -36,14 +36,14 @@ public class CategoryValidator extends ValidatorService<Category> {
                 throw new DuplicateException("Category with name " + name + " already exists but is not active");
             }
         }
-        return null;
     }
 
-    public void validateNotDuplicate(Category category, String name) {
+    public Category validateNotDuplicate(Category category, String name) {
         Optional<Category> categoryFromDto = categoryRepo.findByName(name);
         if (categoryFromDto.isPresent() && !category.getName().equals(name)) {
             throw new DuplicateException("Category with name " + name + " already exists");
         }
+        return null;
     }
 
     public Category validateNotActiveDuplicate(String name) {

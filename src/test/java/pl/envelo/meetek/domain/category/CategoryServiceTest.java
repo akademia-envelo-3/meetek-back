@@ -13,10 +13,8 @@ import pl.envelo.meetek.utils.DtoMapperService;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -109,25 +107,9 @@ class CategoryServiceTest {
     }
 
 
-/*    @Test
-    void testCreateCategory_Resultfailure() {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName("test");
-
-        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Category with name 'test' already exists");
-        when(categoryValidator.validateNotDuplicate("test")).thenThrow(illegalArgumentException);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> categoryService.createCategory(categoryDto));
-
-        assertEquals("Category with name 'test' already exists", exception.getMessage());
-        verify(categoryValidator, times(1)).validateNotDuplicate("test");
-        verify(categoryRepo, times(0)).save(any(Category.class));
-    }*/
-
-
     //test create or activate cat
     @Test
-    void testCreateCategory() {
+    void testCreateCategory_ResultSuccess1() {
         CategoryRequest request = new CategoryRequest("Test Category");
         Category category = new Category("Test Category");
 
@@ -139,45 +121,8 @@ class CategoryServiceTest {
         verify(categoryValidator, never()).validateNotDuplicate(anyString());
     }
 
-/*    @Test
-    void testActivateCategory() {
-        CategoryRequest request = new CategoryRequest();
-        request.setRequestId(1L);
-
-        Category category = new Category("Test Category");
-        when(categoryRepo.getById(1L)).thenReturn(category);
-
-        categoryService.createOrActivateCategory(request);
-
-        verify(categoryRepo, never()).save(any(Category.class));
-        verify(categoryValidator, never()).validateNotDuplicate(anyString());
-        verify(categoryRepo, times(1)).getOne(1L);
-    }*/
 
     //edit
- /*   @Test
-
-    public void whenValidInput_thenSaveCategory() {
-        // Given
-        long id = 1L;
-        CategoryDto categoryDto = new CategoryDto(1L,"Outdoor Activities",false);
-        Category category = new Category("sda", true);
-        CategoryRequest categoryRequest = new CategoryRequest(categoryDto);
-
-        when(categoryRepo.findById(id)).thenReturn(Optional.of(category));
-        when(mapperService.mapToCategory(categoryDto)).thenReturn(category);
-        when(categoryValidator.validateInput(category)).thenReturn(category);
-        when(categoryValidator.validateNotDuplicate(category, categoryDto.getName())).thenReturn(category);
-        doNothing().when(categoryValidator).validateExists(id);
-
-        // When
-        categoryService.editCategory(id, categoryDto);
-
-        // Then
-        verify(categoryRepo, times(1)).save(category);
-    }
-*/
-
     @Test
     public void testEditCategory_ResultFailure() {
         // Arrange
@@ -190,19 +135,18 @@ class CategoryServiceTest {
         when(mapperService.mapToCategory(categoryDto)).thenReturn(categoryFromDto);
         doThrow(IllegalArgumentException.class).when(categoryValidator).validateInput(categoryFromDto);
 
-        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> categoryService.editCategory(categoryId, categoryDto));
     }
 
     //Get all categories
     @Test
-    public void getAllCategories_Success() {
+    public void testGetAllCategories_ReturnSuccess() {
         Category category1 = new Category("Category 1", true);
         Category category2 = new Category("Category 2", true);
 
         when(categoryRepo.findAll(any(Sort.class))).thenReturn(Arrays.asList(category1, category2));
-        when(mapperService.mapToCategoryDto(category1)).thenReturn(new CategoryDto(1,"Category 1", true));
-        when(mapperService.mapToCategoryDto(category2)).thenReturn(new CategoryDto(2,"Category 2", true));
+        when(mapperService.mapToCategoryDto(category1)).thenReturn(new CategoryDto(1, "Category 1", true));
+        when(mapperService.mapToCategoryDto(category2)).thenReturn(new CategoryDto(2, "Category 2", true));
 
         List<CategoryDto> result = categoryService.getAllCategories();
 
@@ -215,8 +159,9 @@ class CategoryServiceTest {
         verify(mapperService).mapToCategoryDto(category1);
         verify(mapperService).mapToCategoryDto(category2);
     }
+
     @Test
-    public void getAllCategories_ShouldReturnCategories() {
+    public void testGetAllCategories_ReturnCategoriesSuccess() {
         List<Category> expectedCategories = Collections.singletonList(new Category());
         when(categoryRepo.findAll(Sort.by("name"))).thenReturn(expectedCategories);
         when(mapperService.mapToCategoryDto(expectedCategories.get(0))).thenReturn(new CategoryDto());
@@ -227,7 +172,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void getAllCategories_ShouldReturnEmptyList_WhenCategoryRepoReturnsEmptyList() {
+    public void testGetAllCategoriesAndReturnEmptyList_ResultSuccess() {
         when(categoryRepo.findAll(Sort.by("name"))).thenReturn(Collections.emptyList());
 
         List<CategoryDto> result = categoryService.getAllCategories();
@@ -237,13 +182,13 @@ class CategoryServiceTest {
 
     //active
     @Test
-    public void getAllActiveCategories_ShouldReturnActiveCategories_WhenFound() {
+    public void testGetAllActiveCategoriesAndActiveCategories_WhenFound() {
         Category category1 = new Category("Category 1", true);
         Category category2 = new Category("Category 2", true);
         List<Category> categories = Arrays.asList(category1, category2);
 
-        CategoryDto categoryDto1 = new CategoryDto(1, "Category 1",true);
-        CategoryDto categoryDto2 = new CategoryDto(2, "Category 2",true);
+        CategoryDto categoryDto1 = new CategoryDto(1, "Category 1", true);
+        CategoryDto categoryDto2 = new CategoryDto(2, "Category 2", true);
         List<CategoryDto> categoryDtos = Arrays.asList(categoryDto1, categoryDto2);
 
         when(categoryRepo.findAllByIsActiveTrueOrderByName()).thenReturn(categories);
@@ -256,8 +201,9 @@ class CategoryServiceTest {
         verify(mapperService).mapToCategoryDto(category1);
         verify(mapperService).mapToCategoryDto(category2);
     }
+
     @Test
-    public void whenGetAllActiveCategories_GivenExceptionInRepository_ThenThrowException() {
+    public void testGetAllActiveCategories_ReturnFailure() {
         CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
 
         when(categoryRepo.findAllByIsActiveTrueOrderByName()).thenThrow(new RuntimeException("Error in repository"));
@@ -267,50 +213,10 @@ class CategoryServiceTest {
 
         assertEquals("Error in repository", exception.getMessage());
     }
-//create
-/*
-    @Test
-    public void whenCreateCategory_GivenInvalidName_ThenThrowException() {
-        CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
-
-        CategoryDto categoryDto = new CategoryDto(1,"DSADASDASDASDSADASDASDASDSADASDASDASDSADASDASDASDSADASDASDASDSADASDASDASDSADASDASDASDSADASDASDAS",true);
-
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> categoryService.createCategory(categoryDto));
-
-        assertEquals("Invalid category name", exception.getMessage());
-    }
-    //create
-    @Test
-    public void createCategory_ShouldSaveCategory_WhenValidationSucceeds() {
-        String name = "Test Category";
-        Category category = new Category(name, true);
-        CategoryDto categoryDto = new CategoryDto(1,name, true);
-
-        categoryService.createCategory(categoryDto);
-
-        verify(categoryValidator).validateInput(category);
-        verify(categoryRepo).save(category);
-    }
-*/
-
-/*    @Test
-    public void whenCreateCategory_GivenCategoryAlreadyExists_ThenThrowException() {
-        CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
-
-        String existingName = "Category";
-        Category existingCategory = new Category(1, existingName, true);
-        when(categoryRepo.findByName(existingName)).thenReturn(existingCategory);
-
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> categoryService.createCategory(existingName));
-
-        assertEquals("Category already exists", exception.getMessage());
-    }*/
 
     //Active category
     @Test
-    public void whenActivateCategory_GivenValidCategory_ThenCategoryIsActivated() {
+    public void testGetActivateCategory_ReturnSuccess() {
         CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
 
         Category category = new Category("Category 1", false);
@@ -319,8 +225,9 @@ class CategoryServiceTest {
         verify(categoryRepo, times(1)).save(category);
         assertTrue(category.isActive());
     }
+
     @Test
-    public void whenActivateCategory_GivenExceptionInRepository_ThenThrowException() {
+    public void testGetActivateCategory_RetrunFailure() {
         CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
 
         Category category = new Category("Category 1", false);
@@ -333,7 +240,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testUpdateFieldsSuccess() {
+    public void testUpdateFields_ReturnSuccess() {
         Category category = new Category();
         category.setName("Old name");
         category.setActive(false);
@@ -349,7 +256,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testUpdateFieldsFailure() {
+    public void testUpdateFields_ReturnFailure() {
         Category category = new Category();
         category.setName("Old name");
         category.setActive(false);
@@ -358,7 +265,7 @@ class CategoryServiceTest {
         categoryFromDto.setName("Wrong name");
         categoryFromDto.setActive(false);
 
-        categoryService.updateFields(category, categoryFromDto);
+        categoryService.updateFields(categoryFromDto, category);
 
         assertEquals("Old name", category.getName());
         assertEquals(false, category.isActive());
