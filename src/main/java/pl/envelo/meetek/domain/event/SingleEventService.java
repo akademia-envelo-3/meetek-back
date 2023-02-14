@@ -58,27 +58,63 @@ public class SingleEventService {
         eventRepo.deleteById(eventId);
     }
 
-    public List<SingleEventShortDto> getAllPublicFutureNotAcceptedEvents(long userId, Integer days) {
-        Integer validatedDays = eventValidator.validateDaysCount(days);
-        if (validatedDays == null) {
-            return getAllPublicFutureNotAcceptedEvents(userId);
-        } else {
-            return getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
-        }
-    }
-
     @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllPublicFutureNotAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPublicFutureNotAcceptedByUserAll(LocalDateTime.now(), userId);
+    public List<SingleEventShortDto> getAllPublicFutureNotRespondedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPublicFutureNotRespondedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
     @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllPublicFutureNotAcceptedEventsForFewNearestDays(long userId, int days) {
-        List<SingleEvent> events = eventRepo.findAllPublicFutureNotAcceptedByUserForFewDays(
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(days),
-                userId);
+    public List<SingleEventShortDto> getAllPublicPastNotRespondedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPublicPastNotRespondedByUser(LocalDateTime.now(), userId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, 1);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllPastAcceptedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, 1);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllFutureRejectedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, 2);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllPastRejectedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, 2);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllFutureUndecidedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, 3);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllPastUndecidedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, 3);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> findAllFutureOwnedByUser(long userId) {
+        List<SingleEvent> events = eventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> findAllPastOwnedByUser(long userId) {
+        List<SingleEvent> events = eventRepo.findPastOwnedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
@@ -91,55 +127,6 @@ public class SingleEventService {
     @Transactional(readOnly = true)
     public List<SingleEventShortDto> getAllEventsAfterToday() {
         List<SingleEvent> events = eventRepo.findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime.now());
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllPublicPastNotAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllPastAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPastAcceptedByUser(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> findAllPastOwnedByUser(long userId) {
-        List<SingleEvent> events = eventRepo.findPastOwnedByUser(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    public List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId, Integer days) {
-        Integer validatedDays = eventValidator.validateDaysCount(days);
-        if (validatedDays == null) {
-            return getAllFutureAcceptedEvents(userId);
-        } else {
-            return getAllFutureAcceptedEventsForFewNearestDays(userId, validatedDays);
-        }
-    }
-
-    @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllFutureAccepted(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllFutureAcceptedEventsForFewNearestDays(long userId, int days) {
-        List<SingleEvent> events = eventRepo.findAllFutureAcceptedForFewNearestDays(
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(days),
-                userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> findAllFutureOwnedByUser(long userId) {
-        List<SingleEvent> events = eventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 

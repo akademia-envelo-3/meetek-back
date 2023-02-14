@@ -33,16 +33,6 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
         return event.get();
     }
 
-    public Integer validateDaysCount(Integer days) {
-        if (days == null) {
-            return null;
-        } else if (days == 0) {
-            return 1;
-        } else {
-            return days;
-        }
-    }
-
     public StandardUser validateOwnerForAdmin(SingleEvent event, long newOwnerId){
         if(event.getOwner().getParticipantId().equals(newOwnerId)){
             throw new DuplicateException("User with id " + newOwnerId + " is already the owner of this event");
