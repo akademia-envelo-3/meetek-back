@@ -39,6 +39,10 @@ public class CategoryRequest extends Request {
         this.category = category;
     }
 
+    public CategoryRequest(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " CategoryRequest{" +
