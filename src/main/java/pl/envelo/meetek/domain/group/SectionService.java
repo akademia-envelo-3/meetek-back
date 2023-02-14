@@ -50,6 +50,17 @@ public class SectionService {
         sectionRepo.save(section);
     }
 
+    @Transactional
+    public void deactivateSection(long sectionId, StandardUser requester) {
+        Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateUserAuthorized(section, requester);
+        requester.getOwnedGroups().remove(section);
+        section.getJoinedUsers().forEach(user -> user.getJoinedGroups().remove(section));
+        section.setGroupOwner(null);
+        section.setIsActive(false);
+        sectionRepo.save(section);
+    }
+
     @Transactional(readOnly = true)
     public List<SectionShortDto> getAllActiveSections() {
         List<Section> sections = sectionRepo.findAllByIsActiveTrueOrderByName();

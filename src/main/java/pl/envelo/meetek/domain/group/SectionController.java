@@ -71,6 +71,19 @@ public class SectionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{sectionId}")
+    @Operation(summary = "Deactivate section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section deactivated",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionCreateDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+    public ResponseEntity<Void> deactivateSection(@PathVariable long sectionId, @RequestParam long userId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.deactivateSection(sectionId, validatedUser);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping()
     @Operation(summary = "Get all active sections")
     @ApiResponses(value = {
