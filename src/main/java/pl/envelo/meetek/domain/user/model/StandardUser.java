@@ -50,6 +50,10 @@ public class StandardUser extends AppUser {
         this.notifications = notifications;
     }
 
+    public StandardUser(Long participantId) {
+        super(participantId);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " StandardUser{" +

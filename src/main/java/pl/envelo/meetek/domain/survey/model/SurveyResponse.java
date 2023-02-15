@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,9 +36,11 @@ public class SurveyResponse {
 
     @Override
     public String toString() {
+        List<SurveyChoice> sortedAnswers = new ArrayList<>(answers);
+        sortedAnswers.sort(Comparator.comparingLong(SurveyChoice::getChoiceId));
         return "SurveyResponse{" +
                 "responseId=" + responseId +
-                ", answers=" + answers +
+                ", answers=" + sortedAnswers +
                 ", user=" + user +
                 '}';
     }

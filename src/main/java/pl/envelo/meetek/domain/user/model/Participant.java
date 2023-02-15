@@ -32,6 +32,10 @@ public abstract class Participant {
                 '}';
     }
 
+    public Participant(Long participantId) {
+        this.participantId = participantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
