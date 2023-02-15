@@ -9,17 +9,18 @@ insert into STANDARD_USERS values('5', 'Jacek', 'Michaluk', 'jacek.michaluk@mail
 //CATEGORIES
 insert into CATEGORIES values('1', 'true', 'sport');
 insert into CATEGORIES values('2', 'true', 'kulinaria');
-insert into CATEGORIES values('3', 'true', 'programowanie');
+insert into CATEGORIES values('3', 'false', 'meteopaci');
 insert into CATEGORIES values('4', 'false', 'taniec');
+insert into CATEGORIES values('5', 'false', 'teatr');
 
 //COORDINATES
 insert into COORDINATES values('1', '154541.2132', '484454545.23');
 
 //SECTIONS
-insert into SECTIONS values('1', 'first section', 'true', 'first section', '1');
-insert into SECTIONS values('2', 'second section', 'false', 'second section', '1');
-insert into SECTIONS values('3', 'third section', 'true', 'third section', '3');
-insert into SECTIONS values('4', 'fourth section', 'true', 'fourth section', '4');
+insert into SECTIONS values('1', 'first section 1234567890987654321', 'true', 'first section 1234567890987654321', '1');
+insert into SECTIONS values('2', 'second section 1234567890987654321', 'false', 'second section 1234567890987654321', '1');
+insert into SECTIONS values('3', 'third section 1234567890987654321', 'true', 'third section 1234567890987654321', '3');
+insert into SECTIONS values('4', 'fourth section 1234567890987654321', 'true', 'fourth section 1234567890987654321', '4');
 
 //SECTIONS_X_JOINED_USERS
 insert into SECTIONS_X_JOINED_USERS values('1', '2');
@@ -31,18 +32,19 @@ insert into SECTIONS_X_JOINED_USERS values('5', '3');
 insert into SECTIONS_X_JOINED_USERS values('5', '1');
 
 //EVENT_RESPONSES
-INSERT INTO EVENT_RESPONSES VALUES (1 , 'Accepted');
-INSERT INTO EVENT_RESPONSES VALUES (2 , 'Declined');
-INSERT INTO EVENT_RESPONSES VALUES (3 , 'Undecided');
+INSERT INTO EVENT_RESPONSES VALUES (1 , 'ACCEPTED');
+INSERT INTO EVENT_RESPONSES VALUES (2 , 'REJECTED');
+INSERT INTO EVENT_RESPONSES VALUES (3 , 'UNDECIDED');
 
 //EVENTS
-insert into EVENTS values('1', '2023-03-12 18:47:52.69', '2023-03-12 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1');
-insert into EVENTS values('2', '2023-02-12 17:47:52.69', '2023-02-12 19:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1');
-insert into EVENTS values('3', '2023-09-12 16:47:52.69', '2023-09-12 18:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1');
-insert into EVENTS values('4', '2023-01-12 15:47:52.69', '2023-01-12 17:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1');
-insert into EVENTS values('5', '2022-09-10 14:47:52.69', '2022-09-10 16:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1');
-insert into EVENTS values('6', '2022-08-10 13:47:52.69', '2022-08-10 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
-insert into EVENTS values('7', '2022-07-10 12:47:52.69', '2022-07-10 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
+insert into EVENTS values('1', '2024-12-30 18:47:52.69', '2023-12-30 20:47:52.69', 'first event', 'link', 'first event', 1, 'false', 'false', 'false', 'false', 'location', '50', '1', '1');
+insert into EVENTS values('2', '2024-11-30 17:47:52.69', '2023-11-30 19:47:52.69', 'second event', 'link', 'second event', 2, 'false', 'false', 'false', 'false', 'location', '20', '2', '1');
+insert into EVENTS values('3', '2024-10-30 16:47:52.69', '2023-10-30 18:47:52.69', 'third event', 'link', 'third event', 2, 'false', 'false', 'false', 'false', 'location', '40', '3', '1');
+insert into EVENTS values('4', '2024-09-30 15:47:52.69', '2023-09-30 17:47:52.69', 'fourth event', 'link', 'fourth event', 1, 'false', 'false', 'false', 'false', 'location', '20', '1', '1');
+insert into EVENTS values('5', '2021-03-28 14:47:52.69', '2022-03-28 16:47:52.69', 'fifth event', 'link', 'fifth event', 1, 'false', 'false', 'false', 'true', 'location', '35', '2', '1');
+insert into EVENTS values('6', '2021-02-28 13:47:52.69', '2022-02-28 15:47:52.69', '6 event', 'link', '6 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
+insert into EVENTS values('7', '2021-01-28 12:47:52.69', '2022-01-28 14:47:52.69', '7 event', 'link', '7 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
+insert into EVENTS values('8', '2021-01-28 12:47:52.69', '2022-01-28 14:47:52.69', '8 event', 'link', '8 event', 1, 'false', 'false', 'false', 'false', 'location', '35', '2', '1');
 
 //SECTIONS_X_EVENTS
 insert into SECTIONS_X_EVENTS values('1', '1');
@@ -52,14 +54,14 @@ insert into SECTIONS_X_EVENTS values('3', '3');
 //EVENTS_X_USERS_RESPONSES
 INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (1 ,1 ,1);
 INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (1 ,3 ,2);
-INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (2 ,3 ,1);
-INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (2 ,2 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (2 ,2 ,1);
 INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (3 ,3 ,1);
-INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (3 ,2 ,2);
-INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (4 ,3 ,1);
-INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (4 ,1 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (4 ,1 ,1);
 INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (5 ,1 ,1);
 INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (5 ,2 ,2);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (6 ,2 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (7 ,3 ,1);
+INSERT INTO EVENTS_X_USERS_RESPONSES VALUES (8 ,2 ,1);
 
 //ADMINS
 insert into ADMINS values('1001','Marek','Głowienka','maro.mareczek@mail.com','234KJDdddJKSW23@@','1');
@@ -201,7 +203,7 @@ insert into SURVEY_RESPONSES_X_ANSWERS values('5', '2');
 insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID, EVENT_ID) values('1','2023-02-15 17:45:52.69','comment1','1','1');
 insert into EVENT_COMMENTS values('2', '2023-01-02 20:45:52.69','comment2','2','2','1');
 insert into EVENT_COMMENTS values('3', '2023-01-05 20:45:52.69','comment3','3','3','2');
-insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID) values('4','2023-02-15 17:45:52.69','comment4','1');
+--insert into EVENT_COMMENTS(COMMENT_ID,ADDING_DATE_TIME, COMMENT, OWNER_ID) values('4','2023-02-15 17:45:52.69','comment4','1');
 
 //EVENT_COMMENTS_X_ATTACHMENTS
 insert into EVENT_COMMENTS_X_ATTACHMENTS values('1', '1');
@@ -222,10 +224,15 @@ insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_I
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, COMMENT_ID) values ('3', 'REJECTED', '1', 'kółko różańcowe', '3')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('4', 'ACCEPTED', '2', 'programowanie')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('5', 'NOT_PROCESSED', '2', 'muzyka')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('6', 'NOT_PROCESSED', '1', 'kuchnia')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('7', 'NOT_PROCESSED', '1', 'książki')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('8', 'NOT_PROCESSED', '2', 'teatr')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('6', 'NOT_PROCESSED', '1', 'kulinaria')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('7', 'NOT_PROCESSED', '1', 'k')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('8', 'NOT_PROCESSED', '2', 'teatr', '5')
 insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('9', 'NOT_PROCESSED', '1', 'kino')
-insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('10', 'NOT_PROCESSED', '1', 'ogród')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('10', 'NOT_PROCESSED', '1', 'taniec', '4')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('11', 'NOT_PROCESSED', '1', 'fani rocka')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME) values ('12', 'NOT_PROCESSED', '1', 'fani rocka')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('13', 'NOT_PROCESSED', '1', 'meteopaci', '3')
+insert into REQUESTS_CATEGORY (REQUEST_ID, STATUS, REQUESTER_ID, NAME, CATEGORY_ID) values ('14', 'NOT_PROCESSED', '1', 'meteopaci', '3')
+
 
 

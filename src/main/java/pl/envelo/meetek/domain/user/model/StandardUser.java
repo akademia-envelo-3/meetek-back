@@ -1,0 +1,74 @@
+package pl.envelo.meetek.domain.user.model;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pl.envelo.meetek.domain.event.model.EventResponse;
+import pl.envelo.meetek.domain.event.model.SingleEvent;
+import pl.envelo.meetek.domain.group.model.Section;
+import pl.envelo.meetek.domain.notification.model.Notification;
+
+import java.util.Map;
+import java.util.Set;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "standard_users")
+public class StandardUser extends AppUser {
+
+    @OneToMany(mappedBy = "owner")
+    private Set<SingleEvent> ownedEvents;
+
+    @ManyToMany
+    @JoinTable(name = "users_x_events_responses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "response_id"))
+    @MapKeyJoinColumn(name = "event_id")
+    private Map<SingleEvent, EventResponse> eventsWithResponse;
+
+    @OneToMany(mappedBy = "groupOwner")
+    private Set<Section> ownedGroups;
+
+    @ManyToMany
+    @JoinTable(name = "sections_x_joined_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id"))
+    private Set<Section> joinedGroups;
+
+    @OneToMany(mappedBy = "recipient")
+    private Set<Notification> notifications;
+
+    public StandardUser(Long participantId, String firstname, String lastname, String mail, String password, Set<SingleEvent> ownedEvents, Map<SingleEvent, EventResponse> eventsWithResponse, Set<Section> ownedGroups, Set<Section> joinedGroups, Set<Notification> notifications) {
+        super(participantId, firstname, lastname, mail, password, Role.ROLE_USER);
+        this.ownedEvents = ownedEvents;
+        this.eventsWithResponse = eventsWithResponse;
+        this.ownedGroups = ownedGroups;
+        this.joinedGroups = joinedGroups;
+        this.notifications = notifications;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " StandardUser{" +
+                "ownedEvents=" + ownedEvents +
+                ", eventsWithResponse=" + eventsWithResponse +
+                ", ownedGroups=" + ownedGroups +
+                ", joinedGroups=" + joinedGroups +
+                ", notifications=" + notifications +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+}
