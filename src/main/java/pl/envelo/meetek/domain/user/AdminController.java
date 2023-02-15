@@ -21,7 +21,6 @@ import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
 import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
 import pl.envelo.meetek.domain.user.model.Admin;
-import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
 
@@ -38,26 +37,14 @@ public class AdminController {
     private final CategoryRequestService categoryRequestService;
     private final AdminService adminService;
 
-    @GetMapping("/events/past")
-    @Operation(summary = "Get all events that started before current dateTime")
+    @GetMapping("/events")
+    @Operation(summary = "Get all events")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results returned",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllEventsBeforeToday() {
-        List<SingleEventShortDto> events = singleEventService.getAllEventsBeforeToday();
-        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(events, status);
-    }
-
-    @GetMapping("/events/future")
-    @Operation(summary = "Get all events that started after current dateTime")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Results returned",
-                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllEventsAfterToday() {
-        List<SingleEventShortDto> events = singleEventService.getAllEventsAfterToday();
+    public ResponseEntity<List<SingleEventShortDto>> getAllEvents(@RequestParam String time) {
+        List<SingleEventShortDto> events = singleEventService.getAllEvents(time);
         HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(events, status);
     }
