@@ -3,7 +3,7 @@ package pl.envelo.meetek.domain.hashtag;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,12 +19,14 @@ import java.util.Objects;
 @Table(name = "hashtags")
 public class Hashtag {
 
+    final public static String HASHTAG_PATTERN = "#[\\p{L}]{2,50}";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long hashtagId;
     @NotNull(message = "Field must not be null")
     @NotBlank(message = "Field must not be blank")
-    @Size(min = 2, max = 50, message = "Field must be between {min} and {max} characters")
+    @Pattern(regexp = HASHTAG_PATTERN,
+            message = "Field must start with #, contain only numbers and letters and be between 2 and 50 characters")
     private String name;
     private boolean isActive;
 
