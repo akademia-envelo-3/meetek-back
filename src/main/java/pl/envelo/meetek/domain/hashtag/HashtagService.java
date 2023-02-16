@@ -96,9 +96,8 @@ public class HashtagService {
     public Set<Hashtag> checkHashtagSet(Set<Hashtag> usedHashtags, Set<Hashtag> hashtagsToCheck) {
         Set<Hashtag> checkedHashtags = new HashSet<>();
         Hashtag newHashtag;
-        if (usedHashtags == null) {
-            usedHashtags = new HashSet<>();
-        }
+        if (usedHashtags == null) {usedHashtags = new HashSet<>();}
+        if (hashtagsToCheck == null) {return null;}
 
         for (Hashtag hashtag : hashtagsToCheck) {
             if (!containsName(checkedHashtags, hashtag.getName()) && !containsName(usedHashtags, hashtag.getName())) {
