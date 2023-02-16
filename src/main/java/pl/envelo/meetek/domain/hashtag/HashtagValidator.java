@@ -36,7 +36,7 @@ public class HashtagValidator extends ValidatorService<Hashtag> {
     public Hashtag validateHashtagIsActive(long hashtagId){
         Hashtag hashtag = validateExists(hashtagId);
         if(!hashtag.isActive()){
-            throw new ArgumentNotValidException("Hashtag with id " + hashtagId + " is not active");
+            throw new ArgumentNotValidException("Hashtag with id " + hashtagId + ": " + hashtag.getName() + " is not active");
         }
         return hashtag;
     }
