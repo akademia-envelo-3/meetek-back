@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.envelo.meetek.domain.event.model.*;
+import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.survey.SurveyService;
 import pl.envelo.meetek.domain.survey.model.Survey;
@@ -195,7 +196,7 @@ public class SingleEventService {
 
     private void addInvitedUsers(SingleEvent event) {
         Set<StandardUser> users = new HashSet<>();
-        if(event.getInvitedUsers() != null) {
+        if (event.getInvitedUsers() != null) {
             for (StandardUser user : event.getInvitedUsers()) {
                 if (!user.getParticipantId().equals(event.getOwner().getParticipantId()) && !users.contains(user)) {
                     users.add(eventValidator.validateUser(user.getParticipantId()));
@@ -204,14 +205,22 @@ public class SingleEventService {
             event.setInvitedUsers(users);
         }
     }
+
     //TODO
     private void addCoordinates(SingleEvent event) {
     }
+
     //TODO
     private void addAttachments(SingleEvent event) {
     }
 
-    private void addHashtags(SingleEvent event){
+
+    private void addHashtags(SingleEvent event) {
+
+        Set<Hashtag> foundHashtags = hashtagService.findAllHashtags(event.getName() + " " + event.getDescription());
+        Set<Hashtag> updatedHashtags = hashtagService.checkHashtagSet(null, event.getHashtags());
+        hashtagService.checkHashtagSet(updatedHashtags, foundHashtags);
+        event.setHashtags(updatedHashtags);
 
     }
 
