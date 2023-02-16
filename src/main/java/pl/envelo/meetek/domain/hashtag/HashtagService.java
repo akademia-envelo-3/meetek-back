@@ -95,6 +95,7 @@ public class HashtagService {
     @Transactional
     public Set<Hashtag> checkHashtagSet(Set<Hashtag> usedHashtags, Set<Hashtag> hashtagsToCheck) {
         Set<Hashtag> checkedHashtags = new HashSet<>();
+        Hashtag newHashtag;
         if (usedHashtags == null) {
             usedHashtags = new HashSet<>();
         }
@@ -102,20 +103,16 @@ public class HashtagService {
         for (Hashtag hashtag : hashtagsToCheck) {
             if (!containsName(checkedHashtags, hashtag.getName()) && !containsName(usedHashtags, hashtag.getName())) {
                 if (hashtag.getHashtagId() != null && hashtag.getHashtagId() != 0) {
-                    Hashtag newHashtag = hashtagValidator.validateExists(hashtag.getHashtagId());
+                    newHashtag = hashtagValidator.validateExists(hashtag.getHashtagId());
                     hashtagValidator.validateHashtagIsActive(newHashtag.getHashtagId());
-                    changeCounterOfHashtag(newHashtag.getHashtagId(), true);
-                    checkedHashtags.add(newHashtag);
                 } else if (findHashtagByName(hashtag.getName()).isPresent()) {
-                    Hashtag newHashtag = findHashtagByName(hashtag.getName()).get();
+                    newHashtag = findHashtagByName(hashtag.getName()).get();
                     hashtagValidator.validateHashtagIsActive(newHashtag.getHashtagId());
-                    changeCounterOfHashtag(newHashtag.getHashtagId(), true);
-                    checkedHashtags.add(newHashtag);
                 } else {
-                    Hashtag newHashtag = createHashtag(new HashtagCreateDto(hashtag.getName()));
-                    changeCounterOfHashtag(newHashtag.getHashtagId(), true);
-                    checkedHashtags.add(newHashtag);
+                    newHashtag = createHashtag(new HashtagCreateDto(hashtag.getName()));
                 }
+                changeCounterOfHashtag(newHashtag.getHashtagId(), true);
+                checkedHashtags.add(newHashtag);
             }
         }
         return checkedHashtags;
