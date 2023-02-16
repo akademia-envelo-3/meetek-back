@@ -186,4 +186,26 @@ public class SingleEventService {
         eventRepo.updateOwner(singleEvent.getEventId(), newOwner.getParticipantId());
     }
 
+    @Transactional
+    public List<SingleEventShortDto> getAllEventsFromSection(long sectionId, String time) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        if (timeStatus == TimeStatus.FUTURE) {
+            return getAllFutureEventsFromSection(sectionId);
+        } else if (timeStatus == TimeStatus.PAST) {
+            return getAllPastEventsFromSection(sectionId);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<SingleEventShortDto> getAllPastEventsFromSection(long sectionId) {
+        List<SingleEvent> events = eventRepo.findAllPastEventsFromSection(LocalDateTime.now(), sectionId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllFutureEventsFromSection(long sectionId) {
+        List<SingleEvent> events = eventRepo.findAllFutureEventsFromSection(LocalDateTime.now(), sectionId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+
 }

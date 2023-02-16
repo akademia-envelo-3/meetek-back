@@ -113,10 +113,10 @@ public class SectionService {
         section.setDescription(sectionFromDto.getDescription());
     }
 
-//    @Transactional
-//    public List<SingleEventShortDto> getAllEventsOfSection(long sectionId, String time) {
-//        sectionValidator.validateExists(sectionId);
-//        return eventService.getAllEventsFromSection(sectionId, time);
-//    }
+    @Transactional
+    public List<SingleEventShortDto> getAllEventsOfSection(long sectionId, String time) {
+        sectionValidator.validateExists(sectionId);
+        return eventService.getAllEventsFromSection(sectionId, time);
+    }
 }
 

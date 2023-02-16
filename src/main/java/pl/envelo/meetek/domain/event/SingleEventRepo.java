@@ -85,5 +85,27 @@ public interface SingleEventRepo extends JpaRepository<SingleEvent, Long> {
     @Query(value = "UPDATE events SET owner_id = ?2 WHERE event_id = ?1", nativeQuery = true)
     void updateOwner(long eventId, long ownerId);
 
+    @Query(value = """
+            SELECT * FROM events
+            WHERE date_time_from <= ?1
+            AND event_id
+            IN (SELECT event_id FROM SECTIONS_X_EVENTS
+            WHERE section_id = ?2)
+            ORDER BY date_time_from DESC
+            """,
+            nativeQuery = true)
+    List<SingleEvent> findAllPastEventsFromSection(LocalDateTime currentDateTimeFrom, long sectionId);
+
+    @Query(value = """
+            SELECT * FROM events
+            WHERE date_time_from > ?1
+            AND event_id
+            IN (SELECT event_id FROM SECTIONS_X_EVENTS
+            WHERE section_id = ?2)
+            ORDER BY date_time_from ASC
+            """,
+            nativeQuery = true)
+    List<SingleEvent> findAllFutureEventsFromSection(LocalDateTime currentDateTimeFrom, long sectionId);
+
 }
 

@@ -130,13 +130,13 @@ public class SectionController {
     @Operation(summary = "Get events of this section")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionLongDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid sectionId format", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
+            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getSectionEvents(@PathVariable long sectionId, @RequestParam String time) {
-        List<SingleEventShortDto> sections = sectionService.getAllEventsOfSection(sectionId, time);
-        HttpStatus status = sections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(sections, status);
+        List<SingleEventShortDto> events = sectionService.getAllEventsOfSection(sectionId, time);
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
     }
 
 }
