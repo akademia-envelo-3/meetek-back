@@ -2,6 +2,8 @@ package pl.envelo.meetek.domain.event;
 
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
+import pl.envelo.meetek.domain.category.Category;
+import pl.envelo.meetek.domain.category.CategoryValidator;
 import pl.envelo.meetek.domain.event.model.EventResponseStatus;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.event.model.TimeStatus;
@@ -20,11 +22,13 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
     private final SingleEventRepo singleEventRepo;
 
     private final StandardUserValidator userValidator;
+    private final CategoryValidator categoryValidator;
 
-    public SingleEventValidator(Validator validator, SingleEventRepo singleEventRepo, StandardUserValidator userValidator) {
+    public SingleEventValidator(Validator validator, SingleEventRepo singleEventRepo, StandardUserValidator userValidator, CategoryValidator categoryValidator) {
         super(validator);
         this.singleEventRepo = singleEventRepo;
         this.userValidator = userValidator;
+        this.categoryValidator = categoryValidator;
     }
 
     @Override
@@ -57,6 +61,15 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
             throw new ArgumentNotValidException("Invalid parameter: " + response + ", accepted values: " + EventResponseStatus.ACCEPTED + ", " + EventResponseStatus.REJECTED + ", " + EventResponseStatus.UNDECIDED);
         }
         return responseStatus.get();
+    }
+
+    public StandardUser validateUser(long userId){
+        return userValidator.validateExists(userId);
+    }
+
+    public Category validateCategory(SingleEvent event){
+        long categoryId = event.getCategory().getCategoryId();
+        return categoryValidator.validateExists(categoryId);
     }
 
 }
