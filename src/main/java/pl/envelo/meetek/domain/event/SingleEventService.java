@@ -12,6 +12,7 @@ import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +46,12 @@ public class SingleEventService {
     public SingleEventShortDto createEvent(StandardUser user, SingleEventCreateDto eventDto) {
         SingleEvent event = mapperService.mapToSingleEvent(eventDto);
         event.setOwner(user);
+        addHashtags(event);
+        addInvitedUsers(event);
+        eventValidator.validateCategory(event);
+        addCoordinates(event);
+        addAttachments(event);
+        event.setSurveys(null);
         eventValidator.validateInput(event);
         event = eventRepo.save(event);
         return mapperService.mapToSingleEventShortDto(event);
@@ -184,6 +191,28 @@ public class SingleEventService {
         SingleEvent singleEvent = eventValidator.validateExists(eventId);
         StandardUser newOwner = eventValidator.validateOwnerForAdmin(singleEvent, newOwnerId);
         eventRepo.updateOwner(singleEvent.getEventId(), newOwner.getParticipantId());
+    }
+
+    private void addInvitedUsers(SingleEvent event) {
+        Set<StandardUser> users = new HashSet<>();
+        if(event.getInvitedUsers() != null) {
+            for (StandardUser user : event.getInvitedUsers()) {
+                if (!user.getParticipantId().equals(event.getOwner().getParticipantId()) && !users.contains(user)) {
+                    users.add(eventValidator.validateUser(user.getParticipantId()));
+                }
+            }
+            event.setInvitedUsers(users);
+        }
+    }
+    //TODO
+    private void addCoordinates(SingleEvent event) {
+    }
+    //TODO
+    private void addAttachments(SingleEvent event) {
+    }
+
+    private void addHashtags(SingleEvent event){
+
     }
 
 }
