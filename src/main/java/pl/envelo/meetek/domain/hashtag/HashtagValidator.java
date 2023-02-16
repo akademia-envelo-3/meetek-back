@@ -2,6 +2,7 @@ package pl.envelo.meetek.domain.hashtag;
 
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
+import pl.envelo.meetek.exceptions.ArgumentNotValidException;
 import pl.envelo.meetek.exceptions.DuplicateException;
 import pl.envelo.meetek.exceptions.NotFoundException;
 import pl.envelo.meetek.utils.ValidatorService;
@@ -32,7 +33,12 @@ public class HashtagValidator extends ValidatorService<Hashtag> {
         });
     }
 
-
-
+    public Hashtag validateHashtagIsActive(long hashtagId){
+        Hashtag hashtag = validateExists(hashtagId);
+        if(!hashtag.isActive()){
+            throw new ArgumentNotValidException("Hashtag with id " + hashtagId + " is not active");
+        }
+        return hashtag;
+    }
 
 }
