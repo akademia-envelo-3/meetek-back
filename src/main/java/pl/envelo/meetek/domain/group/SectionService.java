@@ -3,6 +3,8 @@ package pl.envelo.meetek.domain.group;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.envelo.meetek.domain.event.SingleEventService;
+import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.group.model.Section;
 import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
@@ -19,6 +21,7 @@ public class SectionService {
     private final SectionRepo sectionRepo;
     private final SectionValidator sectionValidator;
     private final DtoMapperService mapperService;
+    private final SingleEventService eventService;
 
     @Transactional(readOnly = true)
     public SectionLongDto getSectionById(long id) {
@@ -110,5 +113,10 @@ public class SectionService {
         section.setDescription(sectionFromDto.getDescription());
     }
 
+//    @Transactional
+//    public List<SingleEventShortDto> getAllEventsOfSection(long sectionId, String time) {
+//        sectionValidator.validateExists(sectionId);
+//        return eventService.getAllEventsFromSection(sectionId, time);
+//    }
 }
 

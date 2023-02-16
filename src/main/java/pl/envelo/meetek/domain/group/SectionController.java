@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
 import pl.envelo.meetek.domain.group.model.SectionShortDto;
@@ -121,6 +122,19 @@ public class SectionController {
     public ResponseEntity<List<SectionShortDto>> getOwnedSections(@PathVariable long userId) {
         StandardUser validatedUser = standardUserService.getStandardUserById(userId);
         List<SectionShortDto> sections = sectionService.getAllOwnedSectionsByUserId(validatedUser.getParticipantId());
+        HttpStatus status = sections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(sections, status);
+    }
+
+    @GetMapping("/{sectionId}/events")
+    @Operation(summary = "Get events of this section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionLongDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId format", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getSectionEvents(@PathVariable long sectionId, @RequestParam String time) {
+        List<SingleEventShortDto> sections = sectionService.getAllEventsOfSection(sectionId, time);
         HttpStatus status = sections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(sections, status);
     }
