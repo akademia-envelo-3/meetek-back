@@ -16,8 +16,8 @@ import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
 import pl.envelo.meetek.domain.group.model.SectionShortDto;
-import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.domain.user.StandardUserService;
+import pl.envelo.meetek.domain.user.model.StandardUser;
 
 import java.net.URI;
 import java.util.List;
@@ -131,8 +131,8 @@ public class SectionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
-            @ApiResponse(responseCode = "204", description = "Events not found", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong sectionId", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
     public ResponseEntity<List<SingleEventShortDto>> getSectionEvents(@PathVariable long sectionId, @RequestParam String time) {
         List<SingleEventShortDto> events = sectionService.getAllEventsOfSection(sectionId, time);
         HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
