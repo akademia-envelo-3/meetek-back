@@ -75,7 +75,7 @@ public class SingleEvent extends Event {
     private Boolean isPrivate;
     @NotNull(message = "Field must not be null")
     private Boolean isResponseRequired;
-    @Min(value = 0, message = "The value must be positive")
+    @Min(value = 1, message = "The value must be positive")
     private int participantsLimit;
 
     @Size(max = 50, message = "Can't add more than {max} attachments")
