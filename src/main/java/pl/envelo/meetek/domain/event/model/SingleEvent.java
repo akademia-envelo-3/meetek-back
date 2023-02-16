@@ -1,6 +1,7 @@
 package pl.envelo.meetek.domain.event.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -66,10 +67,15 @@ public class SingleEvent extends Event {
     @ManyToOne
     @JoinColumn(name = "coordinate_id")
     private Coordinates coordinates;
-    private boolean isOnline;
-    private boolean isExternal;
-    private boolean isPrivate;
-    private boolean isResponseRequired;
+    @NotNull(message = "Field must not be null")
+    private Boolean isOnline;
+    @NotNull(message = "Field must not be null")
+    private Boolean isExternal;
+    @NotNull(message = "Field must not be null")
+    private Boolean isPrivate;
+    @NotNull(message = "Field must not be null")
+    private Boolean isResponseRequired;
+    @Min(value = 0, message = "The value must be positive")
     private int participantsLimit;
 
     @Size(max = 50, message = "Can't add more than {max} attachments")
