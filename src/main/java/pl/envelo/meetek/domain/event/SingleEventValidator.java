@@ -67,9 +67,10 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
         return userValidator.validateExists(userId);
     }
 
-    public Category validateCategory(SingleEvent event){
-        long categoryId = event.getCategory().getCategoryId();
-        return categoryValidator.validateExists(categoryId);
+    public void validateCategory(SingleEvent event) {
+        if(event.getCategory() != null){
+            categoryValidator.validateExists(event.getCategory().getCategoryId());
+        }
     }
 
 }
