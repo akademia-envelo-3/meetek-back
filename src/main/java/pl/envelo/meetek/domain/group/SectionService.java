@@ -115,7 +115,8 @@ public class SectionService {
 
     @Transactional
     public List<SingleEventShortDto> getAllEventsOfSection(long sectionId, String time) {
-        sectionValidator.validateExists(sectionId);
+        Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateActive(section);
         return eventService.getAllEventsFromSection(sectionId, time);
     }
 }

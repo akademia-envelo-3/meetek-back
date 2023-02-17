@@ -9,6 +9,7 @@ import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.exceptions.DuplicateException;
 import pl.envelo.meetek.exceptions.NotAuthorizedUserException;
 import pl.envelo.meetek.exceptions.NotFoundException;
+import pl.envelo.meetek.exceptions.ProcessingException;
 import pl.envelo.meetek.utils.ValidatorService;
 
 import java.util.Optional;
@@ -72,4 +73,9 @@ public class SectionValidator extends ValidatorService<Section> {
         return userValidator.validateExists(newOwnerId);
     }
 
+    public void validateActive(Section section) {
+        if (!section.getIsActive()) {
+            throw new ProcessingException("Section is not active, it's not possible to join it");
+        }
+    }
 }
