@@ -68,9 +68,9 @@ insert into ADMINS values('1001','Marek','Głowienka','maro.mareczek@mail.com','
 insert into ADMINS values('1002','Agnieszka','Górka','aga.gorka@mail.com','532##ddSSAe4QQ','1');
 
 //HASHTAGS
-insert into HASHTAGS values('2','71','false','Nudy');
-insert into HASHTAGS values('1','53','true','AleDymy');
-insert into HASHTAGS values('3','53','true','Celebrujmy');
+insert into HASHTAGS values('2','71','false','#Nudy');
+insert into HASHTAGS values('1','53','true','#AleDymy');
+insert into HASHTAGS values('3','53','true','#Celebrujmy');
 
 //ATTACHMENTS
 insert into ATTACHMENTS values('1','www.wbijajnatenlink.pl');
