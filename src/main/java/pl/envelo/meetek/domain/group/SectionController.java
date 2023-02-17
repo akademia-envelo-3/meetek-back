@@ -125,4 +125,26 @@ public class SectionController {
         return new ResponseEntity<>(sections, status);
     }
 
+    @PostMapping("{sectionId}/join/{userId}")
+    @Operation(summary = "Join section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section joined", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> joinSection(@PathVariable long userId, @PathVariable long sectionId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.joinSection(validatedUser, sectionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("{sectionId}/leave/{userId}")
+    @Operation(summary = "Leave section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section left", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> leaveSection(@PathVariable long userId, @PathVariable long sectionId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.leaveSection(validatedUser, sectionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
