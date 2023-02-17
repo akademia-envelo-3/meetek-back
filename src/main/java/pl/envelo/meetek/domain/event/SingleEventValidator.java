@@ -2,7 +2,6 @@ package pl.envelo.meetek.domain.event;
 
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
-import pl.envelo.meetek.domain.category.Category;
 import pl.envelo.meetek.domain.category.CategoryValidator;
 import pl.envelo.meetek.domain.event.model.EventResponseStatus;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
