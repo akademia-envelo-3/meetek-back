@@ -75,7 +75,7 @@ public class SectionValidator extends ValidatorService<Section> {
 
     public void validateActive(Section section) {
         if (!section.getIsActive()) {
-            throw new ProcessingException("Section is not active, it's not possible to join it");
+            throw new ProcessingException("Section is not active");
         }
     }
 }
