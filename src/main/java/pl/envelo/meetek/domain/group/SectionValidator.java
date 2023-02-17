@@ -78,4 +78,16 @@ public class SectionValidator extends ValidatorService<Section> {
             throw new ProcessingException("Section is not active");
         }
     }
+    public void validateUserNotMember(StandardUser user, Section section) {
+        if (section.getJoinedUsers().contains(user)) {
+            throw new ProcessingException("User is already a member of the section " + section.getName());
+        }
+    }
+
+    public void validateUserMember(StandardUser user, Section section) {
+        if (!section.getJoinedUsers().contains(user)) {
+            throw new ProcessingException("User is not a member of the section " + section.getName());
+        }
+    }
+
 }

@@ -98,6 +98,23 @@ public class SectionService {
         sectionRepo.updateOwner(section.getGroupId(), newOwner.getParticipantId());
     }
 
+    @Transactional
+    public void joinSection(StandardUser user, long sectionId) {
+        Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateActive(section);
+        sectionValidator.validateUserNotMember(user, section);
+        section.getJoinedUsers().add(user);
+        sectionRepo.save(section);
+    }
+
+    @Transactional
+    public void leaveSection(StandardUser user, long sectionId) {
+        Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateUserMember(user, section);
+        section.getJoinedUsers().remove(user);
+        sectionRepo.save(section);
+    }
+
     private Section setCountMembers(Section section) {
         section.setMembersCount(section.getJoinedUsers().size());
         return section;
