@@ -21,8 +21,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class RecurringEventSetCreateDto {
 
-    private int eventFrequency;
-    private int recursiveCount;
+    private Integer eventFrequency;
+    private Integer recursiveCount;
 
     private Set<HashtagDto> hashtags;
     private StandardUserDto owner;
