@@ -1,6 +1,9 @@
 package pl.envelo.meetek.domain.event.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +29,14 @@ public class RecurringEventSet {
             joinColumns = @JoinColumn(name = "event_set_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<SingleEvent> events;
-    private int eventFrequency;
-    private int recursiveCount;
+    @NotNull(message = "Field must not be null")
+    @Min(value = 1, message = "The value must be at least {value}")
+    @Max(value = 7, message = "The max value is {value}")
+    private Integer eventFrequency;
+    @NotNull(message = "Field must not be null")
+    @Min(value = 1, message = "The value must be at least {value}")
+    @Max(value = 5, message = "The max value is {value}")
+    private Integer recursiveCount;
 
     @Override
     public String toString() {
