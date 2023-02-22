@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.domain.event.model.RecurringEventSetCreateDto;
 import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
@@ -30,6 +31,7 @@ public class SectionController {
 
     private final SectionService sectionService;
     private final StandardUserService standardUserService;
+
 
     @GetMapping("/{sectionId}")
     @Operation(summary = "Get section by its ID")
@@ -159,6 +161,17 @@ public class SectionController {
         StandardUser validatedUser = standardUserService.getStandardUserById(userId);
         sectionService.leaveSection(validatedUser, sectionId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("{sectionId}/sets")
+    @Operation(summary = "Create new recurring event set")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Recurring event set created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> createRecurringEventSet(@PathVariable long sectionId, @RequestParam long userId, @RequestBody RecurringEventSetCreateDto eventSetCreateDto) {
+        StandardUser user = standardUserService.getStandardUserById(userId);
+        sectionService.createEventSet(user, sectionId, eventSetCreateDto);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 }
