@@ -31,7 +31,7 @@ public class RecurringEventSet {
     private Set<SingleEvent> events;
     @NotNull(message = "Field must not be null")
     @Min(value = 1, message = "The value must be at least {value}")
-    @Max(value = 7, message = "The max value is {value}")
+    @Max(value = 14, message = "The max value is {value}")
     private Integer eventFrequency;
     @NotNull(message = "Field must not be null")
     @Min(value = 1, message = "The value must be at least {value}")
