@@ -17,4 +17,7 @@ public class AdminDto {
     private String mail;
     private Role role;
 
+    public AdminDto(long participantId) {
+        this.participantId = participantId;
+    }
 }
