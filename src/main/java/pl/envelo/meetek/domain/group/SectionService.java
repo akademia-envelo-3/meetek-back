@@ -141,28 +141,28 @@ public class SectionService {
     }
 
     @Transactional
-    public RecurringEventSetDto createEventSet(StandardUser user, long sectionId, RecurringEventSetCreateDto eventSetCreateDto){
+    public RecurringEventSetDto createEventSet(StandardUser user, long sectionId, RecurringEventSetCreateDto eventSetCreateDto) {
         Section section = sectionValidator.validateExists(sectionId);
+        sectionValidator.validateUserMember(user, section);
         SingleEvent event = mapperService.mapToSingleEvent(eventSetCreateDto);
         RecurringEventSet eventSet = eventSetService.createRecurringEventSet(user, eventSetCreateDto, event);
         addEventSetToSection(section, eventSet);
-        addEventsToSection(section,eventSet);
+        addEventsToSection(section, eventSet);
         sectionRepo.save(section);
         return mapperService.mapToRecurringEventSetDto(eventSet);
     }
 
-    private void addEventSetToSection(Section section, RecurringEventSet eventSet){
+    private void addEventSetToSection(Section section, RecurringEventSet eventSet) {
         Set<RecurringEventSet> recurringEventSets = section.getRecurringEvents();
         recurringEventSets.add(eventSet);
         section.setRecurringEvents(recurringEventSets);
     }
 
-    private void addEventsToSection(Section section, RecurringEventSet eventSet){
+    private void addEventsToSection(Section section, RecurringEventSet eventSet) {
         Set<SingleEvent> events = section.getEvents();
         events.addAll(eventSet.getEvents());
         section.setEvents(events);
     }
-
 
 
 }
