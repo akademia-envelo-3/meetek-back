@@ -134,9 +134,9 @@ insert into GUESTS values('4','Jakub','Turewicz','hardstuckwd2@mail.com');
 insert into GUESTS values('5','Jakub','Cinkrof','toniezlylec@mail.com');
 
 //RECURRING_EVENTS
-insert into RECURRING_EVENTS values('1','15','2');
-insert into RECURRING_EVENTS values('2','0','3');
-insert into RECURRING_EVENTS values('3','32','0');
+insert into RECURRING_EVENTS values('1','7','2');
+insert into RECURRING_EVENTS values('2','3','3');
+insert into RECURRING_EVENTS values('3','3','2');
 
 //RECURRING_EVENTS_X_EVENTS
 insert into RECURRING_EVENTS_X_EVENTS values('1','1');
