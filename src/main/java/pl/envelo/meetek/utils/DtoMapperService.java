@@ -63,12 +63,12 @@ public class DtoMapperService {
         return modelMapper.map(categoryDto, Category.class);
     }
 
-    public Attachment mapToAttachmentDto(Attachment attachment) {
-        return modelMapper.map(attachment, Attachment.class);
+    public AttachmentDto mapToAttachmentDto(Attachment attachment) {
+        return modelMapper.map(attachment, AttachmentDto.class);
     }
 
-    public AttachmentDto mapToAttachment(AttachmentDto attachmentDto) {
-        return modelMapper.map(attachmentDto, AttachmentDto.class);
+    public Attachment mapToAttachment(AttachmentDto attachmentDto) {
+        return modelMapper.map(attachmentDto, Attachment.class);
     }
 
     public AdminDto mapToAdminDto(Admin admin) {
@@ -96,8 +96,8 @@ public class DtoMapperService {
         return modelMapper.map(surveyDto, Survey.class);
     }
 
-    public Survey mapToSurvey(SurveyCreateDto surveyCreateDto) {
-        return modelMapper.map(surveyCreateDto, Survey.class);
+    public SurveyCreateDto mapToSurveyCreateDto(SurveyDto surveyDto) {
+        return modelMapper.map(surveyDto, SurveyCreateDto.class);
     }
 
     public SurveyDto mapToSurveyDto(Survey survey) {

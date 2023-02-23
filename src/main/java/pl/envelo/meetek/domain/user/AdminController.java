@@ -21,7 +21,6 @@ import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.request.CategoryRequestService;
 import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
 import pl.envelo.meetek.domain.user.model.Admin;
-import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.List;
 

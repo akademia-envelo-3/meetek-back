@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CoordinatesTest {
 
     @Test
-    void toString_shouldReturnExpectedString() {
+    void testToStringReturnExpectedString() {
         Coordinates coordinates = new Coordinates(1L, 40.0f, -73.0f);
         String expectedString = "Coordinates{coordinatesId=1, latitude=40.0, longitude=-73.0}";
 
@@ -25,7 +25,7 @@ public class CoordinatesTest {
     }
 
     @Test
-    void hashCode_shouldReturnExpectedValue() {
+    void testHashCode() {
         Coordinates coordinates1 = new Coordinates(1L, 40.0f, -73.0f);
         Coordinates coordinates2 = new Coordinates(1L, 40.0f, -73.0f);
 

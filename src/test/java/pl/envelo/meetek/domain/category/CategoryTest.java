@@ -1,6 +1,8 @@
 package pl.envelo.meetek.domain.category;
 
 import org.junit.jupiter.api.Test;
+import pl.envelo.meetek.domain.category.Category;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

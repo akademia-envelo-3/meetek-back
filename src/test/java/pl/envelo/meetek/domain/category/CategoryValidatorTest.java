@@ -5,6 +5,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.envelo.meetek.domain.category.Category;
+import pl.envelo.meetek.domain.category.CategoryRepo;
+import pl.envelo.meetek.domain.category.CategoryValidator;
 import pl.envelo.meetek.exceptions.DuplicateException;
 import pl.envelo.meetek.exceptions.NotFoundException;
 

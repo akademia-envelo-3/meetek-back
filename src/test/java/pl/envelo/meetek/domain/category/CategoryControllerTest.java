@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import pl.envelo.meetek.domain.category.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,6 @@ class CategoryControllerTest {
     //create
     @Test
     public void testCreateCategorySuccess() {
-        // Arrange
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName("Test Category");
 

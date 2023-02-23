@@ -16,4 +16,7 @@ public class HashtagDto {
     private boolean isActive;
     private int countOfHashtagUsage;
 
+    public HashtagDto(String name) {
+        this.name = name;
+    }
 }

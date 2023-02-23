@@ -11,6 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class HashtagCreateDto {
 
+    private long hashtagId;
     private String name;
 
+    public HashtagCreateDto(String name) {
+        this.name = name;
+    }
 }

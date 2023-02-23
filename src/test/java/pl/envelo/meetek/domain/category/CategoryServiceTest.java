@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
+import pl.envelo.meetek.domain.category.*;
 import pl.envelo.meetek.domain.request.model.CategoryRequest;
 import pl.envelo.meetek.exceptions.NotFoundException;
 import pl.envelo.meetek.utils.DtoMapperService;

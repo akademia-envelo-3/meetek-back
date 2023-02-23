@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-class SurveyChoiceTests {
+class SurveyChoiceTest {
 
     private SurveyChoice surveyChoice1, surveyChoice2;
 

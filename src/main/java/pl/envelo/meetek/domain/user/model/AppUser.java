@@ -25,6 +25,10 @@ public abstract class AppUser extends Participant {
         this.role = role;
     }
 
+    public AppUser(Long participantId) {
+        super(participantId);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " AppUser{" +

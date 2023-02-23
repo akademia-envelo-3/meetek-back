@@ -34,6 +34,11 @@ public class Category {
         this.isActive = isActive;
     }
 
+    public Category(Long categoryId, String name) {
+        this.categoryId = categoryId;
+        this.name = name;
+    }
+
     public Category(String name) {
         this.name = name;
     }

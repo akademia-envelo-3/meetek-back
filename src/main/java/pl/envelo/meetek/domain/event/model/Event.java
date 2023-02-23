@@ -63,6 +63,11 @@ public abstract class Event {
     @Future(message = "Event must end in future")
     private LocalDateTime dateTimeTo;
 
+    public Event(Long eventId, String name) {
+        this.eventId = eventId;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
