@@ -34,12 +34,12 @@ public class SectionValidator extends ValidatorService<Section> {
         return section.get();
     }
 
-    public void validateNotActiveDuplicate(String name) {
+    public Section validateNotActiveDuplicate(String name) {
         Optional<Section> section = sectionRepo.findByName(name);
         if (section.isPresent() && section.get().getIsActive()) {
             throw new DuplicateException("Section with name " + name + " already exists");
         }
-
+        return null;
     }
 
     public void validateNotActiveDuplicate(Section section, String name) {

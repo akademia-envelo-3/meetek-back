@@ -39,6 +39,11 @@ public class EventComment extends Comment {
             inverseJoinColumns = @JoinColumn(name = "attachment_id"))
     private List<Attachment> attachments;
 
+    public EventComment(String comment, EventComment replyToComment) {
+        super(comment);
+        this.replyToComment = replyToComment;
+    }
+
     public EventComment(Long commentId, LocalDateTime addingDateTime, String comment, StandardUser commentOwner, SingleEvent event, EventComment replyToComment, List<Attachment> attachments) {
         super(commentId, addingDateTime, comment);
         this.commentOwner = commentOwner;
