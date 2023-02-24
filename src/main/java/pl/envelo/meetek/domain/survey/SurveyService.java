@@ -41,7 +41,7 @@ public class SurveyService {
 
     @Transactional
     public SurveyResponse addResponse(long surveyId, StandardUser standardUser, SurveyResponseCreateDto surveyResponseBody) {
-        SurveyResponse surveyResponse = dtoMapperService.mapToSurveyResponse(surveyResponseBody);
+        SurveyResponse surveyResponse = dtoMapperService.mapToSurveyResponseCreate(surveyResponseBody);
         Survey survey = surveyValidator.validateExists(surveyId);
         surveyResponse.setUser(standardUser);
         surveyValidator.validateInputComponent(surveyResponseBody);

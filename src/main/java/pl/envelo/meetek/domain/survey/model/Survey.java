@@ -61,6 +61,10 @@ public class Survey {
         this.question = question;
     }
 
+    public Survey(String question) {
+        this.question = question;
+    }
+
     @Override
     public String toString() {
         return "Survey{" +

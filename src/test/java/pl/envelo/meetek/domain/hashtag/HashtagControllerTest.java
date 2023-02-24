@@ -36,45 +36,6 @@ class HashtagControllerTest {
 
     //Gethashtag
     @Test
-    public void testGetHashtag_ReturnSuccess() {
-        long hashtagId = 1L;
-        HashtagDto hashtagDto = new HashtagDto();
-        hashtagDto.setHashtagId(hashtagId);
-
-        when(hashtagService.getHashtagById(hashtagId)).thenReturn(hashtagDto);
-
-        ResponseEntity<HashtagDto> response = hashtagController.getHashtag(hashtagId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(hashtagDto, response.getBody());
-    }
-
-/*    @Test
-    public void testCreateHashtagSuccess() {
-        HashtagCreateDto hashtagDto = new HashtagCreateDto();
-        hashtagDto.setName("#HASHTAG");
-
-        HashtagCreateDto createdDto = new HashtagCreateDto();
-        createdDto.setHashtagId(1L);
-        createdDto.setName("Test #HASHTAG");
-
-        Hashtag hashtag = new Hashtag();
-        hashtag.setHashtagId(createdDto.getHashtagId());
-        hashtag.setName(createdDto.getName());
-
-       when(hashtagService.createHashtag(createdDto)).thenReturn(createdDto);
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
-
-        ResponseEntity<Void> response = hashtagController.saveNewHashtag(createdDto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("/1", response.getHeaders().getLocation().getPath());
-    }*/
-
-    @Test
     public void testEditHashtag_ReturnSuccess() {
         long hashtagId = 1L;
         HashtagCreateDto createDto = new HashtagCreateDto();

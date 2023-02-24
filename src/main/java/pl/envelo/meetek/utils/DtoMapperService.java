@@ -39,8 +39,8 @@ public class DtoMapperService {
         return modelMapper.map(hashtagDto, Hashtag.class);
     }
 
-    public HashtagCreateDto mapToHashtagCreateDto(HashtagDto hashtagDto) {
-        return modelMapper.map(hashtagDto, HashtagCreateDto.class);
+    public HashtagCreateDto mapToHashtagCreateDto(Hashtag hashtag) {
+        return modelMapper.map(hashtag, HashtagCreateDto.class);
     }
 
     public Hashtag mapToHashtag(HashtagCreateDto hashtagCreateDto) {
@@ -96,8 +96,8 @@ public class DtoMapperService {
         return modelMapper.map(surveyDto, Survey.class);
     }
 
-    public SurveyCreateDto mapToSurveyCreateDto(SurveyDto surveyDto) {
-        return modelMapper.map(surveyDto, SurveyCreateDto.class);
+    public SurveyCreateDto mapToSurveyCreateDto(Survey survey) {
+        return modelMapper.map(survey, SurveyCreateDto.class);
     }
 
     public SurveyDto mapToSurveyDto(Survey survey) {
@@ -116,7 +116,7 @@ public class DtoMapperService {
         return modelMapper.map(surveyResponseDto, SurveyResponse.class);
     }
 
-    public SurveyResponse mapToSurveyResponse(SurveyResponseCreateDto surveyResponseCreateDto) {
+    public SurveyResponse mapToSurveyResponseCreate(SurveyResponseCreateDto surveyResponseCreateDto) {
         return modelMapper.map(surveyResponseCreateDto, SurveyResponse.class);
     }
 
@@ -130,7 +130,7 @@ public class DtoMapperService {
         return request;
     }
 
-    public CategoryRequest mapToCategoryRequest(CategoryRequestCreateDto categoryRequestCreateDto) {
+    public CategoryRequest mapToCategoryRequestCreate(CategoryRequestCreateDto categoryRequestCreateDto) {
         return modelMapper.map(categoryRequestCreateDto, CategoryRequest.class);
     }
 
@@ -252,6 +252,4 @@ public class DtoMapperService {
     public RequestComment mapToRequestComment(RequestCommentCreateDto requestCommentCreateDto) {
         return modelMapper.map(requestCommentCreateDto, RequestComment.class);
     }
-
-
 }

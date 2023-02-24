@@ -43,7 +43,7 @@ public class CategoryRequestService {
     @Transactional
     public CategoryRequestDto createCategoryRequest(StandardUser standardUser, CategoryRequestCreateDto categoryRequestDto) {
         Category category = categoryService.getCategoryByName(categoryRequestDto.getName());
-        CategoryRequest categoryRequest = mapperService.mapToCategoryRequest(categoryRequestDto);
+        CategoryRequest categoryRequest = mapperService.mapToCategoryRequestCreate(categoryRequestDto);
         categoryRequest.setCategory(category);
         categoryRequest.setRequester(standardUser);
         categoryRequest.setStatus(RequestStatus.NOT_PROCESSED);
