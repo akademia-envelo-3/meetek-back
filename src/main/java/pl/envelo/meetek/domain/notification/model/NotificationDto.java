@@ -24,4 +24,7 @@ public class NotificationDto {
     private LocalDateTime addingDateTime;
     private long resourceId;
 
+    public NotificationDto(long notificationId) {
+        this.notificationId = notificationId;
+    }
 }

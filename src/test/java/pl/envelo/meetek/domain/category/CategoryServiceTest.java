@@ -126,7 +126,6 @@ class CategoryServiceTest {
     //edit
     @Test
     public void testEditCategory_ResultFailure() {
-        // Arrange
         long categoryId = 1L;
         CategoryDto categoryDto = new CategoryDto();
         Category category = new Category();

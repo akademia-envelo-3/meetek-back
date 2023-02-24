@@ -21,6 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class SingleEventCreateDto {
 
+    private long eventId;
     private Set<HashtagDto> hashtags;
     private StandardUserDto owner;
     private String name;

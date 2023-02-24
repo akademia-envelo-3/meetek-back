@@ -34,6 +34,14 @@ public class SurveyResponse {
     @JoinColumn(name = "user_id")
     private StandardUser user;
 
+    public SurveyResponse(Long responseId) {
+        this.responseId = responseId;
+    }
+
+    public SurveyResponse(Set<SurveyChoice> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public String toString() {
         List<SurveyChoice> sortedAnswers = new ArrayList<>(answers);
