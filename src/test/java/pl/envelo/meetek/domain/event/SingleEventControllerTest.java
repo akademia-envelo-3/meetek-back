@@ -35,47 +35,6 @@ class SingleEventControllerTest {
     @InjectMocks
     private SingleEventController singleEventController;
 
-/*    @Test
-    public void testCreateEventSuccess() {
-        SingleEventLongDto singleEventLongDto = new SingleEventLongDto();
-        singleEventLongDto.setEventId(1L);
-
-        SingleEventCreateDto createdEvent = new SingleEventCreateDto();
-        createdEvent.setEventId(1L);
-
-
-        when(singleEventController.createEvent(createdEvent)).thenReturn();
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-
-
-        ResponseEntity<Void> response = singleEventController.createEvent(createdEvent);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("/1", response.getHeaders().getLocation().getPath());
-    }*/
-
-/*    @Test
-    public void testCreateEvent() throws Exception {
-        StandardUser user = new StandardUser();
-        SingleEventShortDto event = new SingleEventShortDto();
-        event.setEventId(1L);
-        when(standardUserService.getStandardUserById(1L)).thenReturn(user);
-        when(singleEventService.createEvent(user, new SingleEventCreateDto())).thenReturn(event);
-
-        SingleEventCreateDto requestBody = new SingleEventCreateDto();
-        requestBody.setName("Test Event");
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-
-        ResponseEntity<Void> result = singleEventController.createEvent(1L, requestBody);
-
-        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals("http://localhost/${app.prefix}/${app.version}/events/1", response.getHeader("Location"));
-    }*/
-
     @Test
     public void testGetEvent_ReturnSuccess() {
         long eventId = 1L;
