@@ -101,8 +101,6 @@ public class SectionService {
         sectionRepo.updateOwner(section.getGroupId(), newOwner.getParticipantId());
     }
 
-    public Section setCountMembers(Section section) {
-
     @Transactional
     public void joinSection(StandardUser user, long sectionId) {
         Section section = sectionValidator.validateExists(sectionId);

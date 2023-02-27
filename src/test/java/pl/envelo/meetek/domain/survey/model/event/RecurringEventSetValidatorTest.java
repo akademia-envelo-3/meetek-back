@@ -1,10 +1,12 @@
-package pl.envelo.meetek.domain.event;
+package pl.envelo.meetek.domain.survey.model.event;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.envelo.meetek.domain.event.RecurringEventSetRepo;
+import pl.envelo.meetek.domain.event.RecurringEventSetValidator;
 import pl.envelo.meetek.domain.event.model.RecurringEventSet;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.user.StandardUserValidator;
