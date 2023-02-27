@@ -37,7 +37,7 @@ class CategoryControllerTest {
     //GetCategory
     // get Category 200 :: OK
     @Test
-    public void testGetCategory_ReturnSuccess() {
+    public void testGetCategory_ReturnSuccessfulAndStatusOk() {
         long categoryId = 1L;
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setCategoryId(categoryId);
@@ -50,8 +50,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void getCategory_Successful() {
-        // Arrange
+    public void testGetCategory_ReturnSuccessfulAndStatusOk2() {
         long categoryId = 1L;
         CategoryDto expectedCategory = new CategoryDto();
         expectedCategory.setCategoryId(categoryId);
@@ -59,10 +58,8 @@ class CategoryControllerTest {
 
         when(categoryService.getCategoryById(categoryId)).thenReturn(expectedCategory);
 
-        // Act
         ResponseEntity<CategoryDto> result = categoryController.getCategory(categoryId);
 
-        // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(expectedCategory, result.getBody());
     }
@@ -70,7 +67,7 @@ class CategoryControllerTest {
 
     //create
     @Test
-    public void testCreateCategorySuccess() {
+    public void testCreateCategory_ReturnSuccessful() {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName("Test Category");
 

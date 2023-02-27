@@ -23,7 +23,7 @@ class StandardUserValidatorTest {
     private StandardUserValidator standardUserValidator;
 
     @Test
-    void testValidateIfUserExists() {
+    void testValidate_WhenUserExists() {
         StandardUser standardUser = new StandardUser();
         standardUser.setParticipantId(1L);
 

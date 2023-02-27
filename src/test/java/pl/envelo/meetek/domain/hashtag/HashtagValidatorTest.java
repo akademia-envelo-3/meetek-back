@@ -38,7 +38,7 @@ class HashtagValidatorTest {
     }
 
     @Test
-    void testNotThrowExceptionWhenHashtagIsNotDuplicated() {
+    void testNotThrowException_WhenHashtagIsNotDuplicated() {
 
         when(hashtagRepo.findByName("#Hashtag")).thenReturn(Optional.empty());
         HashtagValidator validator = new HashtagValidator(null, hashtagRepo);
@@ -47,7 +47,7 @@ class HashtagValidatorTest {
     }
 
     @Test
-    void testThrowDuplicateExceptionWhenCategoryNameDuplicateAndIsActive() {
+    void testThrowDuplicateException_WhenHashtagNameDuplicateAndIsActive() {
         Hashtag hashtag = new Hashtag();
         hashtag.setName("#HASHTAG");
         hashtag.setActive(true);

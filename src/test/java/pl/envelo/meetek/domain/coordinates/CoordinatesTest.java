@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CoordinatesTest {
 
     @Test
-    void testToStringReturnExpectedString() {
+    void testToString() {
         Coordinates coordinates = new Coordinates(1L, 40.0f, -73.0f);
         String expectedString = "Coordinates{coordinatesId=1, latitude=40.0, longitude=-73.0}";
 

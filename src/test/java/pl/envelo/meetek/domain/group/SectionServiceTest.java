@@ -5,19 +5,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import pl.envelo.meetek.domain.category.CategoryRepo;
+import pl.envelo.meetek.domain.category.CategoryService;
 import pl.envelo.meetek.domain.group.model.Section;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
 import pl.envelo.meetek.domain.group.model.SectionShortDto;
-
+import pl.envelo.meetek.domain.user.StandardUserValidator;
 import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.exceptions.NotFoundException;
 import pl.envelo.meetek.utils.DtoMapperService;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,8 +29,21 @@ public class SectionServiceTest {
     private SectionRepo sectionRepo;
 
     @Mock
+    private SectionController sectionController;
+
+    @Mock
+    private StandardUserValidator standardUserValidator;
+
+    @Mock
+    private CategoryRepo categoryRepo;
+
+    @Mock
+    Section section;
+    @Mock
     private SectionValidator sectionValidator;
 
+    @Mock
+    private CategoryService categoryService;
     @Mock
     private DtoMapperService mapperService;
 
@@ -69,84 +82,95 @@ public class SectionServiceTest {
         verify(mapperService, never()).mapToSectionLongDto(any());
     }
 
-    //Tests to create Section: Success and Failure
     @Test
-    void testCreateSection_ResultSuccess() {
-        Section section = new Section();
-        SectionLongDto sectionLongDto = new SectionLongDto();
-        sectionLongDto.setName("Section 1");
-        section.setGroupOwner(new StandardUser());
-
-        section.setName("Section 1");
-
-        when(mapperService.mapToSection(sectionLongDto)).thenReturn(section);
-        doNothing().when(sectionValidator).validateInput(section);
-        doNothing().when(sectionValidator).validateNotActiveDuplicate(section.getName());
-
-        when(sectionRepo.save(section)).thenReturn(section);
-        when(mapperService.mapToSectionLongDto(section)).thenReturn(sectionLongDto);
-
-        //    SectionLongDto result = sectionService.createSection(StandardUser,sectionLongDto);
-
-        //    assertNotNull(result);
-        //  assertEquals("Section 1", result.getName());
-    }
-
-    //edit
-  /*
-   @Test
-    public void testEditSection_ResultFailure() {
-        // Arrange
+    void testEditSection_ReturnUpdateSectionAndSaveToRepository() {
         long sectionId = 1L;
-        SectionLongDto sectionLongDto = new SectionLongDto();
+        StandardUser requester = new StandardUser();
+        SectionLongDto sectionDto = new SectionLongDto();
         Section section = new Section();
         Section sectionFromDto = new Section();
-        StandardUser user = new StandardUser();
-        user.setParticipantId(1L);
-        section.setGroupOwner(user);
+        when(sectionValidator.validateExists(sectionId)).thenReturn(section);
+        when(mapperService.mapToSection(sectionDto)).thenReturn(sectionFromDto);
+
+        sectionService.editSection(sectionId, sectionDto, requester);
+
+        verify(sectionValidator).validateExists(sectionId);
+        verify(sectionValidator).validateUserAuthorized(section, requester);
+        verify(mapperService).mapToSection(sectionDto);
+        verify(sectionValidator).validateNotActiveDuplicate(section, sectionFromDto.getName());
+        verify(sectionValidator).validateOwner(section, sectionFromDto.getGroupOwner());
+        verify(sectionValidator).validateInput(section);
+        verify(sectionRepo).save(section);
+    }
+    @Test
+    void updateFields_ReturnUpdateSectionFields() {
+        Section section = new Section("section1");
+        section.setGroupOwner(new StandardUser(1L, "user1"));
+        section.setDescription("description1");
+
+        Section sectionFromDto = new Section("section2");
+        sectionFromDto.setGroupOwner(new StandardUser(2L, "user2"));
+        sectionFromDto.setDescription("description2");
+
+        sectionService.updateFields(section, sectionFromDto);
+
+        assertEquals(section.getName(), sectionFromDto.getName());
+        assertEquals(section.getGroupOwner(), sectionFromDto.getGroupOwner());
+        assertEquals(section.getDescription(), sectionFromDto.getDescription());
+    }
+
+
+
+    @Test
+    public void setCountMembers_ReturnEmptyListForEmptySectionsList() {
+        List<Section> sections = new ArrayList<>();
+
+        List<Section> result = sectionService.setCountMembers(sections);
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    public void setCountMembers_ReturnSectionsListWithCorrectMembersCount() {
+        Set<StandardUser> joinedUsers1 = new HashSet<>();
+        joinedUsers1.add(new StandardUser(1L, "user1"));
+        joinedUsers1.add(new StandardUser(2L, "user2"));
+        Section section1 = new Section("Section 1");
+        section1.setJoinedUsers(joinedUsers1);
+
+        Set<StandardUser> joinedUsers2 = new HashSet<>();
+        joinedUsers2.add(new StandardUser(3L, "user3"));
+        joinedUsers2.add(new StandardUser(4L, "user4"));
+        joinedUsers2.add(new StandardUser(5L, "user5"));
+        Section section2 = new Section("Section 2");
+        section2.setJoinedUsers(joinedUsers2);
+
+        List<Section> sections = List.of(section1, section2);
+
+        List<Section> result = sectionService.setCountMembers(sections);
+
+        assertEquals(2, result.size());
+        assertEquals(2, result.get(0).getMembersCount());
+        assertEquals(3, result.get(1).getMembersCount());
+    }
+
+
+    @Test
+    public void testSetSectionOwnerByAdmin() {
+        long newOwnerId = 1234L;
+        long sectionId = 5678L;
+        Section section = new Section();
+        section.setGroupId(sectionId);
+        StandardUser newOwner = new StandardUser();
+        newOwner.setParticipantId(newOwnerId);
 
         when(sectionValidator.validateExists(sectionId)).thenReturn(section);
-        when(mapperService.mapToSection(sectionLongDto)).thenReturn(sectionFromDto);
-        doThrow(IllegalArgumentException.class).when(sectionValidator).validateInput(sectionFromDto);
-        sectionService.editSection(sectionId, sectionLongDto,user);
-//        assertThrows(IllegalArgumentException.class, () -> sectionService.editSection(sectionId, sectionLongDto,user));
-    }
-    */
-    //active
-    @Test
-    public void testGetAllActiveSectionsAndActiveSections_WhenFound() {
-        Section section = new Section();
-        Section section1 = new Section();
-        Section section2 = new Section();
-        List<Section> sections = Arrays.asList(section1, section2);
+        when(sectionValidator.validateOwnerForAdmin(section, newOwnerId)).thenReturn(newOwner);
 
+        sectionService.setSectionOwnerByAdmin(newOwnerId, sectionId);
 
-        SectionLongDto sectionLongDto1 = new SectionLongDto();
-        SectionLongDto sectionLongDto2 = new SectionLongDto();
-        List<SectionLongDto> sectionLongDtos = Arrays.asList(sectionLongDto1, sectionLongDto2);
-
-        when(sectionRepo.findAllByIsActiveTrueOrderByName()).thenReturn(sections);
-        when(mapperService.mapToSectionLongDto(any(Section.class))).thenReturn(sectionLongDto1, sectionLongDto2);
-
-        List<SectionShortDto> result = sectionService.getAllActiveSections();
-
-        assertEquals(sectionLongDtos, result);
-        verify(sectionRepo).findAllByIsActiveTrueOrderByName();
-        verify(mapperService).mapToSectionLongDto(section1);
-        verify(mapperService).mapToSectionLongDto(section2);
+        verify(sectionValidator).validateExists(sectionId);
+        verify(sectionValidator).validateOwnerForAdmin(section, newOwnerId);
+        verify(sectionRepo).updateOwner(section.getGroupId(), newOwner.getParticipantId());
     }
 }
-    /*
-    @Test
-    public void testGetAllActiveCategories_ReturnFailure() {
-        CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
-
-        when(categoryRepo.findAllByIsActiveTrueOrderByName()).thenThrow(new RuntimeException("Error in repository"));
-
-        Exception exception = assertThrows(RuntimeException.class,
-                () -> categoryService.getAllActiveCategories());
-
-        assertEquals("Error in repository", exception.getMessage())
-}
-
-*/

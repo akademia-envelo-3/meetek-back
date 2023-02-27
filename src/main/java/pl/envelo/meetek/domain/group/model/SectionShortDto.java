@@ -16,4 +16,12 @@ public class SectionShortDto {
     private boolean isActive;
     private int membersCount;
 
+    public SectionShortDto(String name) {
+        this.name = name;
+    }
+
+    public SectionShortDto(long groupId, String name) {
+        this.groupId = groupId;
+        this.name = name;
+    }
 }

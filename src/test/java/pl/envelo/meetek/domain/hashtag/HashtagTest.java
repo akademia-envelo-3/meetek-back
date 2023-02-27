@@ -34,7 +34,7 @@ class HashtagTest {
     }
 
     @Test
-    void testEqualsAndHashCodeWithNullFields() {
+    void testEqualsAndHashCode_WhenNullFields() {
         Hashtag hashtag1 = new Hashtag(1L, null, true, 10);
         Hashtag hashtag2 = new Hashtag(1L, null, true, 10);
 
@@ -43,7 +43,7 @@ class HashtagTest {
     }
 
     @Test
-    void testNotEqualsAndHashCodeWithDifferentFields() {
+    void testNotEqualsAndHashCode_WhenDifferentFields() {
         Hashtag hashtag1 = new Hashtag(1L, "#springboot", true, 10);
         Hashtag hashtag2 = new Hashtag(2L, "#springboot", true, 10);
 
@@ -52,7 +52,7 @@ class HashtagTest {
     }
 
     @Test
-    void testNotEqualsAndHashCodeWithDifferentActiveFields() {
+    void testNotEqualsAndHashCode_WhenDifferentActiveFields() {
         Hashtag hashtag1 = new Hashtag(1L, "#springboot", true, 10);
         Hashtag hashtag2 = new Hashtag(1L, "#springboot", false, 10);
 
@@ -61,7 +61,7 @@ class HashtagTest {
     }
 
     @Test
-    void testNotEqualsAndHashCodeWithDifferentCountOfHashtagUsageFields() {
+    void testNotEqualsAndHashCode_WhenDifferentCountOfHashtagUsageFields() {
         Hashtag hashtag1 = new Hashtag(1L, "#springboot", true, 10);
         Hashtag hashtag2 = new Hashtag(1L, "#springboot", true, 20);
 
@@ -70,7 +70,7 @@ class HashtagTest {
     }
 
     @Test
-    void testNotEqualsAndHashCodeWithDifferentNameFields() {
+    void testNotEqualsAndHashCode_WhenDifferentNameFields() {
         Hashtag hashtag1 = new Hashtag(1L, "#springboot", true, 10);
         Hashtag hashtag2 = new Hashtag(1L, "#hibernate", true, 10);
 

@@ -25,6 +25,10 @@ public abstract class AppUser extends Participant {
         this.role = role;
     }
 
+    public AppUser(Long participantId, String firstname) {
+        super(participantId, firstname);
+    }
+
     public AppUser(Long participantId) {
         super(participantId);
     }

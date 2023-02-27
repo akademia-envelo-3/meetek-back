@@ -33,7 +33,7 @@ public class AttachmentValidatorTest {
     }
 
     @Test
-    public void testAttachmentNotFoundAndThrowNotFoundException() {
+    public void testAttachmentValidation_WhenThrowNotFoundException() {
         long id = 1L;
         when(attachmentRepo.findById(id)).thenReturn(Optional.empty());
 
@@ -42,7 +42,7 @@ public class AttachmentValidatorTest {
     }
 
     @Test
-    public void testAttachmentFoundAndReturnAttachment() {
+    public void testAttachmentValidation_WhenFoundAndReturnAttachment() {
         long id = 1L;
         Attachment attachment = new Attachment();
         when(attachmentRepo.findById(id)).thenReturn(Optional.of(attachment));

@@ -49,7 +49,7 @@ public class AdminControllerTest {
     private AdminController adminController;
 
     @Test
-    public void testGetAllEventsBeforeTodayAndReturnEmptyList() {
+    public void testGetAllEventsBeforeToday_ReturnEmptyListAndStatusNoContent() {
         AdminController adminController = new AdminController(singleEventService, null, null, null, null, null);
         when(singleEventService.getAllEventsBeforeToday()).thenReturn(new ArrayList<>());
 
@@ -60,7 +60,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllEventsBeforeTodayAndReturnResult() {
+    public void testGetAllEventsBeforeToday_ReturnSuccessfulAndStatusOk() {
         List<SingleEventShortDto> events = new ArrayList<>();
         events.add(new SingleEventShortDto());
         when(singleEventService.getAllEventsBeforeToday()).thenReturn(events);
@@ -73,7 +73,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllEventsAfterTodayReturnsNoContent() {
+    public void testGetAllEventsAfterToday_ReturnsNoContentAndEmptyList() {
         when(singleEventService.getAllEventsAfterToday()).thenReturn(new ArrayList<>());
 
         AdminController adminController = new AdminController(singleEventService, sectionService, null, null, null, null);
@@ -83,7 +83,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllEventsAfterTodayReturnsResult() {
+    public void testGetAllEventsAfterToday_ReturnsSuccessfulAndOkStatus() {
         List<SingleEventShortDto> events = new ArrayList<>();
         events.add(new SingleEventShortDto());
         when(singleEventService.getAllEventsAfterToday()).thenReturn(events);
@@ -96,7 +96,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    void testGetAllHashtagsReturnsEmptyList() {
+    void testGetAllHashtags_ReturnsEmptyListAndStatusNoContent() {
         List<HashtagDto> emptyList = new ArrayList<>();
         when(hashtagService.getAllHashtags()).thenReturn(emptyList);
 
@@ -108,7 +108,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    void testGetAllHashtagsReturnsNonEmptyList() {
+    void testGetAllHashtags_ReturnsSuccessfulAndOkStatus() {
         List<HashtagDto> hashtagList = new ArrayList<>();
         hashtagList.add(new HashtagDto("tag1"));
         hashtagList.add(new HashtagDto("tag2"));
@@ -124,7 +124,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllCategoriesWithResults() {
+    public void testGetAllCategories_ResultsSuccessful() {
         CategoryDto category1 = new CategoryDto(1L, "Category 1");
         CategoryDto category2 = new CategoryDto(2L, "Category 2");
         List<CategoryDto> categories = Arrays.asList(category1, category2);
@@ -138,7 +138,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllCategoriesNoResults() {
+    public void testGetAllCategories_ReturnsEmptyListAndNoContentStatus() {
         List<CategoryDto> categories = Arrays.asList();
 
         when(categoryService.getAllCategories()).thenReturn(categories);
@@ -150,7 +150,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllNotProcessedCategoryRequestsWithResults() {
+    public void testGetAllNotProcessedCategoryRequests_ReturnsSuccessfulAndStatusOk() {
         List<CategoryRequestDto> categoryRequestDtos = new ArrayList<>();
         categoryRequestDtos.add(new CategoryRequestDto("Category 1"));
         when(categoryRequestService.getAllNotProcessedRequests()).thenReturn(categoryRequestDtos);
@@ -162,7 +162,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetAllNotProcessedCategoryRequestsWithNoResults() {
+    public void testGetAllNotProcessedCategoryRequests_ReturnsEmptyListAndStatusNoContent() {
         List<CategoryRequestDto> categoryRequestDtos = new ArrayList<>();
         when(categoryRequestService.getAllNotProcessedRequests()).thenReturn(categoryRequestDtos);
 
@@ -173,7 +173,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testReplyToCategoryRequestAndReturnValidRequest() {
+    public void testReplyToCategoryRequest_ReturnValidRequest() {
         long categoryRequestId = 1L;
         long userId = 2L;
         CategoryRequestDto categoryRequestDto = new CategoryRequestDto();

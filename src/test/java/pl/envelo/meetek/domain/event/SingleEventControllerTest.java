@@ -50,7 +50,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureNotAcceptedEvents_Return200() {
+    public void testGetAllPublicFutureNotAcceptedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -65,7 +65,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureNotAcceptedEvents_Return204() {
+    public void testGetAllPublicFutureNotAcceptedEvents_ReturnNoContentStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList();
@@ -80,7 +80,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureAcceptedEvents_Return200() {
+    public void testGetAllPublicFutureAcceptedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> eventsAccepted = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -95,7 +95,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureAcceptedEvents_Return204() {
+    public void testGetAllPublicFutureAcceptedEvents_ReturnNoContentStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> eventsAccepted = Arrays.asList();
@@ -110,7 +110,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureOwnedEvents_Return200() {
+    public void testGetAllPublicFutureOwnedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -125,7 +125,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicFutureOwnedEvents_Return204() {
+    public void testGetAllPublicFutureOwnedEvents_ReturnNoContentStauts() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList();
@@ -140,7 +140,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastNotAcceptedEvents_ret200() {
+    public void testGetAllPublicPastNotAcceptedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -155,7 +155,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastNotAcceptedEvents_ret204() {
+    public void testGetAllPublicPastNotAcceptedEvents_ReturnNoContentStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList();
@@ -170,7 +170,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastAcceptedEvents_ret200() {
+    public void testGetAllPublicPastAcceptedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -185,7 +185,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastAcceptedEvents_ret204() {
+    public void testGetAllPublicPastAcceptedEvents_ReturnNoContentStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList();
@@ -200,7 +200,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastOwnedEvents_ret200() {
+    public void testGetAllPublicPastOwnedEvents_ReturnOkStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList(new SingleEventShortDto(), new SingleEventShortDto());
@@ -215,7 +215,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetAllPublicPastOwnedEvents_ret204() {
+    public void testGetAllPublicPastOwnedEvents_ReturnNoContentStatus() {
         StandardUser user = new StandardUser();
         user.setParticipantId(1L);
         List<SingleEventShortDto> events = Arrays.asList();
@@ -230,7 +230,7 @@ class SingleEventControllerTest {
     }
 
     @Test
-    public void testGetEventComment() {
+    public void testGetEventComment_ReturnSuccessful() {
         long commentId = 1L;
         EventCommentDto comment = new EventCommentDto();
         comment.setCommentId(commentId);

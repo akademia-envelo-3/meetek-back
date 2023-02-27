@@ -27,7 +27,7 @@ class CategoryValidatorTest {
 
     //Exists
     @Test
-    void testValidateIfCategoryExists() {
+    void testValidateCategory_whenExists() {
         Category category = new Category();
         category.setCategoryId(1L);
         when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
@@ -40,7 +40,7 @@ class CategoryValidatorTest {
 
     //Doesnt Exist
     @Test
-    void testThrowNotFoundException_CategoryDoesNotExists() {
+    void testThrowNotFoundException_WhenCategoryDoesNotExists() {
         when(categoryRepo.findById(1L)).thenReturn(Optional.empty());
         CategoryValidator validator = new CategoryValidator(null, categoryRepo);
 
@@ -52,7 +52,7 @@ class CategoryValidatorTest {
 
     //Dont throw exception when name isnt duplicated
     @Test
-    void testNotThrowExceptionWhenCategoryNameIsNotDuplicated() {
+    void testNotThrowException_WhenCategoryNameIsNotDuplicated() {
 
         when(categoryRepo.findByName("New Category")).thenReturn(Optional.empty());
         CategoryValidator validator = new CategoryValidator(null, categoryRepo);
@@ -62,15 +62,13 @@ class CategoryValidatorTest {
 
     // Throw exveption when name is duplicated and cat is active
     @Test
-    void testThrowDuplicateExceptionWhenCategoryNameDuplicateAndIsActive() {
-        // Arrange
+    void testThrowDuplicateException_WhenCategoryNameDuplicateAndIsActive() {
         Category category = new Category();
         category.setName("Existing Category");
         category.setActive(true);
         when(categoryRepo.findByName("Existing Category")).thenReturn(Optional.of(category));
         CategoryValidator validator = new CategoryValidator(null, categoryRepo);
 
-        // Act and Assert
         DuplicateException exception = assertThrows(
                 DuplicateException.class,
                 () -> validator.validateNotDuplicate("Existing Category"));
@@ -79,7 +77,7 @@ class CategoryValidatorTest {
 
     // Throw exveption when name is duplicated and cat is not active
     @Test
-    void testThrowDuplicateExceptionWhenCategoryNameDuplicateButNotActive() {
+    void testThrowDuplicateException_WhenCategoryNameDuplicateButNotActive() {
 
         Category category = new Category();
         category.setName("Existing Category");
@@ -94,47 +92,39 @@ class CategoryValidatorTest {
     }
 
     @Test
-    public void shouldReturnNullWhenCategoryNameDoesNotExist() {
-        // Given
+    public void shouldReturnNull_WhenCategoryNameDoesNotExist() {
         String name = "Test Category";
         when(categoryRepo.findByName(name)).thenReturn(Optional.empty());
 
-        // When
         Category result = categoryValidator.validateNotDuplicate(new Category(), name);
 
-        // Then
         assertEquals(null, result);
     }
 
     @Test
-    public void shouldThrowDuplicateExceptionWhenActiveCategoryNameAlreadyExists() {
-        // Given
+    public void shouldThrowDuplicateException_WhenActiveCategoryNameAlreadyExists() {
         Category category = new Category();
         String name = "Test Category";
         category.setActive(true);
         when(categoryRepo.findByName(name)).thenReturn(Optional.of(category));
 
-        // When/Then
         assertThrows(DuplicateException.class, () -> categoryValidator.validateNotActiveDuplicate(name));
     }
 
     @Test
-    public void shouldReturnCategoryWhenInactiveCategoryNameAlreadyExists() {
-        // Given
+    public void shouldReturnCategory_WhenInactiveCategoryNameAlreadyExists() {
         Category category = new Category();
         String name = "Test Category";
         category.setActive(false);
         when(categoryRepo.findByName(name)).thenReturn(Optional.of(category));
 
-        // When
         Category result = categoryValidator.validateNotActiveDuplicate(name);
 
-        // Then
         assertEquals(category, result);
     }
 
     @Test
-    public void shouldReturnNullWhenCategoryNameDoesNotExistForInactiveCategories() {
+    public void shouldReturnNull_WhenCategoryNameDoesNotExistForInactiveCategories() {
         // Given
         String name = "Test Category";
         when(categoryRepo.findByName(name)).thenReturn(Optional.empty());

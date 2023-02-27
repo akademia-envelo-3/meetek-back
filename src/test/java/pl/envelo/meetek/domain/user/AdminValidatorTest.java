@@ -22,7 +22,7 @@ class AdminValidatorTest {
     private AdminValidator adminValidator;
 
     @Test
-    void testValidateIfAdminExists() {
+    void testValidate_WhenAdminExists() {
         Admin admin = new Admin();
         admin.setParticipantId(1L);
         when(adminRepo.findById(1L)).thenReturn(Optional.of(admin));

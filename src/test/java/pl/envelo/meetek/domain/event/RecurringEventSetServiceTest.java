@@ -31,7 +31,7 @@ public class RecurringEventSetServiceTest {
 
 
     @Test
-    public void testCreateRecurringEventSet() {
+    public void testCreateRecurringEventSet_ReturnSuccessful() {
         RecurringEventSetCreateDto recurringEventSetCreateDto = new RecurringEventSetCreateDto();
         RecurringEventSet recurringEventSet = new RecurringEventSet();
         RecurringEventSetDto recurringEventSetDto = new RecurringEventSetDto();

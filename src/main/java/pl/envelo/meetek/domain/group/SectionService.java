@@ -51,15 +51,6 @@ public class SectionService {
     }
 
     @Transactional(readOnly = true)
-    public List<SectionShortDto> getAllActiveSections() {
-        List<Section> sections = sectionRepo.findAllByIsActiveTrueOrderByName();
-        List<Section> sectionsWithMembersCount = setCountMembers(sections);
-        return sectionsWithMembersCount.stream()
-                .map(mapperService::mapToSectionShortDto)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
     public List<SectionShortDto> getAllJoinedSections(long userId) {
         List<Section> sections = sectionRepo.findAllJoinedSections(userId);
         List<Section> sectionsWithMembersCount = setCountMembers(sections);
@@ -77,6 +68,15 @@ public class SectionService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<SectionShortDto> getAllActiveSections() {
+        List<Section> sections = sectionRepo.findAllByIsActiveTrueOrderByName();
+        List<Section> sectionsWithMembersCount = setCountMembers(sections);
+        return sectionsWithMembersCount.stream()
+                .map(mapperService::mapToSectionShortDto)
+                .toList();
+    }
+
     @Transactional
     public void setSectionOwnerByAdmin(long newOwnerId, long sectionId) {
         Section section = sectionValidator.validateExists(sectionId);
@@ -84,16 +84,16 @@ public class SectionService {
         sectionRepo.updateOwner(section.getGroupId(), newOwner.getParticipantId());
     }
 
-    private Section setCountMembers(Section section) {
+    public Section setCountMembers(Section section) {
         section.setMembersCount(section.getJoinedUsers().size());
         return section;
     }
 
-    private List<Section> setCountMembers(List<Section> sections) {
+    public List<Section> setCountMembers(List<Section> sections) {
         return sections.stream().map(this::setCountMembers).toList();
     }
 
-    private void updateFields(Section section, Section sectionFromDto) {
+    public void updateFields(Section section, Section sectionFromDto) {
         section.setGroupOwner(sectionFromDto.getGroupOwner());
         section.setName(sectionFromDto.getName());
         section.setDescription(sectionFromDto.getDescription());

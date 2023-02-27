@@ -54,7 +54,7 @@ class CoordinatesServiceTest {
     }
 
     @Test
-    public void testCreateCoordinates() {
+    public void testCreateCoordinates_WhenCreatedSuccessful() {
         double latitude = 12.34;
         double longitude = 56.78;
 

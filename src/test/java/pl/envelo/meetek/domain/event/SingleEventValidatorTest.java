@@ -36,7 +36,7 @@ class SingleEventValidatorTest {
     private SingleEventValidator singleEventValidator;
 
     @Test
-    public void testValidateExists() {
+    public void testValidate_WhenEventExists() {
         long eventId = 1L;
         SingleEvent event = new SingleEvent();
         event.setEventId(eventId);
@@ -49,7 +49,7 @@ class SingleEventValidatorTest {
     }
 
     @Test
-    public void testValidateExists_notFound() {
+    public void testValidate_WhenEventNotFound() {
         when(singleEventRepo.findById(1L)).thenReturn(Optional.empty());
         SingleEventValidator validator = new SingleEventValidator(null, singleEventRepo, userValidator);
 
@@ -61,7 +61,7 @@ class SingleEventValidatorTest {
     }
 
     @Test
-    public void testValidateDaysCount_null() {
+    public void testValidate_DaysCountnull() {
         singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
         Integer days = null;
         Integer result = singleEventValidator.validateDaysCount(days);
@@ -69,7 +69,7 @@ class SingleEventValidatorTest {
     }
 
     @Test
-    public void testValidateDaysCount_zero() {
+    public void testValidate_DaysCountZero() {
         singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
         Integer days = 0;
         Integer result = singleEventValidator.validateDaysCount(days);
@@ -77,7 +77,7 @@ class SingleEventValidatorTest {
     }
 
     @Test
-    public void testValidateDaysCount_positiveDayCount() {
+    public void testValidate_DaysCountPositiveDayCount() {
         singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
         Integer days = 5;
         Integer result = singleEventValidator.validateDaysCount(days);
@@ -86,7 +86,7 @@ class SingleEventValidatorTest {
 
 
     @Test
-    public void testValidateOwnerForAdmin_ownerIdAlreadyExists() {
+    public void testValidateOwnerForAdmin_WhenOwnerAlreadyExists() {
         SingleEvent event = new SingleEvent();
         StandardUser owner = new StandardUser();
         owner.setParticipantId(1L);
@@ -100,7 +100,7 @@ class SingleEventValidatorTest {
     }
 
     @Test
-    public void testValidateOwnerForAdmin_validNewOwnerId() {
+    public void testValidateOwnerForAdmin_WhenValidNewOwner() {
         SingleEvent event = new SingleEvent();
         StandardUser owner = new StandardUser();
         owner.setParticipantId(1L);

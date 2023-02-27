@@ -23,7 +23,7 @@ class GuestControllerTest {
     private GuestController guestController;
 
     @Test
-    public void testGetCategory_ReturnSuccess() {
+    public void testGetGuest_ReturnSuccessfulAndOkStatus() {
         long guestId = 1L;
         GuestDto guestDto = new GuestDto();
         guestDto.setParticipantId(guestId);

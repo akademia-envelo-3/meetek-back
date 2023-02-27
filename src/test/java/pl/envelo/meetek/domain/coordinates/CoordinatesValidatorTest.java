@@ -23,7 +23,7 @@ class CoordinatesValidatorTest {
     private CoordinatesValidator coordinatesValidator;
 
     @Test
-    void testValidateIfCoordinatesExists() {
+    void testValidate_WhenCoordinatesExists() {
         Coordinates coordinates = new Coordinates();
         coordinates.setCoordinatesId(1L);
 

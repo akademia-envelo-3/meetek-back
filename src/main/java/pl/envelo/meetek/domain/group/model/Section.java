@@ -45,6 +45,14 @@ public class Section extends Group {
         this.recurringEvents = recurringEvents;
     }
 
+    public Section(String name) {
+        super(name);
+    }
+
+    public Section(Long groupId, String name) {
+        super(groupId, name);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " Section{" +

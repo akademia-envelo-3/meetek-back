@@ -45,7 +45,7 @@ class RecurringEventSetValidatorTest {
     }
 
     @Test
-    public void testValidateExists_notFound() {
+    public void testValidateExists_WhennotFound() {
         when(recurringEventSetRepo.findById(1L)).thenReturn(Optional.empty());
         RecurringEventSetValidator validator = new RecurringEventSetValidator(null, recurringEventSetRepo);
 

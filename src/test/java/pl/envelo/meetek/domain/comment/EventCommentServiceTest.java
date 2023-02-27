@@ -60,26 +60,4 @@ public class EventCommentServiceTest {
         verify(mapperService, never()).mapToEventCommentDto(any());
     }
 
-    //Tests to create EventComment: Success and Failure
-    @Test
-    void testCreateEventComment_ResultSuccess() {
-        EventCommentDto eventCommentDto = new EventCommentDto();
-        eventCommentDto.setEventId(1L);
-        eventCommentDto.setCommentId(1L);
-
-        EventComment eventComment = new EventComment();
-        eventComment.setComment("coment1");
-
-        when(mapperService.mapToEventComment(eventCommentDto)).thenReturn(eventComment);
-        doNothing().when(eventCommentValidator).validateInput(eventComment);
-        doNothing().when(eventCommentValidator).validateExists(1);
-
-        when(eventCommentRepo.save(eventComment)).thenReturn(eventComment);
-        when(mapperService.mapToEventCommentDto(eventComment)).thenReturn(eventCommentDto);
-
-       // EventCommentDto result = eventCommentService.createEventComment();
-
-       // assertNotNull(result);
-        //assertEquals("Event Comment 1", result.getComment());
-    }
 }

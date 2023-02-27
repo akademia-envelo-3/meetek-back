@@ -79,7 +79,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testGetCategoryByName_ResultFailure() {
+    void testGetCategoryByName_ResultThrowNotACtiveDuplicateException() {
         when(categoryValidator.validateNotActiveDuplicate("Test Category")).thenThrow(new IllegalArgumentException());
 
         assertThrows(IllegalArgumentException.class, () -> categoryService.getCategoryByName("Test Category"));
@@ -87,7 +87,7 @@ class CategoryServiceTest {
 
     //Tests to create Category: Success and Failure
     @Test
-    void testCreateCategory_ResultSuccess() {
+    void testCreateCategory_ResultSuccessful() {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName("Category 1");
 
@@ -110,7 +110,7 @@ class CategoryServiceTest {
 
     //test create or activate cat
     @Test
-    void testCreateCategory_ResultSuccess1() {
+    void testCreateCategory_ResultSuccess2() {
         CategoryRequest request = new CategoryRequest("Test Category");
         Category category = new Category("Test Category");
 
@@ -172,7 +172,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testGetAllCategoriesAndReturnEmptyList_ResultSuccess() {
+    public void testGetAllCategoriesAndReturnEmptyList_ResultSuccessful() {
         when(categoryRepo.findAll(Sort.by("name"))).thenReturn(Collections.emptyList());
 
         List<CategoryDto> result = categoryService.getAllCategories();
@@ -182,7 +182,7 @@ class CategoryServiceTest {
 
     //active
     @Test
-    public void testGetAllActiveCategoriesAndActiveCategories_WhenFound() {
+    public void testGetAllActiveCategoriesAndActiveCategories_ResultSuccessful() {
         Category category1 = new Category("Category 1", true);
         Category category2 = new Category("Category 2", true);
         List<Category> categories = Arrays.asList(category1, category2);
@@ -216,7 +216,7 @@ class CategoryServiceTest {
 
     //Active category
     @Test
-    public void testGetActivateCategory_ReturnSuccess() {
+    public void testGetActivateCategory_ReturnSuccessful() {
         CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
 
         Category category = new Category("Category 1", false);
@@ -227,7 +227,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testGetActivateCategory_RetrunFailure() {
+    public void testGetActivateCategory_ReturnFailure() {
         CategoryService categoryService = new CategoryService(categoryRepo, categoryValidator, mapperService);
 
         Category category = new Category("Category 1", false);
@@ -240,7 +240,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void testUpdateFields_ReturnSuccess() {
+    public void testUpdateFields_ReturnSuccessful() {
         Category category = new Category();
         category.setName("Old name");
         category.setActive(false);

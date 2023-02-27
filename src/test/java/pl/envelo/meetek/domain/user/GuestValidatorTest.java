@@ -23,7 +23,7 @@ class GuestValidatorTest {
     private GuestValidator guestValidator;
 
     @Test
-    void testValidateIfAdminExists() {
+    void testValidate_WhenAdminExists() {
         Guest guest = new Guest();
         guest.setParticipantId(1L);
 

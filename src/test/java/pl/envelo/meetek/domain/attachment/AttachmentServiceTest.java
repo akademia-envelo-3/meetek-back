@@ -28,7 +28,7 @@ public class AttachmentServiceTest {
     }
 
     @Test
-    public void testCreateAttachment() {
+    public void testCreateAttachment_WhenDataIsValid() {
         Attachment attachment = new Attachment();
         when(attachmentRepo.save(attachment)).thenReturn(attachment);
 
@@ -41,7 +41,7 @@ public class AttachmentServiceTest {
     }
 
     @Test
-    public void testGetAttachmentById() {
+    public void testGetAttachmentById_WhenDataIsValid() {
         Attachment attachment = new Attachment();
         attachment.setAttachmentId(1L);
         when(attachmentValidator.validateExists(1L)).thenReturn(attachment);
@@ -54,7 +54,7 @@ public class AttachmentServiceTest {
     }
 
     @Test
-    public void testCreateAttachmentWithValidationException() {
+    public void testCreateAttachment_WhenInvalidData() {
         Attachment attachment = new Attachment();
         doThrow(new DataIntegrityViolationException("Validation failed")).when(attachmentValidator).validateInput(attachment);
 

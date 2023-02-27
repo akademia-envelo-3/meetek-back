@@ -59,28 +59,5 @@ public class RequestCommentServiceTest {
         verify(requestCommentValidator).validateExists(requestCommentId);
         verify(mapperService, never()).mapToRequestCommentDto(any());
     }
-
-    //Tests to create Request Comment: Success and Failure
-    @Test
-    void testCreateRequestComment_ResultSuccess() {
-        RequestCommentDto requestCommentDto = new RequestCommentDto();
-        //requestCommentDto.setComment("com1");
-        requestCommentDto.setCommentId(1L);
-
-        RequestComment requestComment = new RequestComment();
-        requestComment.setComment("coment1");
-
-        when(mapperService.mapToRequestComment(requestCommentDto)).thenReturn(requestComment);
-        doNothing().when(requestCommentValidator).validateInput(requestComment);
-        doNothing().when(requestCommentValidator).validateExists(1);
-
-        when(requestCommentRepo.save(requestComment)).thenReturn(requestComment);
-        when(mapperService.mapToRequestCommentDto(requestComment)).thenReturn(requestCommentDto);
-
-        // RequestCommentDto result = requestCommentService.createRequestComment();
-
-        //assertNotNull(result);
-        //assertEquals("Event Comment 1", result.getComment());
-    }
 }
 
