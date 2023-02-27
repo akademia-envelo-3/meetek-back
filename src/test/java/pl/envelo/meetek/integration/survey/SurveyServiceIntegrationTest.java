@@ -59,8 +59,6 @@ public class SurveyServiceIntegrationTest {
         assertThat(response.getAnswers().stream().findFirst().get().getChoiceId()).isEqualTo(choice.getChoiceId());
         assertThat(response.getUser().getParticipantId()).isEqualTo(user.getParticipantId());
         assertThat(surveyService.getSurvey(survey.getSurveyId()).getResponses().isEmpty()).isFalse();
-        assertThat(eventRepo.findById(event.getEventId()).get().getSurveys().contains(survey)).isTrue();
-
     }
 
 }

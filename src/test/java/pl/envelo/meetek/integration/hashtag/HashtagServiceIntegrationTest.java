@@ -48,8 +48,8 @@ public class HashtagServiceIntegrationTest {
     @Test
     void getAllActiveHashtags_whenExist_Integration(){
         // given
-        Hashtag hashtagActive1 = hashtagRepo.save(new Hashtag(0L,"#Active1",true,1 ));
-        Hashtag hashtagActive2 = hashtagRepo.save(new Hashtag(0L,"#Active2",true,1 ));
+        Hashtag hashtagActive1 = hashtagRepo.save(new Hashtag(0L,"#BibaUAdama",true,1 ));
+        Hashtag hashtagActive2 = hashtagRepo.save(new Hashtag(0L,"#BibaUKamila",true,1 ));
         Hashtag hashtagNotActive = hashtagRepo.save(new Hashtag(0L,"#NotActive",false,1 ));
         // when
         List<HashtagDto> hashtagDtos = hashtagService.getAllActiveHashtags();
@@ -62,8 +62,8 @@ public class HashtagServiceIntegrationTest {
     @Test
     void getAllHashtags_whenExist_Integration(){
         // given
-        Hashtag hashtagActive1 = hashtagRepo.save(new Hashtag(0L,"#Active1",true,1 ));
-        Hashtag hashtagActive2 = hashtagRepo.save(new Hashtag(0L,"#Active2",true,1 ));
+        Hashtag hashtagActive1 = hashtagRepo.save(new Hashtag(0L,"#BibaUAdama",true,1 ));
+        Hashtag hashtagActive2 = hashtagRepo.save(new Hashtag(0L,"#BibaUKamila",true,1 ));
         Hashtag hashtagNotActive = hashtagRepo.save(new Hashtag(0L,"#NotActive",false,1 ));
         // when
         List<HashtagDto> hashtagDtos = hashtagService.getAllHashtags();

@@ -33,6 +33,7 @@ public class CategoryService {
         Category category = mapperService.mapToCategory(categoryDto);
         categoryValidator.validateInput(category);
         categoryValidator.validateNotDuplicate(category.getName());
+        category.setActive(true);
         category = categoryRepo.save(category);
         return mapperService.mapToCategoryDto(category);
     }
