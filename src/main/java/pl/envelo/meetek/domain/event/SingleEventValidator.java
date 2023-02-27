@@ -2,9 +2,13 @@ package pl.envelo.meetek.domain.event;
 
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
+import pl.envelo.meetek.domain.category.CategoryValidator;
+import pl.envelo.meetek.domain.event.model.EventResponseStatus;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
+import pl.envelo.meetek.domain.event.model.TimeStatus;
 import pl.envelo.meetek.domain.user.StandardUserValidator;
 import pl.envelo.meetek.domain.user.model.StandardUser;
+import pl.envelo.meetek.exceptions.ArgumentNotValidException;
 import pl.envelo.meetek.exceptions.DuplicateException;
 import pl.envelo.meetek.exceptions.NotFoundException;
 import pl.envelo.meetek.utils.ValidatorService;
@@ -17,11 +21,13 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
     private final SingleEventRepo singleEventRepo;
 
     private final StandardUserValidator userValidator;
+    private final CategoryValidator categoryValidator;
 
-    public SingleEventValidator(Validator validator, SingleEventRepo singleEventRepo,StandardUserValidator userValidator) {
+    public SingleEventValidator(Validator validator, SingleEventRepo singleEventRepo, StandardUserValidator userValidator, CategoryValidator categoryValidator) {
         super(validator);
         this.singleEventRepo = singleEventRepo;
         this.userValidator = userValidator;
+        this.categoryValidator = categoryValidator;
     }
 
     @Override
@@ -33,21 +39,37 @@ public class SingleEventValidator extends ValidatorService<SingleEvent> {
         return event.get();
     }
 
-    public Integer validateDaysCount(Integer days) {
-        if (days == null) {
-            return null;
-        } else if (days == 0) {
-            return 1;
-        } else {
-            return days;
-        }
-    }
-
-    public StandardUser validateOwnerForAdmin(SingleEvent event, long newOwnerId){
-        if(event.getOwner().getParticipantId().equals(newOwnerId)){
+    public StandardUser validateOwnerForAdmin(SingleEvent event, long newOwnerId) {
+        if (event.getOwner().getParticipantId().equals(newOwnerId)) {
             throw new DuplicateException("User with id " + newOwnerId + " is already the owner of this event");
         }
         return userValidator.validateExists(newOwnerId);
+    }
+
+    public TimeStatus validateTimeParameter(String time) {
+        Optional<TimeStatus> timeStatus = TimeStatus.findTimeStatus(time.toUpperCase());
+        if (timeStatus.isEmpty()) {
+            throw new ArgumentNotValidException("Invalid parameter: " + time + ", accepted values: " + TimeStatus.FUTURE + ", " + TimeStatus.PAST);
+        }
+        return timeStatus.get();
+    }
+
+    public EventResponseStatus validateResponseParameter(String response) {
+        Optional<EventResponseStatus> responseStatus = EventResponseStatus.findResponseStatus(response);
+        if (responseStatus.isEmpty()) {
+            throw new ArgumentNotValidException("Invalid parameter: " + response + ", accepted values: " + EventResponseStatus.ACCEPTED + ", " + EventResponseStatus.REJECTED + ", " + EventResponseStatus.UNDECIDED);
+        }
+        return responseStatus.get();
+    }
+
+    public StandardUser validateUser(long userId){
+        return userValidator.validateExists(userId);
+    }
+
+    public void validateCategory(SingleEvent event) {
+        if(event.getCategory() != null){
+            categoryValidator.validateExists(event.getCategory().getCategoryId());
+        }
     }
 
 }

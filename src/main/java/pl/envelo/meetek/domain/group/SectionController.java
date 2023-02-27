@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.envelo.meetek.domain.event.model.RecurringEventSetCreateDto;
+import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
 import pl.envelo.meetek.domain.group.model.SectionCreateDto;
 import pl.envelo.meetek.domain.group.model.SectionLongDto;
 import pl.envelo.meetek.domain.group.model.SectionShortDto;
-import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.domain.user.StandardUserService;
+import pl.envelo.meetek.domain.user.model.StandardUser;
 
 import java.net.URI;
 import java.util.List;
@@ -29,6 +31,7 @@ public class SectionController {
 
     private final SectionService sectionService;
     private final StandardUserService standardUserService;
+
 
     @GetMapping("/{sectionId}")
     @Operation(summary = "Get section by its ID")
@@ -71,6 +74,19 @@ public class SectionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{sectionId}")
+    @Operation(summary = "Deactivate section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section deactivated",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SectionCreateDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid sectionId", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Section not found", content = @Content)})
+    public ResponseEntity<Void> deactivateSection(@PathVariable long sectionId, @RequestParam long userId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.deactivateSection(sectionId, validatedUser);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping()
     @Operation(summary = "Get all active sections")
     @ApiResponses(value = {
@@ -110,6 +126,52 @@ public class SectionController {
         List<SectionShortDto> sections = sectionService.getAllOwnedSectionsByUserId(validatedUser.getParticipantId());
         HttpStatus status = sections.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(sections, status);
+    }
+
+    @GetMapping("/{sectionId}/events")
+    @Operation(summary = "Get events of this section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SingleEventShortDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong sectionId", content = @Content),
+            @ApiResponse(responseCode = "204", description = "No event found", content = @Content)})
+    public ResponseEntity<List<SingleEventShortDto>> getSectionEvents(@PathVariable long sectionId, @RequestParam String time) {
+        List<SingleEventShortDto> events = sectionService.getAllEventsOfSection(sectionId, time);
+        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, status);
+    }
+
+    @PostMapping("{sectionId}/join/{userId}")
+    @Operation(summary = "Join section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section joined", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> joinSection(@PathVariable long userId, @PathVariable long sectionId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.joinSection(validatedUser, sectionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("{sectionId}/leave/{userId}")
+    @Operation(summary = "Leave section")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Section left", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> leaveSection(@PathVariable long userId, @PathVariable long sectionId) {
+        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
+        sectionService.leaveSection(validatedUser, sectionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("{sectionId}/sets")
+    @Operation(summary = "Create new recurring event set")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Recurring event set created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
+    public ResponseEntity<Void> createRecurringEventSet(@PathVariable long sectionId, @RequestParam long userId, @RequestBody RecurringEventSetCreateDto eventSetCreateDto) {
+        StandardUser user = standardUserService.getStandardUserById(userId);
+        sectionService.createEventSet(user, sectionId, eventSetCreateDto);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 }

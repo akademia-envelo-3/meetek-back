@@ -204,6 +204,10 @@ public class DtoMapperService {
         return modelMapper.map(recurringEventSetCreateDto, RecurringEventSet.class);
     }
 
+    public SingleEvent mapToSingleEvent(RecurringEventSetCreateDto eventSetCreateDto) {
+        return modelMapper.map(eventSetCreateDto, SingleEvent.class);
+    }
+
     public SingleEvent mapToSingleEvent(SingleEventLongDto singleEventDto) {
         return modelMapper.map(singleEventDto, SingleEvent.class);
     }
@@ -222,6 +226,9 @@ public class DtoMapperService {
 
     public SingleEventGuestDto mapToSingleEventGuestDto(SingleEvent singleEvent) {
         return modelMapper.map(singleEvent, SingleEventGuestDto.class);
+    }
+    public SingleEventCreateDto mapToSingleEventCreateDto(SingleEvent singleEvent) {
+        return modelMapper.map(singleEvent, SingleEventCreateDto.class);
     }
 
 

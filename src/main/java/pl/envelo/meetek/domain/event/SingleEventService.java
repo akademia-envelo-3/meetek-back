@@ -3,10 +3,8 @@ package pl.envelo.meetek.domain.event;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.envelo.meetek.domain.event.model.SingleEvent;
-import pl.envelo.meetek.domain.event.model.SingleEventCreateDto;
-import pl.envelo.meetek.domain.event.model.SingleEventLongDto;
-import pl.envelo.meetek.domain.event.model.SingleEventShortDto;
+import pl.envelo.meetek.domain.event.model.*;
+import pl.envelo.meetek.domain.hashtag.Hashtag;
 import pl.envelo.meetek.domain.hashtag.HashtagService;
 import pl.envelo.meetek.domain.survey.SurveyService;
 import pl.envelo.meetek.domain.survey.model.Survey;
@@ -14,6 +12,8 @@ import pl.envelo.meetek.domain.user.model.StandardUser;
 import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +47,12 @@ public class SingleEventService {
     public SingleEventShortDto createEvent(StandardUser user, SingleEventCreateDto eventDto) {
         SingleEvent event = mapperService.mapToSingleEvent(eventDto);
         event.setOwner(user);
+        addHashtags(event);
+        addInvitedUsers(event);
+        eventValidator.validateCategory(event);
+        addCoordinates(event);
+        addAttachments(event);
+        event.setSurveys(null);
         eventValidator.validateInput(event);
         event = eventRepo.save(event);
         return mapperService.mapToSingleEventShortDto(event);
@@ -58,88 +64,126 @@ public class SingleEventService {
         eventRepo.deleteById(eventId);
     }
 
-    public List<SingleEventShortDto> getAllPublicFutureNotAcceptedEvents(long userId, Integer days) {
-        Integer validatedDays = eventValidator.validateDaysCount(days);
-        if (validatedDays == null) {
-            return getAllPublicFutureNotAcceptedEvents(userId);
-        } else {
-            return getAllPublicFutureNotAcceptedEventsForFewNearestDays(userId, days);
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllPublicNotRespondedEvents(long userId, String time) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        if (timeStatus == TimeStatus.FUTURE) {
+            return getAllPublicFutureNotRespondedEvents(userId);
+        } else if (timeStatus == TimeStatus.PAST) {
+            return getAllPublicPastNotRespondedEvents(userId);
         }
+        return new ArrayList<>();
     }
 
-    @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllPublicFutureNotAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPublicFutureNotAcceptedByUserAll(LocalDateTime.now(), userId);
+    private List<SingleEventShortDto> getAllPublicFutureNotRespondedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPublicFutureNotRespondedByUser(LocalDateTime.now(), userId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllPublicPastNotRespondedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPublicPastNotRespondedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
     @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllPublicFutureNotAcceptedEventsForFewNearestDays(long userId, int days) {
-        List<SingleEvent> events = eventRepo.findAllPublicFutureNotAcceptedByUserForFewDays(
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(days),
-                userId);
+    public List<SingleEventShortDto> getAllRespondedEvents(long userId, String time, String response) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        EventResponseStatus eventResponseStatus = eventValidator.validateResponseParameter(response);
+        switch (eventResponseStatus) {
+            case ACCEPTED -> {
+                if (timeStatus == TimeStatus.FUTURE) {
+                    return getAllFutureAcceptedEvents(userId);
+                } else if (timeStatus == TimeStatus.PAST) {
+                    return getAllPastAcceptedEvents(userId);
+                }
+            }
+            case REJECTED -> {
+                if (timeStatus == TimeStatus.FUTURE) {
+                    return getAllFutureRejectedEvents(userId);
+                } else if (timeStatus == TimeStatus.PAST) {
+                    return getAllPastRejectedEvents(userId);
+                }
+            }
+            case UNDECIDED -> {
+                if (timeStatus == TimeStatus.FUTURE) {
+                    return getAllFutureUndecidedEvents(userId);
+                } else if (timeStatus == TimeStatus.PAST) {
+                    return getAllPastUndecidedEvents(userId);
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.ACCEPTED.toString());
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllPastAcceptedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.ACCEPTED.toString());
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllFutureRejectedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.REJECTED.toString());
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllPastRejectedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.REJECTED.toString());
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllFutureUndecidedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllFutureWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.UNDECIDED.toString());
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllPastUndecidedEvents(long userId) {
+        List<SingleEvent> events = eventRepo.findAllPastWithResponseByUser(LocalDateTime.now(), userId, EventResponseStatus.UNDECIDED.toString());
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllEventsBeforeToday() {
-        List<SingleEvent> events = eventRepo.findAllByDateTimeFromBeforeOrderByDateTimeFromDesc(LocalDateTime.now());
+    public List<SingleEventShortDto> getAllOwnedByUser(long userId, String time) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        if (timeStatus == TimeStatus.FUTURE) {
+            return getAllFutureOwnedByUser(userId);
+        } else if (timeStatus == TimeStatus.PAST) {
+            return getAllPastOwnedByUser(userId);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<SingleEventShortDto> getAllFutureOwnedByUser(long userId) {
+        List<SingleEvent> events = eventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllEventsAfterToday() {
-        List<SingleEvent> events = eventRepo.findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime.now());
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllPublicPastNotAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPublicPastNotAcceptedByUser(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> getAllPastAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllPastAcceptedByUser(LocalDateTime.now(), userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> findAllPastOwnedByUser(long userId) {
+    private List<SingleEventShortDto> getAllPastOwnedByUser(long userId) {
         List<SingleEvent> events = eventRepo.findPastOwnedByUser(LocalDateTime.now(), userId);
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
-    public List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId, Integer days) {
-        Integer validatedDays = eventValidator.validateDaysCount(days);
-        if (validatedDays == null) {
-            return getAllFutureAcceptedEvents(userId);
-        } else {
-            return getAllFutureAcceptedEventsForFewNearestDays(userId, validatedDays);
+    @Transactional(readOnly = true)
+    public List<SingleEventShortDto> getAllEvents(String time) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        if (timeStatus == TimeStatus.FUTURE) {
+            return getAllPastEvents();
+        } else if (timeStatus == TimeStatus.PAST) {
+            return getAllFutureEvents();
         }
+        return new ArrayList<>();
     }
 
-    @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllFutureAcceptedEvents(long userId) {
-        List<SingleEvent> events = eventRepo.findAllFutureAccepted(LocalDateTime.now(), userId);
+    private List<SingleEventShortDto> getAllFutureEvents() {
+        List<SingleEvent> events = eventRepo.findAllByDateTimeFromBeforeOrderByDateTimeFromDesc(LocalDateTime.now());
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
-    @Transactional(readOnly = true)
-    private List<SingleEventShortDto> getAllFutureAcceptedEventsForFewNearestDays(long userId, int days) {
-        List<SingleEvent> events = eventRepo.findAllFutureAcceptedForFewNearestDays(
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(days),
-                userId);
-        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SingleEventShortDto> findAllFutureOwnedByUser(long userId) {
-        List<SingleEvent> events = eventRepo.findFutureOwnedByUser(LocalDateTime.now(), userId);
+    private List<SingleEventShortDto> getAllPastEvents() {
+        List<SingleEvent> events = eventRepo.findAllByDateTimeFromAfterOrderByDateTimeFromAsc(LocalDateTime.now());
         return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
     }
 
@@ -149,5 +193,57 @@ public class SingleEventService {
         StandardUser newOwner = eventValidator.validateOwnerForAdmin(singleEvent, newOwnerId);
         eventRepo.updateOwner(singleEvent.getEventId(), newOwner.getParticipantId());
     }
+
+    private void addInvitedUsers(SingleEvent event) {
+        Set<StandardUser> users = new HashSet<>();
+        if (event.getInvitedUsers() != null) {
+            for (StandardUser user : event.getInvitedUsers()) {
+                if (!user.getParticipantId().equals(event.getOwner().getParticipantId()) && !users.contains(user)) {
+                    users.add(eventValidator.validateUser(user.getParticipantId()));
+                }
+            }
+            event.setInvitedUsers(users);
+        }
+    }
+
+    //TODO
+    private void addCoordinates(SingleEvent event) {
+    }
+
+    //TODO
+    private void addAttachments(SingleEvent event) {
+    }
+
+
+    private void addHashtags(SingleEvent event) {
+
+        Set<Hashtag> foundHashtags = hashtagService.findAllHashtags(event.getName() + " " + event.getDescription());
+        Set<Hashtag> updatedHashtags = hashtagService.checkHashtagSet(null, event.getHashtags());
+        hashtagService.checkHashtagSet(updatedHashtags, foundHashtags);
+        event.setHashtags(updatedHashtags);
+
+    }
+
+    @Transactional
+    public List<SingleEventShortDto> getAllEventsFromSection(long sectionId, String time) {
+        TimeStatus timeStatus = eventValidator.validateTimeParameter(time);
+        if (timeStatus == TimeStatus.FUTURE) {
+            return getAllFutureEventsFromSection(sectionId);
+        } else if (timeStatus == TimeStatus.PAST) {
+            return getAllPastEventsFromSection(sectionId);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<SingleEventShortDto> getAllPastEventsFromSection(long sectionId) {
+        List<SingleEvent> events = eventRepo.findAllPastEventsFromSection(LocalDateTime.now(), sectionId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
+    private List<SingleEventShortDto> getAllFutureEventsFromSection(long sectionId) {
+        List<SingleEvent> events = eventRepo.findAllFutureEventsFromSection(LocalDateTime.now(), sectionId);
+        return events.stream().map(mapperService::mapToSingleEventShortDto).toList();
+    }
+
 
 }

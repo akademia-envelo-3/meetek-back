@@ -1,7 +1,6 @@
 package pl.envelo.meetek.domain.event;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -75,95 +74,49 @@ public class SingleEventController {
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @GetMapping("/future")
-    @Operation(summary = "Get public future events not accepted by user")
+    @GetMapping
+    @Operation(summary = "Get all events responded by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllPublicFutureNotAcceptedEvents(@RequestParam long userId,
-                                                                                         @Parameter(description = "To get events for few days set number of days")
-                                                                                         @RequestParam(required = false) Integer days) {
+    public ResponseEntity<List<SingleEventShortDto>> getAllRespondedEvents(@RequestParam long userId, @RequestParam String time, @RequestParam String response) {
         StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.getAllPublicFutureNotAcceptedEvents(validatedUser.getParticipantId(), days);
-        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(events, status);
+        List<SingleEventShortDto> events = singleEventService.getAllRespondedEvents(validatedUser.getParticipantId(), time, response);
+        HttpStatus httpStatus = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(events, httpStatus);
     }
 
-    @GetMapping("/future/accepted")
-    @Operation(summary = "Get all future events accepted by user")
+    @GetMapping("/all")
+    @Operation(summary = "Get public events not responded by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllFutureAcceptedEvents(@RequestParam long userId,
-                                                                                @Parameter(description = "To get events for few days set number of days")
-                                                                                @RequestParam(required = false) Integer days) {
+    public ResponseEntity<List<SingleEventShortDto>> getAllPublicNotRespondedEvents(@RequestParam long userId, @RequestParam String time) {
         StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.getAllFutureAcceptedEvents(validatedUser.getParticipantId(), days);
+        List<SingleEventShortDto> events = singleEventService.getAllPublicNotRespondedEvents(validatedUser.getParticipantId(), time);
         HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(events, status);
     }
 
-    @GetMapping("/future/owned")
-    @Operation(summary = "Get all future events owned by user")
+    @GetMapping("/owned")
+    @Operation(summary = "Get all events owned by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events found",
                     content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
             @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getFutureOwnedByUser(@RequestParam long userId) {
+    public ResponseEntity<List<SingleEventShortDto>> getOwnedByUser(@RequestParam long userId, @RequestParam String time) {
         StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.findAllFutureOwnedByUser(validatedUser.getParticipantId());
+        List<SingleEventShortDto> events = singleEventService.getAllOwnedByUser(validatedUser.getParticipantId(), time);
         HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(events, status);
     }
 
-    @GetMapping("/past")
-    @Operation(summary = "Get all public past events where the user with given ID didn't confirm his participation")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllPublicPastNotAcceptedEvents(@RequestParam long userId) {
-        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.getAllPublicPastNotAcceptedEvents(validatedUser.getParticipantId());
-        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(events, status);
-    }
-
-    @GetMapping("/past/accepted")
-    @Operation(summary = "Get all past events where the user with given ID confirmed his participation")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getAllPastAcceptedEvents(@RequestParam long userId) {
-        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.getAllPastAcceptedEvents(validatedUser.getParticipantId());
-        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(events, status);
-    }
-
-    @GetMapping("/past/owned")
-    @Operation(summary = "Get all past events owned by user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Events found",
-                    content = {@Content(array = @ArraySchema(schema = @Schema(implementation = SingleEventShortDto.class)))}),
-            @ApiResponse(responseCode = "204", description = "No event found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad request, wrong userId", content = @Content)})
-    public ResponseEntity<List<SingleEventShortDto>> getPastOwnedByUser(@RequestParam long userId) {
-        StandardUser validatedUser = standardUserService.getStandardUserById(userId);
-        List<SingleEventShortDto> events = singleEventService.findAllPastOwnedByUser(validatedUser.getParticipantId());
-        HttpStatus status = events.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(events, status);
-    }
-
-    @GetMapping("/{eventId}/comments/{commentId}")
+     @GetMapping("/{eventId}/comments/{commentId}")
     @Operation(summary = "Get comment by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comment found",
