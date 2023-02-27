@@ -78,12 +78,12 @@ public class CategoryService {
         categoryRepo.save(category);
     }
 
-    private void activateCategory(Category category) {
+    public void activateCategory(Category category) {
         category.setActive(true);
         categoryRepo.save(category);
     }
 
-    private void updateFields(Category category, Category categoryFromDto) {
+    public void updateFields(Category category, Category categoryFromDto) {
         category.setName(categoryFromDto.getName());
         category.setActive(categoryFromDto.isActive());
     }

@@ -40,6 +40,10 @@ public abstract class Notification {
     private AppUser recipient;
     private LocalDateTime addingDateTime;
 
+    public Notification(Long notificationId) {
+        this.notificationId = notificationId;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +

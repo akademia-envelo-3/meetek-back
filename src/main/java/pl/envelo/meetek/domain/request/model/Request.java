@@ -30,6 +30,7 @@ public abstract class Request {
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
 
+
     @Override
     public String toString() {
         return "Request{" +

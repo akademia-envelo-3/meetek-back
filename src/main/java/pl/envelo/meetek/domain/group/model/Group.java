@@ -42,6 +42,15 @@ public abstract class Group {
     @JoinColumn(name = "owner_id")
     private StandardUser groupOwner;
 
+    public Group(String name) {
+        this.name = name;
+    }
+
+    public Group(Long groupId, String name) {
+        this.groupId = groupId;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Group{" +

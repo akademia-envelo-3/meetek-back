@@ -20,9 +20,22 @@ public class Coordinates {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long coordinatesId;
 
-    private float latitude;
+    private double latitude;
 
-    private float longitude;
+    private double longitude;
+
+    public void setLongitude(double longitude) {
+        this.longitude = (float) longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = (float) latitude;
+    }
+
+    public Coordinates(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     @Override
     public String toString() {
@@ -38,7 +51,7 @@ public class Coordinates {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
-        return Float.compare(that.latitude, latitude) == 0 && Float.compare(that.longitude, longitude) == 0 && Objects.equals(coordinatesId, that.coordinatesId);
+        return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0 && Objects.equals(coordinatesId, that.coordinatesId);
     }
 
     @Override

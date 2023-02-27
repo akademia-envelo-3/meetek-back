@@ -38,11 +38,12 @@ public class CategoryValidator extends ValidatorService<Category> {
         }
     }
 
-    public void validateNotDuplicate(Category category, String name) {
+    public Category validateNotDuplicate(Category category, String name) {
         Optional<Category> categoryFromDto = categoryRepo.findByName(name);
         if (categoryFromDto.isPresent() && !category.getName().equals(name)) {
             throw new DuplicateException("Category with name " + name + " already exists");
         }
+        return null;
     }
 
     public Category validateNotActiveDuplicate(String name) {

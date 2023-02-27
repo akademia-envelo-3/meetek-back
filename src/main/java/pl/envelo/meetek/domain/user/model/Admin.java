@@ -19,6 +19,10 @@ public class Admin extends AppUser {
         super(participantId, firstname, lastname, mail, password, role);
     }
 
+    public Admin(Long participantId) {
+        super(participantId);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " Admin{}";

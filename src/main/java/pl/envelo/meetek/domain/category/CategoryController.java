@@ -43,14 +43,13 @@ public class CategoryController {
             @ApiResponse(responseCode = "400", description = "Bad request, wrong parameters", content = @Content)})
     public ResponseEntity<Void> createCategory(@RequestBody CategoryDto categoryDto) {
         CategoryDto category = categoryService.createCategory(categoryDto);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(category.getCategoryId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(category.getCategoryId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
     }
-
     @PutMapping("/{categoryId}")
     @Operation(summary = "Edit category")
     @ApiResponses(value = {

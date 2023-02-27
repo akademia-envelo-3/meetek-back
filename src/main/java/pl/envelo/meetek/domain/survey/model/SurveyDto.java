@@ -24,6 +24,15 @@ public class SurveyDto {
     private Set<SurveyResponseDto> responses;
     private Map<Long, BigDecimal> choicePercent;
 
+    public SurveyDto(String question) {
+        this.question = question;
+    }
+
+    public SurveyDto(long surveyId, String question) {
+        this.surveyId = surveyId;
+        this.question = question;
+    }
+
     @Override
     public String toString() {
         return "SurveyDto{" +

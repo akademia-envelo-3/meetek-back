@@ -102,6 +102,10 @@ public class SingleEvent extends Event {
         this.attachments = attachments;
     }
 
+    public SingleEvent(Long eventId, String name) {
+        super(eventId, name);
+    }
+
     @Override
     public String toString() {
         return super.toString() + " SingleEvent{" +

@@ -18,4 +18,7 @@ public class SurveyResponseDto {
     private Set<SurveyChoiceDto> answers;
     private StandardUserDto user;
 
+    public SurveyResponseDto(long responseId) {
+        this.responseId = responseId;
+    }
 }

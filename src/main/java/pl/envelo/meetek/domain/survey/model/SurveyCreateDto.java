@@ -17,4 +17,7 @@ public class SurveyCreateDto {
     private List<SurveyChoiceDto> choices;
     private int maxChoicesNumber;
 
+    public SurveyCreateDto(String question) {
+        this.question = question;
+    }
 }

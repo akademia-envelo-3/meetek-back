@@ -33,6 +33,10 @@ public class Hashtag {
     @Column(name = "usage_count")
     private int countOfHashtagUsage;
 
+    public Hashtag(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Hashtag{" +

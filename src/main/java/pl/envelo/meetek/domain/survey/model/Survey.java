@@ -56,6 +56,15 @@ public class Survey {
     @Transient
     private Map<Long, BigDecimal> choicePercent;
 
+    public Survey(Long surveyId, String question) {
+        this.surveyId = surveyId;
+        this.question = question;
+    }
+
+    public Survey(String question) {
+        this.question = question;
+    }
+
     @Override
     public String toString() {
         return "Survey{" +

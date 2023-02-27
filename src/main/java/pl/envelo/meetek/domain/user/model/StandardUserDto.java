@@ -16,4 +16,7 @@ public class StandardUserDto {
     private String lastname;
     private Role role;
 
+    public StandardUserDto(long participantId) {
+        this.participantId = participantId;
+    }
 }

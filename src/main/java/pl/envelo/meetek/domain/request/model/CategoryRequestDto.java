@@ -21,4 +21,7 @@ public class CategoryRequestDto {
     private CategoryDto category;
     private RequestCommentDto comment;
 
+    public CategoryRequestDto(String name) {
+        this.name = name;
+    }
 }

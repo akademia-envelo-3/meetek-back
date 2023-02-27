@@ -15,4 +15,10 @@ public class CategoryDto {
     private String name;
     private boolean isActive;
 
+    public CategoryDto(long categoryId, String name) {
+        this.categoryId = categoryId;
+        this.name = name;
+    }
+
+
 }

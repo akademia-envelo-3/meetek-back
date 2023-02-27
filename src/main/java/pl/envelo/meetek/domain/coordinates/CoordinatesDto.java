@@ -12,7 +12,11 @@ import lombok.Setter;
 public class CoordinatesDto {
 
     private long coordinatesId;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
+    public CoordinatesDto(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
