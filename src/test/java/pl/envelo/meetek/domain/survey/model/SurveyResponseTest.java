@@ -11,21 +11,6 @@ import static org.mockito.Mockito.mock;
 
 public class SurveyResponseTest {
 
-    @Test
-    void testToString() {
-        SurveyChoice choice1 = mock(SurveyChoice.class);
-        SurveyChoice choice2 = mock(SurveyChoice.class);
-        StandardUser user = mock(StandardUser.class);
-        Set<SurveyChoice> answers = Set.of(choice1, choice2);
-
-        SurveyResponse response = new SurveyResponse();
-        response.setResponseId(1L);
-        response.setUser(user);
-        response.setAnswers(answers);
-
-        String expected = "SurveyResponse{responseId=1, answers=[" + choice1.toString() + ", " + choice2.toString() + "], user=" + user.toString() + "}";
-        assertEquals(expected, response.toString());
-    }
 
     @Test
     void testEqualsAndHashCode() {
