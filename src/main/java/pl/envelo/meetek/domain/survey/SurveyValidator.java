@@ -78,12 +78,14 @@ public class SurveyValidator extends ValidatorService<Survey> {
     }
 
     public void validateUserResponsed(Survey survey, StandardUser standardUser) {
-        survey.getResponses().stream()
-                .filter(surveyResponse -> surveyResponse.getUser().equals(standardUser))
-                .findAny()
-                .ifPresent(surveyResponse -> {
-                    throw new DuplicateException("User already responsed to this survey");
-                });
+        if(survey.getResponses() != null) {
+            survey.getResponses().stream()
+                    .filter(surveyResponse -> surveyResponse.getUser().equals(standardUser))
+                    .findAny()
+                    .ifPresent(surveyResponse -> {
+                        throw new DuplicateException("User already responsed to this survey");
+                    });
+        }
     }
 
     public void validateUserRightResponsesQty(Survey survey, SurveyResponse surveyResponse) {

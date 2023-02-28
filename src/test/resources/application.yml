@@ -1,0 +1,9 @@
+app:
+  title: Meetek
+  version: v0.5
+  prefix: api
+spring:
+  profiles:
+    active: test
+  banner:
+    location: banner.txt

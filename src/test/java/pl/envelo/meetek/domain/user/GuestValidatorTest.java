@@ -5,6 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.envelo.meetek.domain.user.GuestRepo;
+import pl.envelo.meetek.domain.user.GuestValidator;
 import pl.envelo.meetek.domain.user.model.Admin;
 import pl.envelo.meetek.domain.user.model.Guest;
 

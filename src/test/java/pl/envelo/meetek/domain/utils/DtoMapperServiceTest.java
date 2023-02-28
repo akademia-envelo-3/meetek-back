@@ -1,4 +1,4 @@
-package pl.envelo.meetek.utils;
+package pl.envelo.meetek.domain.utils;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +31,7 @@ import pl.envelo.meetek.domain.request.model.CategoryRequestDto;
 import pl.envelo.meetek.domain.request.model.RequestStatus;
 import pl.envelo.meetek.domain.survey.model.*;
 import pl.envelo.meetek.domain.user.model.*;
+import pl.envelo.meetek.utils.DtoMapperService;
 
 import java.util.Set;
 

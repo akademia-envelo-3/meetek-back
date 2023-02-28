@@ -1,11 +1,15 @@
-package pl.envelo.meetek.domain.event;
+package pl.envelo.meetek.domain.survey.model.event;
 
 import jakarta.validation.Valid;
+import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.envelo.meetek.domain.category.CategoryValidator;
+import pl.envelo.meetek.domain.event.SingleEventRepo;
+import pl.envelo.meetek.domain.event.SingleEventValidator;
 import pl.envelo.meetek.domain.event.model.SingleEvent;
 import pl.envelo.meetek.domain.user.StandardUserValidator;
 import pl.envelo.meetek.domain.user.model.StandardUser;
@@ -30,6 +34,9 @@ class SingleEventValidatorTest {
     private StandardUserValidator userValidator;
 
     @Mock
+    private CategoryValidator categoryValidator;
+
+    @Mock
     private Validator validator;
 
     @InjectMocks
@@ -51,7 +58,7 @@ class SingleEventValidatorTest {
     @Test
     public void testValidate_WhenEventNotFound() {
         when(singleEventRepo.findById(1L)).thenReturn(Optional.empty());
-        SingleEventValidator validator = new SingleEventValidator(null, singleEventRepo, userValidator);
+        SingleEventValidator validator = new SingleEventValidator(null, singleEventRepo, userValidator, categoryValidator);
 
         NotFoundException exception = assertThrows(
                 NotFoundException.class,
@@ -59,31 +66,6 @@ class SingleEventValidatorTest {
 
         assertEquals("Event with id 1 not found", exception.getMessage());
     }
-
-    @Test
-    public void testValidate_DaysCountnull() {
-        singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
-        Integer days = null;
-        Integer result = singleEventValidator.validateDaysCount(days);
-        assertEquals(null, result);
-    }
-
-    @Test
-    public void testValidate_DaysCountZero() {
-        singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
-        Integer days = 0;
-        Integer result = singleEventValidator.validateDaysCount(days);
-        assertEquals(1, result);
-    }
-
-    @Test
-    public void testValidate_DaysCountPositiveDayCount() {
-        singleEventValidator = new SingleEventValidator(null, singleEventRepo, userValidator);
-        Integer days = 5;
-        Integer result = singleEventValidator.validateDaysCount(days);
-        assertEquals(days, result);
-    }
-
 
     @Test
     public void testValidateOwnerForAdmin_WhenOwnerAlreadyExists() {

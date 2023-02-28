@@ -8,6 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.envelo.meetek.domain.category.CategoryDto;
+import pl.envelo.meetek.domain.user.GuestController;
+import pl.envelo.meetek.domain.user.GuestService;
 import pl.envelo.meetek.domain.user.model.GuestDto;
 
 import static org.junit.jupiter.api.Assertions.*;
