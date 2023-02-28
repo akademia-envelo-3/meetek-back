@@ -29,9 +29,10 @@ public class RecurringEventSetService {
         Set<SingleEvent> singleEvents = new HashSet<>();
 
         for(int i = 0; i < eventSet.getRecursiveCount(); i++) {
-            eventCreateDto.setDateTimeFrom(eventCreateDto.getDateTimeFrom().plusDays(eventSet.getEventFrequency()));
-            eventCreateDto.setDateTimeTo(eventCreateDto.getDateTimeTo().plusDays(eventSet.getEventFrequency()));
-
+            if(!singleEvents.isEmpty()) {
+                eventCreateDto.setDateTimeFrom(eventCreateDto.getDateTimeFrom().plusDays(eventSet.getEventFrequency()));
+                eventCreateDto.setDateTimeTo(eventCreateDto.getDateTimeTo().plusDays(eventSet.getEventFrequency()));
+            }
             SingleEvent singleEvent = mapperService.mapToSingleEvent(eventService.createEvent(owner,eventCreateDto));
             singleEvents.add(singleEvent);
         }
